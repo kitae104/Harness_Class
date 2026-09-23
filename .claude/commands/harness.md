@@ -22,9 +22,12 @@
 2. **자기완결성** — 각 step 파일은 독립된 Claude 세션에서 실행된다. "이전 대화에서 논의한 바와 같이" 같은 외부 참조는 금지한다. 필요한 정보는 전부 파일 안에 적는다.
 3. **사전 준비 강제** — 관련 문서 경로와 이전 step에서 생성/수정된 파일 경로를 명시한다. 세션이 코드를 읽고 맥락을 파악한 뒤 작업하도록 유도한다.
 4. **시그니처 수준 지시** — 함수/클래스의 인터페이스만 제시하고 내부 구현은 에이전트 재량에 맡긴다. 단, 설계 의도에서 벗어나면 안 되는 핵심 규칙(멱등성, 보안, 데이터 무결성 등)은 반드시 명시한다.
-5. **AC는 실행 가능한 커맨드** — "~가 동작해야 한다" 같은 추상적 서술이 아닌 `npm run build && npm test` 같은 실제 실행 가능한 검증 커맨드를 포함한다.
+5. **AC는 실행 가능한 커맨드** — "~가 동작해야 한다" 같은 추상적 서술이 아닌 실제 실행 가능한 검증 커맨드를 포함한다. 이 프로젝트의 기본 AC는 `npm run verify -- --scope <대상>`이며, Phase 1 이전에는 `python -m pytest scripts -q && python scripts/validate_course.py --docs-only`를 쓴다.
 6. **주의사항은 구체적으로** — "조심해라" 대신 "X를 하지 마라. 이유: Y" 형식으로 적는다.
 7. **네이밍** — step name은 kebab-case slug로, 해당 step의 핵심 모듈/작업을 한두 단어로 표현한다 (예: `project-setup`, `api-layer`, `auth-flow`).
+8. **수정 허용 경로** — 모든 step에 `allowed_paths`(glob 목록)를 지정한다. 공유 등록부(`content/*.yaml`)는 해당 step이 소유할 때만 포함하고, 그 경우에도 "추가만" 하도록 금지사항에 적는다.
+9. **콘텐츠는 draft까지만** — AI step은 콘텐츠 `status`를 `draft`까지만 올린다. `reviewed`는 사람이 `npm run review:approve <id>`로만 올린다.
+10. **콘텐츠 Phase의 처음과 끝** — 교시 유형의 첫 콘텐츠(기준 예시)는 phase의 첫 step으로 만들고 바로 뒤에 `human-review` step을 둔다. 콘텐츠 phase의 마지막 step도 `human-review`다.
 
 ### D. 파일 생성
 
@@ -38,14 +41,17 @@
 {
   "phases": [
     {
-      "dir": "0-mvp",
-      "status": "pending"
+      "dir": "1-web-foundation",
+      "status": "pending",
+      "depends_on": ["0-foundation"]
     }
   ]
 }
 ```
 
 - `dir`: task 디렉토리명.
+- `depends_on`: 선행 phase 디렉토리 목록. execute.py는 선행 phase가 `main`에 병합되어 있고 모든 step이 completed인지 확인한 뒤에만 실행한다. 새 브랜치는 `main`에서 만든다.
+- `summary`: phase 완료 시 execute.py가 step summary를 모아 자동 기록하며, 이후 phase 프롬프트에 "이전 Phase 요약"으로 주입된다. 생성 시 넣지 않는다.
 - `status`: `"pending"` | `"completed"` | `"error"` | `"blocked"`. execute.py가 실행 중 자동으로 업데이트한다.
 - 타임스탬프(`completed_at`, `failed_at`, `blocked_at`)는 execute.py가 상태 변경 시 자동 기록한다. 생성 시 넣지 않는다.
 
@@ -55,10 +61,11 @@
 {
   "project": "<프로젝트명>",
   "phase": "<task-name>",
+  "guardrail_docs": ["PROMPT_GUIDE.md", "PRACTICE_DESIGN.md"],
   "steps": [
-    { "step": 0, "name": "project-setup", "status": "pending" },
-    { "step": 1, "name": "core-types", "status": "pending" },
-    { "step": 2, "name": "api-layer", "status": "pending" }
+    { "step": 0, "name": "d1-04-exemplar", "status": "pending", "allowed_paths": ["content/day1/04.mdx", "content/prompts/*"] },
+    { "step": 1, "name": "human-review", "status": "pending", "allowed_paths": [] },
+    { "step": 2, "name": "d1-02", "status": "pending", "allowed_paths": ["content/day1/02.mdx", "content/prompts/*"] }
   ]
 }
 ```
@@ -67,9 +74,17 @@
 
 - `project`: 프로젝트명 (CLAUDE.md 참조).
 - `phase`: task 이름. 디렉토리명과 일치시킨다.
+- `guardrail_docs`: 이 phase에 추가로 주입할 docs 파일명. 고정 core 문서(PRD, ARCHITECTURE, ADR, CONTENT_GUIDE)와 CLAUDE.md는 항상 주입된다. 필드를 생략하면 docs 전체가 주입된다.
 - `steps[].step`: 0부터 시작하는 순번.
 - `steps[].name`: kebab-case slug.
 - `steps[].status`: 초기값은 모두 `"pending"`.
+- `steps[].allowed_paths`: 이 step이 수정할 수 있는 경로(glob). 자기 phase 디렉토리는 항상 허용된다. 범위 밖 변경이 있으면 execute.py가 completed를 인정하지 않고 에러로 재시도시킨다. 빈 목록이면 어떤 파일도 수정하지 않는 step이다.
+
+human-review step 규칙:
+
+- AC는 `python scripts/validate_course.py --scope phase:<phase> --require-reviewed`이다.
+- 미승인 항목이 있으면 목록을 `blocked_reason`에 적고 `blocked`로 멈춘다.
+- 사람이 `npm run review:approve <id>`로 승인한 뒤 status를 `pending`으로 되돌려 다시 실행하면 AC가 통과해 `completed`가 된다.
 
 상태 전이와 자동 기록 필드:
 
@@ -104,11 +119,14 @@
 코드 스니펫은 인터페이스/시그니처 수준만 제시하고, 구현체는 에이전트에게 맡겨라.
 단, 설계 의도에서 벗어나면 안 되는 핵심 규칙은 명확히 박아넣어라.}
 
+## 수정 허용 경로
+
+{phase index.json의 allowed_paths와 동일하게 적는다. 이 밖의 파일은 수정하지 마라.}
+
 ## Acceptance Criteria
 
 ```bash
-npm run build   # 컴파일 에러 없음
-npm test        # 테스트 통과
+npm run verify -- --scope {대상}   # lint + build + test + validate_course
 ```
 
 ## 검증 절차
@@ -118,6 +136,8 @@ npm test        # 테스트 통과
    - ARCHITECTURE.md 디렉토리 구조를 따르는가?
    - ADR 기술 스택을 벗어나지 않았는가?
    - CLAUDE.md CRITICAL 규칙을 위반하지 않았는가?
+   - 수치·제품 정보·출처를 본문에 직접 쓰지 않고 등록부 ID로 참조했는가?
+   - 콘텐츠 status를 draft까지만 올렸는가?
 3. 결과에 따라 `phases/{task-name}/index.json`의 해당 step을 업데이트한다:
    - 성공 → `"status": "completed"`, `"summary": "산출물 한 줄 요약"`
    - 수정 3회 시도 후에도 실패 → `"status": "error"`, `"error_message": "구체적 에러 내용"`
@@ -132,15 +152,18 @@ npm test        # 테스트 통과
 ### E. 실행
 
 ```bash
-python3 scripts/execute.py {task-name}        # 순차 실행
-python3 scripts/execute.py {task-name} --push  # 실행 후 push
+python scripts/execute.py {task-dir}        # 순차 실행 (Windows는 python, macOS/Linux는 python3)
+python scripts/execute.py {task-dir} --push  # 실행 후 push (CD-15: 원작자 허락 전에는 사용 금지)
 ```
 
 execute.py가 자동으로 처리하는 것:
 
-- `feat-{task-name}` 브랜치 생성/checkout
-- 가드레일 주입 — CLAUDE.md + docs/*.md 내용을 매 step 프롬프트에 포함
-- 컨텍스트 누적 — 완료된 step의 summary를 다음 step 프롬프트에 전달
+- 선행 phase 확인 — `depends_on`의 phase가 `main`에 병합·완료되지 않았으면 중단
+- `feat-{task-name}` 브랜치 생성/checkout (새 브랜치는 `main`에서 생성)
+- 가드레일 주입 — CLAUDE.md + core docs + `guardrail_docs`를 매 step 프롬프트에 포함 (UTF-8, stdin 전달)
+- 컨텍스트 누적 — 완료된 step의 summary와 이전 phase의 summary를 다음 step 프롬프트에 전달
+- 수정 허용 경로 검사 — `allowed_paths` 밖 변경이 있으면 completed를 인정하지 않고 재시도
+- `HARNESS_EXECUTING=1` 설정 — 실행 중에는 Stop 훅이 전체 verify를 반복하지 않음
 - 자가 교정 — 실패 시 최대 3회 재시도하며, 이전 에러 메시지를 프롬프트에 피드백
 - 2단계 커밋 — 코드 변경(`feat`)과 메타데이터(`chore`)를 분리 커밋
 - 타임스탬프 — started_at, completed_at, failed_at, blocked_at 자동 기록
