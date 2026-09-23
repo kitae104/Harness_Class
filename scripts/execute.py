@@ -8,8 +8,10 @@ Usage:
 
 import argparse
 import contextlib
+import fnmatch
 import json
 import os
+import shutil
 import subprocess
 import sys
 import threading
@@ -54,6 +56,9 @@ class StepExecutor:
     """Phase 디렉토리 안의 step들을 순차 실행하는 하네스."""
 
     MAX_RETRIES = 3
+    BASE_BRANCH = "main"
+    CORE_DOCS = ("PRD.md", "ARCHITECTURE.md", "ADR.md", "CONTENT_GUIDE.md")
+    PHASE_SUMMARY_MAX = 500
     FEAT_MSG = "feat({phase}): step {num} — {name}"
     CHORE_MSG = "chore({phase}): step {num} output"
     TZ = timezone(timedelta(hours=9))
@@ -83,6 +88,7 @@ class StepExecutor:
     def run(self):
         self._print_header()
         self._check_blockers()
+        self._check_dependencies()
         self._checkout_branch()
         guardrails = self._load_guardrails()
         self._ensure_created_at()
@@ -104,6 +110,10 @@ class StepExecutor:
     def _write_json(p: Path, data: dict):
         p.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
+    @staticmethod
+    def _read_text(p: Path) -> str:
+        return p.read_text(encoding="utf-8")
+
     # --- git ---
 
     def _run_git(self, *args) -> subprocess.CompletedProcess:
@@ -123,7 +133,10 @@ class StepExecutor:
             return
 
         r = self._run_git("rev-parse", "--verify", branch)
-        r = self._run_git("checkout", branch) if r.returncode == 0 else self._run_git("checkout", "-b", branch)
+        if r.returncode == 0:
+            r = self._run_git("checkout", branch)
+        else:
+            r = self._run_git("checkout", "-b", branch, self.BASE_BRANCH)
 
         if r.returncode != 0:
             print(f"  ERROR: 브랜치 '{branch}' checkout 실패.")
@@ -158,7 +171,7 @@ class StepExecutor:
 
     # --- top-level index ---
 
-    def _update_top_index(self, status: str):
+    def _update_top_index(self, status: str, summary: Optional[str] = None):
         if not self._top_index_file.exists():
             return
         top = self._read_json(self._top_index_file)
@@ -169,21 +182,82 @@ class StepExecutor:
                 ts_key = {"completed": "completed_at", "error": "failed_at", "blocked": "blocked_at"}.get(status)
                 if ts_key:
                     phase[ts_key] = ts
+                if summary:
+                    phase["summary"] = summary
                 break
         self._write_json(self._top_index_file, top)
 
+    # --- phase 의존성 ---
+
+    def _check_dependencies(self):
+        """depends_on의 선행 phase가 BASE_BRANCH에 병합되어 있고 모든 step이 완료됐는지 확인한다."""
+        if not self._top_index_file.exists():
+            return
+        top = self._read_json(self._top_index_file)
+        me = next((p for p in top.get("phases", []) if p.get("dir") == self._phase_dir_name), {})
+        for dep in me.get("depends_on", []):
+            r = self._run_git("show", f"{self.BASE_BRANCH}:phases/{dep}/index.json")
+            if r.returncode != 0:
+                print(f"\n  ✗ 선행 phase '{dep}'가 {self.BASE_BRANCH}에 병합되지 않았습니다.")
+                print(f"  선행 phase를 PR로 {self.BASE_BRANCH}에 병합한 뒤 다시 실행하세요.")
+                sys.exit(1)
+            dep_index = json.loads(r.stdout)
+            unfinished = [s["name"] for s in dep_index.get("steps", []) if s.get("status") != "completed"]
+            if unfinished:
+                print(f"\n  ✗ 선행 phase '{dep}'에 완료되지 않은 step이 있습니다: {', '.join(unfinished)}")
+                sys.exit(1)
+
     # --- guardrails & context ---
+
+    def _selected_guardrail_docs(self) -> Optional[list]:
+        """phase index의 guardrail_docs. 없으면 None(= docs 전체)."""
+        index_file = getattr(self, "_index_file", None)
+        if index_file is None or not index_file.exists():
+            return None
+        return self._read_json(index_file).get("guardrail_docs")
 
     def _load_guardrails(self) -> str:
         sections = []
         claude_md = ROOT / "CLAUDE.md"
         if claude_md.exists():
-            sections.append(f"## 프로젝트 규칙 (CLAUDE.md)\n\n{claude_md.read_text()}")
+            sections.append(f"## 프로젝트 규칙 (CLAUDE.md)\n\n{self._read_text(claude_md)}")
         docs_dir = ROOT / "docs"
         if docs_dir.is_dir():
-            for doc in sorted(docs_dir.glob("*.md")):
-                sections.append(f"## {doc.stem}\n\n{doc.read_text()}")
+            selected = self._selected_guardrail_docs()
+            if selected is None:
+                docs = sorted(docs_dir.glob("*.md"))
+            else:
+                missing = [n for n in selected if not (docs_dir / n).exists()]
+                if missing:
+                    print(f"  ERROR: guardrail_docs에 지정된 문서가 없습니다: {', '.join(missing)}")
+                    sys.exit(1)
+                names = [n for n in self.CORE_DOCS if (docs_dir / n).exists()]
+                names += [n for n in selected if n not in names]
+                docs = [docs_dir / n for n in names]
+            for doc in docs:
+                sections.append(f"## {doc.stem}\n\n{self._read_text(doc)}")
         return "\n\n---\n\n".join(sections) if sections else ""
+
+    @classmethod
+    def _build_phase_summary(cls, index: dict) -> str:
+        parts = [s["summary"] for s in index.get("steps", []) if s.get("status") == "completed" and s.get("summary")]
+        text = " / ".join(parts)
+        if len(text) > cls.PHASE_SUMMARY_MAX:
+            text = text[: cls.PHASE_SUMMARY_MAX - 1] + "…"
+        return text
+
+    def _build_phase_context(self) -> str:
+        if not self._top_index_file.exists():
+            return ""
+        top = self._read_json(self._top_index_file)
+        lines = [
+            f"- {p['dir']}: {p['summary']}"
+            for p in top.get("phases", [])
+            if p.get("dir") != self._phase_dir_name and p.get("status") == "completed" and p.get("summary")
+        ]
+        if not lines:
+            return ""
+        return "## 이전 Phase 요약\n\n" + "\n".join(lines) + "\n\n"
 
     @staticmethod
     def _build_step_context(index: dict) -> str:
@@ -234,10 +308,14 @@ class StepExecutor:
             print(f"  ERROR: {step_file} not found")
             sys.exit(1)
 
-        prompt = preamble + step_file.read_text()
+        prompt = preamble + self._read_text(step_file)
+        claude_bin = shutil.which("claude") or "claude"
+        env = {**os.environ, "HARNESS_EXECUTING": "1"}
+        # 프롬프트는 stdin으로 전달한다 (Windows 명령줄 길이 한계 회피).
         result = subprocess.run(
-            ["claude", "-p", "--dangerously-skip-permissions", "--output-format", "json", prompt],
-            cwd=self._root, capture_output=True, text=True, timeout=1800,
+            [claude_bin, "-p", "--dangerously-skip-permissions", "--output-format", "json"],
+            input=prompt, cwd=self._root, capture_output=True, text=True,
+            encoding="utf-8", errors="replace", env=env, timeout=1800,
         )
 
         if result.returncode != 0:
@@ -251,7 +329,7 @@ class StepExecutor:
             "stdout": result.stdout, "stderr": result.stderr,
         }
         out_path = self._phase_dir / f"step{step_num}-output.json"
-        with open(out_path, "w") as f:
+        with open(out_path, "w", encoding="utf-8") as f:
             json.dump(output, f, indent=2, ensure_ascii=False)
 
         return output
@@ -288,6 +366,31 @@ class StepExecutor:
             index["created_at"] = self._stamp()
             self._write_json(self._index_file, index)
 
+    # --- 수정 허용 경로 ---
+
+    @staticmethod
+    def _parse_porcelain(out: str) -> list:
+        paths = []
+        for line in out.splitlines():
+            if len(line) < 4:
+                continue
+            path = line[3:]
+            if " -> " in path:
+                path = path.split(" -> ", 1)[1]
+            paths.append(path.strip().strip('"'))
+        return paths
+
+    def _changed_files(self) -> list:
+        r = self._run_git("-c", "core.quotepath=false", "status", "--porcelain", "--untracked-files=all")
+        return self._parse_porcelain(r.stdout or "")
+
+    def _find_path_violations(self, step: dict, changed: list) -> list:
+        allowed = step.get("allowed_paths")
+        if not allowed:
+            return []
+        patterns = list(allowed) + [f"phases/{self._phase_dir_name}/*"]
+        return [c for c in changed if not any(fnmatch.fnmatch(c, pat) for pat in patterns)]
+
     # --- 실행 루프 ---
 
     def _execute_single_step(self, step: dict, guardrails: str) -> bool:
@@ -298,7 +401,7 @@ class StepExecutor:
 
         for attempt in range(1, self.MAX_RETRIES + 1):
             index = self._read_json(self._index_file)
-            step_context = self._build_step_context(index)
+            step_context = self._build_phase_context() + self._build_step_context(index)
             preamble = self._build_preamble(guardrails, step_context, prev_error)
 
             tag = f"Step {step_num}/{self._total - 1} ({done} done): {step_name}"
@@ -312,6 +415,18 @@ class StepExecutor:
             index = self._read_json(self._index_file)
             status = next((s.get("status", "pending") for s in index["steps"] if s["step"] == step_num), "pending")
             ts = self._stamp()
+
+            if status == "completed":
+                current = next(s for s in index["steps"] if s["step"] == step_num)
+                violations = self._find_path_violations(current, self._changed_files())
+                if violations:
+                    status = "error"
+                    current["status"] = "error"
+                    current["error_message"] = (
+                        "수정 허용 경로(allowed_paths) 밖의 파일을 변경했다. "
+                        f"되돌리거나 허용 경로 안에서만 작업하라: {', '.join(violations)}"
+                    )
+                    self._write_json(self._index_file, index)
 
             if status == "completed":
                 for s in index["steps"]:
@@ -382,7 +497,7 @@ class StepExecutor:
         index = self._read_json(self._index_file)
         index["completed_at"] = self._stamp()
         self._write_json(self._index_file, index)
-        self._update_top_index("completed")
+        self._update_top_index("completed", summary=self._build_phase_summary(index))
 
         self._run_git("add", "-A")
         if self._run_git("diff", "--cached", "--quiet").returncode != 0:
