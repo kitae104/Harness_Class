@@ -1,0 +1,64 @@
+{
+  "project": "공무원을 위한 하네스 엔지니어링",
+  "phase": "0-foundation",
+  "mode": "interactive",
+  "note": "대화형으로 진행한 phase. execute.py로 실행하지 않았으며 완료 상태를 수동 기록했다. 제안서 개정본(proposal-v2)은 Phase 9 final-quality로 이동.",
+  "steps": [
+    {
+      "step": 0,
+      "name": "harness-adapt",
+      "status": "completed",
+      "summary": "execute.py UTF-8·stdin·guardrail_docs·depends_on·phase_summary·allowed_paths, 위험 명령 차단 훅(exit 2)과 Stop 훅 수정, harness.md·review.md 갱신, references/ ignore"
+    },
+    {
+      "step": 1,
+      "name": "research",
+      "status": "completed",
+      "summary": "Plus Projects·데이터 제어·임시 채팅·Codex·Vercel Hobby 약관·법령 4종 시행일·공공 AI 가이드라인 웹 확인, 실사용 테스트 항목은 OQ-02~05"
+    },
+    {
+      "step": 2,
+      "name": "core-docs",
+      "status": "completed",
+      "summary": "CLAUDE.md, PRD, ARCHITECTURE(스키마·확장 절차 포함), ADR(ADR-001~010, CD-01~20)"
+    },
+    {
+      "step": 3,
+      "name": "registries",
+      "status": "completed",
+      "summary": "content/ product-features·sources·external-links·glossary·banned-terms yaml"
+    },
+    {
+      "step": 4,
+      "name": "course-design",
+      "status": "completed",
+      "summary": "content/course.yaml 7+7교시·목표·산출물·6요소·막힘 지점·카드 14장, COURSE_MAP·LEARNING_OBJECTIVES·HARNESS_ELEMENTS"
+    },
+    {
+      "step": 5,
+      "name": "practice-design",
+      "status": "completed",
+      "summary": "PRACTICE_CASES(키트 명세)·PRACTICE_DESIGN·TOOL_GUIDE·CODEX_GUIDE"
+    },
+    {
+      "step": 6,
+      "name": "content-contracts",
+      "status": "completed",
+      "summary": "CONTENT_GUIDE·PROMPT_GUIDE·UI_GUIDE"
+    },
+    {
+      "step": 7,
+      "name": "ops-docs",
+      "status": "completed",
+      "summary": "QUALITY_CHECKLIST(규칙 ID)·OPEN_QUESTIONS(OQ-01~21)·DEPLOYMENT·PRODUCT_FEATURES·SOURCE_REGISTER"
+    },
+    {
+      "step": 8,
+      "name": "validator-v1",
+      "status": "completed",
+      "summary": "scripts/validate_course.py 26개 규칙(QUALITY_CHECKLIST P0와 1:1), pytest 151건 통과"
+    }
+  ],
+  "created_at": "2026-09-23T23:10:00+0900",
+  "completed_at": "2026-09-24T02:55:33+0900"
+}

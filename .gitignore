@@ -1,8 +1,16 @@
 node_modules/
-.next/
-out/
-next-env.d.ts
-tsconfig.tsbuildinfo
+dist/
+dist-offline/
+.astro/
+.vercel/
+
+# 비공개 원본 자료 — Public 저장소에 커밋 금지 (CD-02, CD-15)
+references/
+
+# Python
+__pycache__/
+.pytest_cache/
+*.pyc
 
 # phase execution outputs
 phases/**/phase*-output.json
