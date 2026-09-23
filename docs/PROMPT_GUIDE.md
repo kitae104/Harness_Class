@@ -25,7 +25,8 @@
 | `do_not_trust` | 그대로 믿으면 안 되는 부분 |
 | `next` | 다음 행동 |
 | `tested_at`, `tested_by` | 실제 Plus 계정에서 테스트한 날짜와 사람 |
-| `status`, `reviewed_hash` | draft/reviewed, 승인 해시 |
+
+카드의 검토 상태(`status`, `reviewed_hash`)는 카드 파일이 아니라 course.yaml `cards[]`에 있다(ADR-011).
 
 사용자 요구의 7개 필수 항목(언제 / 무엇을 입력 / 복사할 프롬프트 / 바꿀 부분 / 확인할 것 / 믿으면 안 되는 부분 / 다음 행동)은 `when`, `input`, `l1_full`·`l2_template`, `replace`, `check`, `do_not_trust`, `next`로 모두 들어 있다.
 

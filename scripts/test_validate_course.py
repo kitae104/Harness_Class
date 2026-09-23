@@ -87,7 +87,7 @@ def write_project(root: Path, course=None, product=None, sources=None, links=Non
     docs.mkdir(parents=True, exist_ok=True)
     for name in vc.REQUIRED_DOCS:
         (docs / name).write_text(f"# {name}\n", encoding="utf-8")
-    rows = "\n".join(f"| {rid} | AUTO-오류 | 검사 | P0 |" for rid in vc.implemented_rule_ids())
+    rows = "\n".join(f"| {rid} | AUTO-오류 | 검사 | 구현 |" for rid in vc.implemented_rule_ids())
     (docs / "QUALITY_CHECKLIST.md").write_text(QUALITY.format(rows=rows), encoding="utf-8")
     (docs / "OPEN_QUESTIONS.md").write_text(OPEN_QUESTIONS, encoding="utf-8")
     (root / "CLAUDE.md").write_text("# 규칙\n", encoding="utf-8")
@@ -251,6 +251,10 @@ class TestCards:
 
     def test_invalid_card_where(self, tmp_path):
         write_project(tmp_path, course=course_with(lambda c: c["cards"][0].update(where="anywhere")))
+        assert "V-CRS-008" in ids(run(tmp_path), "error")
+
+    def test_invalid_card_status(self, tmp_path):
+        write_project(tmp_path, course=course_with(lambda c: c["cards"][0].update(status="done")))
         assert "V-CRS-008" in ids(run(tmp_path), "error")
 
     def test_core_lesson_uses_optional_card(self, tmp_path):
@@ -417,6 +421,19 @@ class TestTagsAndText:
 
 
 class TestQualityLink:
+    def test_implemented_rule_marked_as_planned(self, tmp_path):
+        write_project(tmp_path)
+        q = tmp_path / "docs" / "QUALITY_CHECKLIST.md"
+        q.write_text(q.read_text(encoding="utf-8").replace(
+            "| V-CRS-003 | AUTO-오류 | 검사 | 구현 |", "| V-CRS-003 | AUTO-오류 | 검사 | 예정(P1) |"), encoding="utf-8")
+        assert "V-QUA-001" in ids(run(tmp_path), "error")
+
+    def test_unknown_status_value(self, tmp_path):
+        write_project(tmp_path)
+        q = tmp_path / "docs" / "QUALITY_CHECKLIST.md"
+        q.write_text(q.read_text(encoding="utf-8") + "| V-ODD-001 | AUTO-오류 | 이상한 값 | P0 |\n", encoding="utf-8")
+        assert "V-QUA-001" in ids(run(tmp_path), "error")
+
     def test_implemented_rule_missing_from_checklist(self, tmp_path):
         write_project(tmp_path)
         q = tmp_path / "docs" / "QUALITY_CHECKLIST.md"
@@ -424,16 +441,16 @@ class TestQualityLink:
         found = ids(run(tmp_path), "error")
         assert "V-QUA-001" in found
 
-    def test_checklist_p0_rule_not_implemented(self, tmp_path):
+    def test_checklist_marked_implemented_but_missing(self, tmp_path):
         write_project(tmp_path)
         q = tmp_path / "docs" / "QUALITY_CHECKLIST.md"
-        q.write_text(q.read_text(encoding="utf-8") + "| V-NEW-001 | AUTO-오류 | 미구현 | P0 |\n", encoding="utf-8")
+        q.write_text(q.read_text(encoding="utf-8") + "| V-NEW-001 | AUTO-오류 | 미구현 | 구현 |\n", encoding="utf-8")
         assert "V-QUA-001" in ids(run(tmp_path), "error")
 
     def test_checklist_future_rule_is_fine(self, tmp_path):
         write_project(tmp_path)
         q = tmp_path / "docs" / "QUALITY_CHECKLIST.md"
-        q.write_text(q.read_text(encoding="utf-8") + "| V-WEB-001 | AUTO-오류 | 링크 | P1 |\n", encoding="utf-8")
+        q.write_text(q.read_text(encoding="utf-8") + "| V-WEB-001 | AUTO-오류 | 링크 | 예정(P1) |\n", encoding="utf-8")
         assert "V-QUA-001" not in ids(run(tmp_path))
 
 

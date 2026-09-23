@@ -6,7 +6,7 @@
 
 | ID | 질문 | 담당 | 막는 시점 | blocking | 상태 | 해결 |
 |---|---|---|---|---|---|---|
-| OQ-01 | 원본 프레임워크(jha0313/harness_framework) 원작자의 사용 허락 또는 라이선스(CD-15) | 사용자 | Phase 1 저장소 연결 | 예(공개만) | open | |
+| OQ-01 | 원본 프레임워크(jha0313/harness_framework) 원작자의 사용 허락 또는 라이선스(CD-15) | 사용자 | 1b-repo-connect | 예(공개만) | open | |
 | OQ-02 | Plus에서 프로젝트 복제 메뉴가 있는가(실사용 테스트) | 사용자 | Phase 3 | 아니오(지침 버전 탭으로 대체) | open | |
 | OQ-03 | 같은 프로젝트의 다른 대화가 평가 결과에 영향을 주는가, 연습 대화 정리·메모리 설정으로 막을 수 있는가(실사용 테스트) | 사용자 | Phase 3 | 예(D1-6 절차) | open | |
 | OQ-04 | 프로젝트 안에서 임시 채팅을 시작할 수 있고 지침·파일이 적용되는가(실사용 테스트) | 사용자 | Phase 5 | 아니오 | open | |
@@ -16,7 +16,7 @@
 | OQ-08 | 국가정보원 AI보안 가이드북(2025-12) 원문의 사용자 규칙 확인 | Claude + 사용자 | Phase 5 | 아니오 | open | |
 | OQ-09 | Vercel 요금제: Hobby의 비상업 제한 때문에 Pro 사용 또는 대안 호스팅 | 사용자 | Production 공개 | 예(공개만) | open | |
 | OQ-10 | 제안서 참고자료 "OpenAI Harness engineering(2026-02-11)" 원문 URL과 인용 범위 | Claude | Phase 3 | 아니오 | open | |
-| OQ-11 | 사용자 Public 저장소 URL | 사용자 | Phase 1 저장소 연결 | 예(공개만) | open | |
+| OQ-11 | 사용자 Public 저장소 URL | 사용자 | 1b-repo-connect | 예(공개만) | open | |
 | OQ-12 | 법령 인용·교육용 FAQ 해석 검토자(강사 본인 / 담당 업무 공무원) | 사용자 | Phase 2 human-review | 예 | open | |
 | OQ-13 | 콘텐츠 라이선스 종류(예: CC BY-NC) | 사용자 | 공개 전 | 아니오 | open | |
 | OQ-14 | 웹 접근성 기준: KWCAG를 어느 수준까지 참고할지 | 사용자 | Phase 9 | 아니오 | open | |

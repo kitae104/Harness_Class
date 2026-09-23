@@ -60,4 +60,4 @@ course.yaml `type`에 따라 템플릿을 고른다. 13섹션을 모든 교시�
 1. course.yaml의 해당 교시(목표·산출물·막힘 지점·카드)가 먼저 정해져 있어야 한다.
 2. 기준 예시를 읽는다.
 3. 필수 경로 → 실습 → 결과 확인 → 나머지 섹션 순으로 쓴다.
-4. `npm run verify -- --scope lesson:<id>`로 검사하고 status를 draft로 둔다.
+4. course.yaml에서 자기 교시(와 그 교시의 카드)의 status만 `draft`로 바꾸고, `npm run verify -- --scope lesson:<id>`로 검사한다. reviewed로 올리지 않는다(ADR-011).

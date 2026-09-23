@@ -56,8 +56,8 @@ content/kits/ ────────> 빌드 시 zip·xlsx 다운로드 생성
 | `constraints` | 총 시간, Day 수, 교시 수, 교시 분, 핵심 활동 상한, 요소 최소 교시 수, 카드 상한, 확인일 경과 기준 — **validator는 이 값을 읽고 하드코딩하지 않는다** |
 | `elements` · `subjects` · `supports` · `activity_kinds` | 허용값 사전 (6요소, 교과목 7개, 지원 방식 9종, 활동 종류) |
 | `completion` | 필수·선택 산출물, 참여 조건, 사전·사후 자기진단 |
-| `cards[]` | id, lesson(교시 ID 또는 common), title, category(A~I), level(1~3), where, track |
-| `lessons[]` | id(의미형 고정), day, number, title, type(concept/practice/project), subject, track, status, elements, activities[kind,name,minutes], objectives[id,text,outputs], outputs[id,text,used_by], checks, cards, stuck_points[id,text,supports,card], skip_if_short |
+| `cards[]` | id, lesson(교시 ID 또는 common), title, category(A~I), level(1~3), where, track, **status, reviewed_hash** |
+| `lessons[]` | id(의미형 고정), day, number, title, type(concept/practice/project), subject, track, **status, reviewed_hash**, elements, activities[kind,name,minutes], objectives[id,text,outputs], outputs[id,text,used_by], checks, cards, stuck_points[id,text,supports,card], skip_if_short |
 | `modules[]` | 교시가 아닌 추가 콘텐츠(시간 합계 제외): id, title, track, status, path |
 
 ## 5. 사이트 구조와 URL 규칙 (Phase 1에서 구현)
@@ -87,6 +87,8 @@ content/kits/ ────────> 빌드 시 zip·xlsx 다운로드 생성
 | `LessonNav` | 교시 ID | 이전/다음, 현재 Day·교시 |
 
 ## 7. 빌드 두 가지와 오프라인 제약
+- `npm run verify` → lint(eslint + astro check) + build + vitest + pytest + validate. `--scope` 인자는 validator에만 전달한다. Windows·Linux 모두에서 python 실행 파일을 자동으로 고른다.
+- `npm run test:e2e` → Playwright(Chromium). verify와 분리(ADR-012).
 - `npm run build` → `dist/` (Vercel)
 - `npm run build:offline` → `dist-offline/` + zip (CD-05). 링크를 상대경로와 `.html`로 변환한다.
 - **Chrome은 file://에서 모듈 스크립트를 차단한다.** 복사·체크리스트 등 인터랙션 스크립트는 인라인 비모듈 스크립트(Astro `is:inline`)로 쓴다. 펼침은 가능하면 `<details>`로 JS 없이 만든다.
@@ -101,9 +103,12 @@ content/kits/ ────────> 빌드 시 zip·xlsx 다운로드 생성
 - 캡처는 sources.yaml 또는 product-features.yaml에 캡처일과 함께 등록한다. 계정 식별정보를 가린다.
 - 도식은 SVG로 만들고 텍스트는 SVG 안의 실제 텍스트로 둔다(접근성).
 
-## 10. 검토 상태와 승인
-- `status: planned → draft → reviewed`. AI는 draft까지만.
-- `npm run review:approve <id>`(Phase 1) — 사람이 실행하면 대상 파일의 해시를 `reviewed_hash`로 기록하고 status를 reviewed로 바꾼다. 이후 본문이 바뀌면 validator가 해시 불일치를 오류로 보고한다.
+## 10. 검토 상태와 승인 (ADR-005, ADR-011)
+- `status: planned → draft → reviewed`. 교시·카드의 status와 `reviewed_hash`는 **course.yaml에만** 둔다. 교시 MDX와 카드 파일 frontmatter에는 상태 필드를 두지 않는다.
+- AI step은 course.yaml에서 자기 교시·카드의 status만 `draft`로 바꾼다.
+- `npm run review:approve <id>`(Phase 1) — 사람이 실행한다. 대상 콘텐츠 파일(교시 MDX 또는 카드 파일)의 해시를 계산해 course.yaml 해당 항목의 `reviewed_hash`에 기록하고 status를 `reviewed`로 바꾼다. 콘텐츠 파일은 수정하지 않는다.
+- **해시 규칙**: 파일을 UTF-8로 읽고 줄바꿈을 LF로 바꾼 뒤 SHA-256을 계산한다. Windows 작업 폴더(CRLF)와 CI(LF)에서 같은 값이 나와야 한다.
+- 이후 콘텐츠 파일이 바뀌면 validator가 해시 불일치를 오류로 보고한다(V-REV-002). 다시 검토하려면 수정 후 `review:approve`를 다시 실행한다.
 
 ## 11. 확장 절차
 | 추가 대상 | 절차 | AC |

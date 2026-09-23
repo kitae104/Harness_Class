@@ -73,7 +73,7 @@ class Finding:
         return f"[{self.level.upper()}] {self.rule}: {self.message}{loc}"
 
 
-# 규칙 등록부 — 여기 있는 ID는 모두 구현되어 있어야 하며 QUALITY_CHECKLIST.md에 P0로 적혀 있어야 한다.
+# 규칙 등록부 — 여기 있는 ID는 모두 구현되어 있어야 하며 QUALITY_CHECKLIST.md의 구현 열이 '구현'이어야 한다.
 RULES = {
     "V-DOC-001": "필수 docs 존재",
     "V-DOC-002": "docs와 CLAUDE.md의 상대 링크가 실제 파일을 가리킨다",
@@ -98,7 +98,7 @@ RULES = {
     "V-PII-001": "실제 형식의 전화번호·주민등록번호 금지(가상 번호 010-0000-XXXX 제외)",
     "V-TXT-001": "수강생 콘텐츠의 금지 표현",
     "V-SEC-001": "비공개 원본(references/)이 git에 추적되지 않음",
-    "V-QUA-001": "QUALITY_CHECKLIST의 P0 규칙과 구현된 규칙이 일치",
+    "V-QUA-001": "QUALITY_CHECKLIST의 구현 열(구현/예정)과 실제 구현된 규칙이 일치",
     "V-REV-001": "--require-reviewed: 범위 안 항목이 모두 reviewed",
     "V-CLI-001": "--scope 대상이 존재",
 }
@@ -357,6 +357,8 @@ def check_course(root, out, scope_lessons=None):
             out.append(Finding("V-CRS-008", "error", f"level '{c.get('level')}'은 1~3이 아니다", w))
         if c.get("track") not in TRACKS:
             out.append(Finding("V-CRS-008", "error", f"track '{c.get('track')}'이 허용값이 아니다", w))
+        if c.get("status", "planned") not in STATUSES:
+            out.append(Finding("V-CRS-008", "error", f"status '{c.get('status')}'은 허용값 {list(STATUSES)}이 아니다", w))
         if cid not in card_backing:
             out.append(Finding("V-CRS-008", "error", f"카드 {cid}를 근거로 삼는 막힘 지점(stuck_points.card)이 없다", w))
     core_cards = [c for c in cards if c.get("track") == "core"]
@@ -531,14 +533,17 @@ def check_quality_link(root, out):
         m = QUALITY_ROW_RE.match(line)
         if m:
             listed[m.group(1)] = m.group(4).strip()
+    for rid, state in listed.items():
+        if state != "구현" and not re.fullmatch(r"예정\(P\d+[a-z]?\)", state):
+            out.append(Finding("V-QUA-001", "error", f"규칙 {rid}의 구현 열 '{state}'은 '구현' 또는 '예정(Pn)'이 아니다"))
     for rid in RULES:
         if rid not in listed:
             out.append(Finding("V-QUA-001", "error", f"구현된 규칙 {rid}가 QUALITY_CHECKLIST에 없다"))
-        elif listed[rid] != "P0":
-            out.append(Finding("V-QUA-001", "error", f"구현된 규칙 {rid}의 구현 시점이 P0가 아니다({listed[rid]})"))
-    for rid, when in listed.items():
-        if when == "P0" and rid not in RULES:
-            out.append(Finding("V-QUA-001", "error", f"QUALITY_CHECKLIST의 P0 규칙 {rid}가 구현되지 않았다"))
+        elif listed[rid] != "구현":
+            out.append(Finding("V-QUA-001", "error", f"구현된 규칙 {rid}가 '{listed[rid]}'로 표시되어 있다('구현'이어야 함)"))
+    for rid, state in listed.items():
+        if state == "구현" and rid not in RULES:
+            out.append(Finding("V-QUA-001", "error", f"QUALITY_CHECKLIST에서 '구현'인 규칙 {rid}가 구현되지 않았다"))
 
 
 def check_reviewed(course, out, scope_lessons):
