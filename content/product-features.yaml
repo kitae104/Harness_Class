@@ -1,0 +1,209 @@
+# 제품 정보 등록부 — 변경 가능한 ChatGPT·Codex·Google·Vercel 정보는 여기에만 적는다.
+# 본문은 <Feature id="..."/> 또는 docs의 [AS-OF: id] 태그로만 참조한다.
+# status: available | limited | unavailable | unverified(= tbd에 OQ 필수)
+# verified_by: web(공식 문서 확인) | hands-on(실제 계정으로 확인)
+# 관리 정책: docs/PRODUCT_FEATURES.md
+features:
+  - id: chatgpt-projects
+    product: ChatGPT
+    plan: Plus
+    name: Projects(프로젝트)
+    status: available
+    detail: "지침과 파일을 묶은 작업 공간. 프로젝트 지침은 그 프로젝트 안에서 전역 맞춤 지침보다 우선한다."
+    verified_at: 2026-09-24
+    verified_by: web
+    source: https://help.openai.com/en/articles/10169521-projects-in-chatgpt
+    ui_path: 사이드바 > 새 프로젝트
+    fallback: "일반 대화창 첫 메시지에 지침 전문과 근거 발췌를 붙여 넣고 같은 대화 안에서만 실습한다."
+    used_in: [d1-project, d1-context, d2-batch-classify, d2-project-build]
+
+  - id: chatgpt-project-file-limit
+    product: ChatGPT
+    plan: Plus
+    name: 프로젝트 파일 개수 한도
+    status: available
+    detail: "Plus 프로젝트당 파일 25개, 한 번에 10개까지 업로드."
+    verified_at: 2026-09-24
+    verified_by: web
+    source: https://help.openai.com/en/articles/10169521-projects-in-chatgpt
+    ui_path: 프로젝트 > 파일 추가
+    fallback: "핵심 조문을 모은 요약 파일 1개로 합쳐 올린다."
+    used_in: [d1-context, d2-project-build]
+
+  - id: chatgpt-project-sharing
+    product: ChatGPT
+    plan: Plus
+    name: 프로젝트 공유
+    status: available
+    detail: "Plus는 초대한 사람에게만 공유 가능, 공유 프로젝트는 파일 25개·협업자 10명까지. 공유 프로젝트는 항상 프로젝트 전용 메모리를 쓴다."
+    verified_at: 2026-09-24
+    verified_by: web
+    source: https://help.openai.com/en/articles/10169521-projects-in-chatgpt
+    ui_path: 프로젝트 > 공유
+    fallback: "지침 전문을 하네스 대장에 복사해 동료에게 전달한다."
+    used_in: [d1-project]
+
+  - id: chatgpt-project-memory
+    product: ChatGPT
+    plan: Plus
+    name: 프로젝트 전용 메모리
+    status: available
+    detail: "프로젝트 전용 메모리를 쓰면 같은 프로젝트의 다른 대화를 참조할 수 있고, 프로젝트 밖 대화는 참조하지 않는다. 평가 결과가 앞선 대화의 영향을 받을 수 있다."
+    verified_at: 2026-09-24
+    verified_by: web
+    source: https://help.openai.com/en/articles/10169521-projects-in-chatgpt
+    ui_path: 프로젝트 설정 > 메모리
+    fallback: "평가는 새 대화에서 하고, 같은 프로젝트 안의 연습 대화를 평가 전에 정리한다."
+    used_in: [d1-eval-run]
+
+  - id: chatgpt-project-memory-eval-impact
+    product: ChatGPT
+    plan: Plus
+    name: 프로젝트 메모리가 평가 결과에 주는 영향(실사용 확인)
+    status: unverified
+    verified_at: null
+    verified_by: hands-on
+    source: null
+    fallback: "평가 전용 새 대화에서 평가하고, 결과가 이상하면 공통 도움 카드로 원인을 확인한다."
+    tbd: "[TBD: OQ-03]"
+    used_in: [d1-eval-run]
+
+  - id: chatgpt-data-controls-training
+    product: ChatGPT
+    plan: Plus
+    name: 모델 학습에 대화 사용 끄기
+    status: available
+    detail: "설정의 '모든 사람을 위한 모델 개선(Improve the model for everyone)'을 끄면 새 대화가 학습에 쓰이지 않는다. 기록은 남는다."
+    verified_at: 2026-09-24
+    verified_by: web
+    source: https://help.openai.com/en/articles/7730893-data-controls-faq
+    ui_path: 계정 메뉴 > 설정 > 데이터 제어 > 모든 사람을 위한 모델 개선 끄기
+    fallback: "임시 채팅을 사용하고, 실제 업무 자료는 입력하지 않는다."
+    used_in: [d2-guardrails]
+
+  - id: chatgpt-temporary-chat
+    product: ChatGPT
+    plan: Plus
+    name: 임시 채팅
+    status: available
+    detail: "기록에 남지 않고 학습에 쓰이지 않는다(안전 목적 최대 30일 보관). 시작 전 개인화/비개인화를 고를 수 있고, 비개인화는 메모리와 맞춤 지침을 쓰지 않는다. 임시 채팅은 프로젝트에 추가할 수 없다."
+    verified_at: 2026-09-24
+    verified_by: web
+    source: https://help.openai.com/en/articles/8914046-temporary-chat-faq
+    ui_path: 새 채팅 화면 > 임시 채팅
+    fallback: "메모리와 맞춤 지침을 끈 새 대화를 쓴다."
+    used_in: [d1-harness-intro, d2-guardrails]
+
+  - id: chatgpt-temporary-chat-in-project
+    product: ChatGPT
+    plan: Plus
+    name: 프로젝트 안에서 임시 채팅 사용(실사용 확인)
+    status: unverified
+    verified_at: null
+    verified_by: hands-on
+    source: null
+    fallback: "프로젝트 밖에서 비개인화 임시 채팅을 쓴다."
+    tbd: "[TBD: OQ-04]"
+    used_in: [d2-guardrails]
+
+  - id: chatgpt-file-uploads
+    product: ChatGPT
+    plan: Plus
+    name: 파일 업로드
+    status: available
+    detail: "파일당 512MB, 문서 200만 토큰, 표(CSV 등) 약 50MB. 3시간에 80개까지."
+    verified_at: 2026-09-24
+    verified_by: web
+    source: https://help.openai.com/en/articles/8555545-file-uploads-faq
+    ui_path: 입력창 > 파일 첨부
+    fallback: "표를 복사해 입력창에 붙여 넣는다(플랜 B)."
+    used_in: [d1-context, d2-batch-classify]
+
+  - id: chatgpt-chat-attachment-to-project
+    product: ChatGPT
+    plan: Plus
+    name: 프로젝트 채팅 첨부 파일의 프로젝트 파일 편입 여부(실사용 확인)
+    status: unverified
+    verified_at: null
+    verified_by: hands-on
+    source: null
+    fallback: "첨부 후 프로젝트 파일 목록을 확인하고, 편입되었으면 실습 후 삭제한다."
+    tbd: "[TBD: OQ-05]"
+    used_in: [d2-batch-classify]
+
+  - id: chatgpt-project-duplicate
+    product: ChatGPT
+    plan: Plus
+    name: 프로젝트 복제(실사용 확인)
+    status: unverified
+    verified_at: null
+    verified_by: hands-on
+    source: null
+    fallback: "수정 전 지침 원문을 하네스 대장 지침 버전 탭에 복사해 비교한다."
+    tbd: "[TBD: OQ-02]"
+    used_in: [d1-improve]
+
+  - id: chatgpt-custom-gpt-creation
+    product: ChatGPT
+    plan: Plus
+    name: 맞춤형 GPT 새로 만들기
+    status: unavailable
+    detail: "개인 계정(Free·Go·Plus·Pro)에서는 새 GPT를 만들거나 게시할 수 없다. 맞춤형 GPT는 단계적으로 종료 예정."
+    verified_at: 2026-09-24
+    verified_by: web
+    source: https://help.openai.com/en/articles/8554397-creating-a-gpt
+    ui_path: null
+    fallback: "배포 형태로 GPT를 가르치지 않는다. 동료 공유는 프로젝트 공유로 안내한다."
+    used_in: []
+
+  - id: codex-availability
+    product: Codex
+    plan: Plus
+    name: Codex 사용 가능 여부
+    status: available
+    detail: "Codex는 Free·Go를 포함한 ChatGPT 요금제에 포함된다. 데스크톱 앱, CLI, IDE 확장, 웹에서 사용. 사용량 한도는 요금제별로 다르다."
+    verified_at: 2026-09-24
+    verified_by: web
+    source: https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan
+    ui_path: ChatGPT 데스크톱 앱 > Codex
+    fallback: "선택 심화 페이지는 읽기 자료로만 제공한다(정규 교시와 무관)."
+    used_in: [optional-codex]
+
+  - id: vercel-hobby-commercial
+    product: Vercel
+    plan: Hobby
+    name: Hobby 요금제 상업적 사용 제한
+    status: limited
+    detail: "Hobby는 비상업적 개인 용도만 허용. 제작에 관여한 누구든(유급 직원 포함) 금전적 이익을 얻는 배포는 상업적 사용으로 본다."
+    verified_at: 2026-09-24
+    verified_by: web
+    source: https://vercel.com/docs/limits/fair-use-guidelines
+    ui_path: null
+    fallback: "Pro 요금제 사용, 또는 오프라인 번들·다른 정적 호스팅 검토(OQ-09)."
+    used_in: []
+
+  - id: vercel-preview-deployments
+    product: Vercel
+    plan: Hobby
+    name: Preview 배포
+    status: available
+    detail: "production 외 브랜치 push나 PR마다 Preview URL을 만든다(모든 요금제)."
+    verified_at: 2026-09-24
+    verified_by: web
+    source: https://vercel.com/docs/deployments/environments
+    ui_path: PR 코멘트의 Preview 링크
+    fallback: "로컬 npm run preview로 확인한다."
+    used_in: []
+
+  - id: vercel-instant-rollback
+    product: Vercel
+    plan: Hobby
+    name: 즉시 롤백
+    status: limited
+    detail: "Hobby는 직전 배포로만 롤백 가능. Pro는 이전 production 배포 어디로든 가능."
+    verified_at: 2026-09-24
+    verified_by: web
+    source: https://vercel.com/docs/instant-rollback
+    ui_path: Vercel 대시보드 > Deployments > Instant Rollback
+    fallback: "git revert 후 push로 되돌린다."
+    used_in: []

@@ -1,0 +1,28 @@
+# 외부 자원 등록부 — 구글 시트 사본 링크, 강사 공용 폼 등 저장소 밖에 있는 자원.
+# 본문에서는 ID로만 참조한다. 소유 계정이 정해지기 전에는 status: planned.
+# 필드: id, title, kind(sheet-template|form-template|shared-form|doc), owner, url, verified_at, fallback, status
+links:
+  - id: sheet-harness-ledger
+    title: 하네스 대장 템플릿(지침 버전·자료 목록·평가·로그 탭)
+    kind: sheet-template
+    owner: "[TBD: OQ-06]"
+    url: null
+    verified_at: null
+    fallback: 빌드 시 생성되는 xlsx 다운로드
+    status: planned
+  - id: form-shared-civil-intake
+    title: 강사 공용 민원 접수 폼(역할카드 응답용)
+    kind: shared-form
+    owner: "[TBD: OQ-06]"
+    url: null
+    verified_at: null
+    fallback: 제공 CSV(가상 민원 30건)
+    status: planned
+  - id: form-peer-review-12
+    title: 점검표 12항목 상호평가 폼
+    kind: form-template
+    owner: "[TBD: OQ-06]"
+    url: null
+    verified_at: null
+    fallback: 인쇄용 점검표
+    status: planned

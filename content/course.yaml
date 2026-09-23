@@ -1,0 +1,496 @@
+# 과정 구조의 단일 원천 (COURSE_MAP 데이터)
+# - 시간·교시·학습목표·산출물·6요소·카드 배치·막힘 지점은 이 파일에만 적는다.
+# - docs/COURSE_MAP.md는 설계 근거만 설명하고 수치를 적지 않는다.
+# - 검증: python scripts/validate_course.py
+# - ID는 한번 정하면 바꾸지 않는다 (CLAUDE.md CRITICAL 3).
+
+course:
+  title: 공무원을 위한 하네스 엔지니어링
+  edition: 2026-draft
+  level: 초급→중급
+  audience: 국가직·지방직 일반 행정 공무원, 개인 ChatGPT Plus 사용자, 비개발자, 생성형 AI 초보 포함
+
+constraints:
+  total_hours: 14
+  days: 2
+  lessons_per_day: 7
+  lesson_minutes: 50
+  max_core_minutes: 40        # 교시당 핵심 활동 상한 (나머지는 버퍼·전환)
+  min_element_coverage: 2     # 6요소 각각 최소 몇 교시에서 다루는가
+  max_cards_per_lesson: 2     # 초과 시 경고
+  max_core_cards: 14          # core 카드 총량 상한 (초과 시 경고)
+  freshness_days: 90          # 제품 정보·출처 확인일 경과 경고 기준
+
+elements:
+  instructions: ① 지침
+  context: ② 근거
+  tools: ③ 도구
+  evals: ④ 검증
+  guardrails: ⑤ 안전장치
+  observability: ⑥ 기록
+
+# 제안서의 교과목 7개 (lesson.subject가 참조)
+subjects:
+  S1: 하네스 엔지니어링 이해와 ChatGPT 기초
+  S2: 지침 설계와 내 업무 비서 제작
+  S3: 근거 자료 구축
+  S4: 검증과 개선 루프
+  S5: 구글 폼을 이용한 업무 처리(도구)
+  S6: 안전장치와 기록
+  S7: 내 업무 하네스 프로젝트
+
+# 지원 방식 9종 (stuck_points.supports가 참조)
+supports:
+  1: 복붙 Prompt Card
+  2: 대괄호 수정 Prompt Card
+  3: 예시 입력
+  4: 예상 결과
+  5: 잘못된 결과 예시
+  6: "\"AI에게 이렇게 물어보세요\" 도움말"
+  7: 강사 시연
+  8: 문제 해결 Prompt
+  9: 체크리스트
+
+activity_kinds: [admin, explain, demo, follow, practice, check, reflect]
+
+completion:
+  required_outputs:
+    - 하네스 설계서 1장(6요소)
+    - 지침과 근거를 넣은 ChatGPT Project 2개(민원 답변 비서, 내 업무)
+    - 평가 점수 전/후 기록
+    - 로그 대장
+    - 적용 로드맵
+  optional_outputs:
+    - 업무용 구글 폼
+  participation:
+    - 점검표 12항목 짝 상호평가 참여
+  self_check:
+    - 프롬프트, 컨텍스트, 하네스의 차이를 내 업무 예시로 설명할 수 있다
+    - 내 업무의 지침서 5항목을 작성할 수 있다
+    - AI 답변이 틀렸을 때 원인이 지침인지 근거인지 구분할 수 있다
+    - 평가 문항과 채점 기준을 만들어 점수로 개선을 확인할 수 있다
+    - AI에게 맡기면 안 되는 일과 사람이 검토할 지점을 정할 수 있다
+
+cards:
+  - {id: card-guideline-critique, lesson: d1-guideline, title: 내 지침에서 애매한 곳 찾기, category: C, level: 1, where: new-chat, track: core}
+  - {id: card-source-rule-snippet, lesson: d1-context, title: 출처 규칙 지침 문장, category: D, level: 2, where: instructions, track: core}
+  - {id: card-eval-question-critique, lesson: d1-evalset, title: 내가 쓴 평가 문항 비판받기, category: E, level: 2, where: new-chat, track: core}
+  - {id: card-batch-grading, lesson: d1-eval-run, title: 평가·채점 한 번에 실행, category: E, level: 1, where: project-chat, track: core}
+  - {id: card-failure-cause, lesson: d1-improve, title: 오답 원인 분석, category: E, level: 2, where: project-chat, track: core}
+  - {id: card-classify-attachment, lesson: d2-batch-classify, title: 첨부한 접수 표 분류·요약, category: B, level: 2, where: project-chat, track: core}
+  - {id: card-draft-replies, lesson: d2-drafts, title: 건별 답변 초안과 보고 요약, category: B, level: 2, where: project-chat, track: core}
+  - {id: card-risk-finder, lesson: d2-guardrails, title: 내 지침의 위험 찾기, category: F, level: 2, where: new-chat, track: core}
+  - {id: card-work-analysis, lesson: d2-project-design, title: 업무를 하네스 관점으로 분석, category: B, level: 2, where: new-chat, track: core}
+  - {id: card-design-to-guideline, lesson: d2-project-build, title: 설계서를 지침으로 옮기기, category: H, level: 3, where: new-chat, track: core}
+  - {id: card-improvement-finder, lesson: d2-wrapup, title: 내 하네스 개선점 찾기, category: H, level: 3, where: project-chat, track: core}
+  - {id: card-help-odd-result, lesson: common, title: 결과가 이상할 때 원인 찾기, category: A, level: 1, where: project-chat, track: core}
+  - {id: card-help-long-output, lesson: common, title: 출력이 끊기거나 너무 길 때, category: A, level: 1, where: project-chat, track: core}
+  - {id: card-help-broken-table, lesson: common, title: 표가 깨질 때, category: A, level: 1, where: project-chat, track: core}
+
+lessons:
+  # ───────────────────────── Day 1 — 지침·근거·검증 (전입신고 민원 답변 비서)
+  - id: d1-harness-intro
+    day: 1
+    number: 1
+    title: 하네스 엔지니어링 이해
+    type: concept
+    subject: S1
+    track: core
+    status: planned
+    elements: []
+    overview: true
+    activities:
+      - {kind: admin, name: 입과 안내, minutes: 10}
+      - {kind: follow, name: 같은 민원 질문 2회 입력 후 짝과 비교(로그인 확인 겸), minutes: 10}
+      - {kind: explain, name: Prompt·Context·Harness 비교와 6요소 지도, minutes: 10}
+      - {kind: practice, name: 임시 채팅에서 기준 질문 5개 답변 기록, minutes: 5}
+    objectives:
+      - {id: d1-01-o1, text: 같은 질문에도 AI 답이 달라지는 문제를 직접 확인하고 설명한다, outputs: [d1-01-p1]}
+      - {id: d1-01-o2, text: Prompt·Context·Harness의 차이와 6요소의 이름을 말한다, outputs: [d1-01-p1]}
+    outputs:
+      - {id: d1-01-p1, text: 기준 질문 5개와 첫 답변 기록(하네스 대장), used_by: [d1-project]}
+    checks:
+      - 하네스 대장에 기준 질문 5개와 답변이 기록되어 있다
+    cards: []
+    stuck_points:
+      - {id: sp-d1-01-a, text: 어디에 입력하는지 모른다, supports: [7, 9]}
+      - {id: sp-d1-01-b, text: 두 답변을 비교할 때 무엇을 봐야 할지 모른다, supports: [3, 9]}
+    skip_if_short: [6요소 사례 설명]
+
+  - id: d1-guideline
+    day: 1
+    number: 2
+    title: 업무 지침서 작성
+    type: practice
+    subject: S2
+    track: core
+    status: planned
+    elements: [instructions]
+    activities:
+      - {kind: demo, name: 민원 업무 흐름과 AI·사람 역할 구분 시연, minutes: 8}
+      - {kind: follow, name: v0 지침 함께 진단, minutes: 7}
+      - {kind: practice, name: 지침서 5항목으로 v1 개선, minutes: 15}
+      - {kind: check, name: AI에게 애매한 곳 비판받기, minutes: 5}
+    objectives:
+      - {id: d1-02-o1, text: 지침서 5항목(역할·범위·금지사항·출력 형식·모를 때 행동)으로 지침을 작성한다, outputs: [d1-02-p1]}
+      - {id: d1-02-o2, text: 업무에서 AI가 맡을 일과 사람이 맡을 일을 구분한다, outputs: [d1-02-p1]}
+    outputs:
+      - {id: d1-02-p1, text: 지침서 v1(하네스 대장 지침 버전 탭), used_by: [d1-project]}
+    checks:
+      - 지침서 5항목이 모두 채워져 있고 추상적 표현(친절하게 등)이 구체적으로 바뀌었다
+    cards: [card-guideline-critique]
+    stuck_points:
+      - {id: sp-d1-02-a, text: 업무를 AI에게 어떻게 설명할지 모른다, supports: [3, 7]}
+      - {id: sp-d1-02-b, text: 범위와 금지사항을 구분하지 못하고 추상적으로 쓴다, supports: [5, 9]}
+      - {id: sp-d1-02-c, text: 쓴 지침이 충분한지 판단하지 못한다, supports: [1, 4, 6], card: card-guideline-critique}
+    skip_if_short: [AI 비판 단계]
+
+  - id: d1-project
+    day: 1
+    number: 3
+    title: ChatGPT Project로 비서 만들기
+    type: practice
+    subject: S2
+    track: core
+    status: planned
+    elements: [instructions]
+    activities:
+      - {kind: demo, name: Project 개념과 만들기 시연, minutes: 10}
+      - {kind: follow, name: Project 생성과 지침 입력, minutes: 10}
+      - {kind: practice, name: 기준 질문 5개 재질문과 적용 전·후 비교, minutes: 10}
+      - {kind: practice, name: 동료 공유(가능 시) 또는 빼보기 실험, minutes: 5}
+    objectives:
+      - {id: d1-03-o1, text: 지침을 Project에 넣어 매번 같은 규칙으로 답하게 만든다, outputs: [d1-03-p1]}
+      - {id: d1-03-o2, text: 적용 전·후 답변을 비교해 지침의 효과를 설명한다, outputs: [d1-03-p2]}
+    outputs:
+      - {id: d1-03-p1, text: 민원 답변 비서 Project v1, used_by: [d1-context]}
+      - {id: d1-03-p2, text: 적용 전·후 비교표, used_by: [d1-improve]}
+    checks:
+      - 5문항 중 형식·범위가 개선된 문항을 비교표에 표시했다
+    cards: []
+    stuck_points:
+      - {id: sp-d1-03-a, text: 지침을 지침란이 아니라 채팅창에 붙여 넣는다, supports: [5, 7]}
+      - {id: sp-d1-03-b, text: 전·후 답변의 차이를 찾지 못한다, supports: [4, 9]}
+    skip_if_short: [동료 공유]
+
+  - id: d1-context
+    day: 1
+    number: 4
+    title: 근거 자료 연결과 출처 답변
+    type: practice
+    subject: S3
+    track: core
+    status: planned
+    elements: [context, guardrails]
+    activities:
+      - {kind: explain, name: 근거·출처·기준일, minutes: 5}
+      - {kind: demo, name: 출처 없는 답과 출처 있는 답 비교 시연, minutes: 7}
+      - {kind: follow, name: 자료 업로드와 출처 규칙 추가(막히면 본문 붙여넣기), minutes: 8}
+      - {kind: practice, name: 자료 안·밖 질문 테스트, minutes: 10}
+      - {kind: check, name: 자료 목록과 기준일 기록, minutes: 5}
+    objectives:
+      - {id: d1-04-o1, text: 규정 자료를 Project에 연결하고 출처(조문)를 밝혀 답하게 만든다, outputs: [d1-04-p1]}
+      - {id: d1-04-o2, text: 자료에 없는 질문에 "확인 필요"로 답하게 만든다, outputs: [d1-04-p1]}
+      - {id: d1-04-o3, text: 근거 자료의 목록과 기준일을 기록한다, outputs: [d1-04-p2]}
+    outputs:
+      - {id: d1-04-p1, text: 민원 답변 비서 Project v2(근거 연결), used_by: [d1-eval-run]}
+      - {id: d1-04-p2, text: 자료 목록(시행일·기준일), used_by: [d1-improve]}
+    checks:
+      - 자료 안 질문 3개는 출처와 함께, 자료 밖 질문 2개는 "확인 필요"로 답한다
+    cards: [card-source-rule-snippet]
+    stuck_points:
+      - {id: sp-d1-04-a, text: 파일만 올리고 지침에 출처 규칙을 넣지 않는다, supports: [2, 4], card: card-source-rule-snippet}
+      - {id: sp-d1-04-b, text: 존재하지 않는 조문을 지어낸 답을 알아보지 못한다, supports: [5, 9]}
+      - {id: sp-d1-04-c, text: 파일 업로드가 막힌다, supports: [8]}
+    skip_if_short: [파일 형식 비교]
+
+  - id: d1-evalset
+    day: 1
+    number: 5
+    title: 평가세트 설계
+    type: practice
+    subject: S4
+    track: core
+    status: planned
+    elements: [evals, guardrails]
+    activities:
+      - {kind: explain, name: 평가세트 먼저, minutes: 5}
+      - {kind: demo, name: 채점 기준(문항당 1점) 시연, minutes: 5}
+      - {kind: follow, name: 답변 2개 손채점, minutes: 10}
+      - {kind: practice, name: 내 평가 문항 3개와 기대 답변 작성, minutes: 15}
+    objectives:
+      - {id: d1-05-o1, text: 평가 문항·기대 답변·채점 기준의 역할을 설명한다, outputs: [d1-05-p1]}
+      - {id: d1-05-o2, text: 기대 답변(핵심 포인트 2개 + 근거 조문)이 있는 평가 문항을 작성한다, outputs: [d1-05-p1]}
+    outputs:
+      - {id: d1-05-p1, text: 평가세트 23문항(제공 20 + 직접 3), used_by: [d1-eval-run]}
+    checks:
+      - 직접 쓴 3문항에 기대 답변과 근거 조문이 있다
+    cards: [card-eval-question-critique]
+    stuck_points:
+      - {id: sp-d1-05-a, text: 좋은 평가 질문이 무엇인지 모른다, supports: [3, 4, 9]}
+      - {id: sp-d1-05-b, text: 기대 답변을 쓰지 못하거나 정답 없는 질문을 만든다, supports: [2, 5], card: card-eval-question-critique}
+    skip_if_short: [직접 작성 문항을 3개에서 1개로]
+
+  - id: d1-eval-run
+    day: 1
+    number: 6
+    title: 일괄 평가 실행
+    type: practice
+    subject: S4
+    track: core
+    status: planned
+    elements: [evals, observability]
+    activities:
+      - {kind: demo, name: 평가 실행 절차 시연, minutes: 5}
+      - {kind: practice, name: 10문항과 13문항 두 번 실행, minutes: 22}
+      - {kind: check, name: 사람이 3문항 표본 확인, minutes: 5}
+      - {kind: check, name: 점수 기록, minutes: 3}
+    objectives:
+      - {id: d1-06-o1, text: 평가세트를 반복 실행해 점수를 얻는다, outputs: [d1-06-p1]}
+      - {id: d1-06-o2, text: AI 자기채점을 그대로 믿지 않고 표본을 확인한다, outputs: [d1-06-p1]}
+    outputs:
+      - {id: d1-06-p1, text: 점수표 v1(틀린 이유 포함), used_by: [d1-improve]}
+    checks:
+      - 23문항 점수와 틀린 이유가 평가 탭에 기록되어 있다
+    cards: [card-batch-grading]
+    stuck_points:
+      - {id: sp-d1-06-a, text: 긴 입력을 붙이기 어렵고 출력이 중간에 끊긴다, supports: [7, 8], card: card-help-long-output}
+      - {id: sp-d1-06-b, text: AI 채점을 그대로 믿는다, supports: [1, 4, 5], card: card-batch-grading}
+    skip_if_short: [2차 실행을 직접 쓴 3문항만]
+
+  - id: d1-improve
+    day: 1
+    number: 7
+    title: 실패 분석과 재평가
+    type: practice
+    subject: S4
+    track: core
+    status: planned
+    elements: [evals, instructions, context, observability]
+    activities:
+      - {kind: demo, name: 실패 원인 3분류 시연, minutes: 5}
+      - {kind: practice, name: 내 실패 문항 원인 분류, minutes: 8}
+      - {kind: practice, name: 지침 또는 근거 수정, minutes: 10}
+      - {kind: check, name: 실패 문항과 무작위 5문항 재평가, minutes: 10}
+      - {kind: reflect, name: 개정 기록과 Day 1 정리, minutes: 7}
+    objectives:
+      - {id: d1-07-o1, text: 오답의 원인을 지침·근거·금지 위반으로 분류한다, outputs: [d1-07-p1]}
+      - {id: d1-07-o2, text: 수정 후 재평가로 점수 변화를 확인하고 개정 내용을 기록한다, outputs: [d1-07-p1, d1-07-p2]}
+    outputs:
+      - {id: d1-07-p1, text: 점수 전·후 기록, used_by: [d2-guardrails]}
+      - {id: d1-07-p2, text: 민원 답변 비서 Project v3와 개정 기록, used_by: [d2-batch-classify]}
+    checks:
+      - 점수 전·후와 개정 이유가 하네스 대장에 있다
+    cards: [card-failure-cause]
+    stuck_points:
+      - {id: sp-d1-07-a, text: 실패 원인을 판단하지 못한다, supports: [9, 6]}
+      - {id: sp-d1-07-b, text: 지침을 고칠지 자료를 고칠지 모른다, supports: [2, 4, 5], card: card-failure-cause}
+    skip_if_short: [무작위 5문항 재확인]
+
+  # ───────────────────────── Day 2 — 도구·안전장치·기록 + 내 업무 Harness
+  - id: d2-forms
+    day: 2
+    number: 1
+    title: 구글 폼으로 입력 구조화
+    type: practice
+    subject: S5
+    track: core
+    status: planned
+    elements: [tools, guardrails]
+    activities:
+      - {kind: explain, name: Day 1 연결과 입력 구조화, minutes: 5}
+      - {kind: demo, name: 폼 만들기 시연, minutes: 7}
+      - {kind: follow, name: 민원 접수 폼 만들기(이메일 수집 끄기), minutes: 13}
+      - {kind: practice, name: 강사 공용 폼에 역할카드로 응답, minutes: 7}
+      - {kind: check, name: 응답 시트 공유 범위 설정, minutes: 3}
+    objectives:
+      - {id: d2-01-o1, text: 업무 입력을 폼 문항으로 구조화한다, outputs: [d2-01-p1]}
+      - {id: d2-01-o2, text: 개인정보를 최소로 받도록 폼을 설정한다, outputs: [d2-01-p1]}
+    outputs:
+      - {id: d2-01-p1, text: 민원 접수 폼과 공용 응답 시트, used_by: [d2-batch-classify]}
+    checks:
+      - 이메일 수집이 꺼져 있고 응답 시트 공유 범위가 부서 내부다
+    cards: []
+    stuck_points:
+      - {id: sp-d2-01-a, text: 폼 설정 메뉴와 응답 시트 연결을 찾지 못한다, supports: [7, 9]}
+      - {id: sp-d2-01-b, text: 필요 없는 개인정보 문항을 넣는다, supports: [3, 4, 5]}
+    skip_if_short: [폼 문항을 3개로]
+
+  - id: d2-batch-classify
+    day: 2
+    number: 2
+    title: 여러 건 분류·요약
+    type: practice
+    subject: S5
+    track: core
+    status: planned
+    elements: [tools, guardrails, observability]
+    activities:
+      - {kind: check, name: 첨부 전 개인정보 점검, minutes: 5}
+      - {kind: demo, name: CSV 내려받아 채팅에 첨부 시연, minutes: 7}
+      - {kind: follow, name: 분류·요약 따라하기, minutes: 10}
+      - {kind: practice, name: 확인 필요 건 검토, minutes: 8}
+      - {kind: reflect, name: 시트 대장화와 카드를 지침으로 옮기기, minutes: 5}
+    objectives:
+      - {id: d2-02-o1, text: 여러 건의 접수 자료를 기준표에 따라 분류·요약한다, outputs: [d2-02-p1]}
+      - {id: d2-02-o2, text: 근거(Project 파일)와 입력 데이터(채팅 첨부)를 구분해 사용한다, outputs: [d2-02-p1]}
+    outputs:
+      - {id: d2-02-p1, text: 분류 대장(시트), used_by: [d2-drafts]}
+    checks:
+      - 분류 대장에 확인 필요 건수가 표시되고 개인정보가 옮겨지지 않았다
+    cards: [card-classify-attachment]
+    stuck_points:
+      - {id: sp-d2-02-a, text: 채팅 첨부와 Project 파일을 혼동한다, supports: [7, 5]}
+      - {id: sp-d2-02-b, text: 결과 표를 시트에 붙이면 깨진다, supports: [8], card: card-help-broken-table}
+      - {id: sp-d2-02-c, text: 분류 기준을 매번 붙여야 한다, supports: [2, 4], card: card-classify-attachment}
+    skip_if_short: [우선순위 규칙 추가]
+
+  - id: d2-drafts
+    day: 2
+    number: 3
+    title: 초안 생성과 사람 검토
+    type: practice
+    subject: S5
+    track: core
+    status: planned
+    elements: [tools, guardrails, observability]
+    activities:
+      - {kind: explain, name: 초안과 결재 비유, minutes: 5}
+      - {kind: demo, name: 초안 1건 검토 시연, minutes: 5}
+      - {kind: follow, name: 5건 답변 초안과 보고 요약 생성, minutes: 10}
+      - {kind: practice, name: 검토 열(승인·수정·보류) 작성, minutes: 10}
+      - {kind: check, name: 검토 결과 기록, minutes: 5}
+    objectives:
+      - {id: d2-03-o1, text: AI는 초안만 만들고 사람이 검토하는 흐름을 구성한다, outputs: [d2-03-p1]}
+      - {id: d2-03-o2, text: 검토 기준으로 초안을 판정하고 결과를 기록한다, outputs: [d2-03-p1]}
+    outputs:
+      - {id: d2-03-p1, text: 초안 5건과 검토 기록, used_by: [d2-guardrails]}
+    checks:
+      - 모든 초안에 "초안·검토 필요" 표시와 검토 판정이 있다
+    cards: [card-draft-replies]
+    stuck_points:
+      - {id: sp-d2-03-a, text: 무엇을 기준으로 검토할지 모른다, supports: [9, 7]}
+      - {id: sp-d2-03-b, text: 과태료 금액 단정 같은 금지 위반을 알아보지 못한다, supports: [5, 4], card: card-draft-replies}
+    skip_if_short: [공문 PDF 요약]
+
+  - id: d2-guardrails
+    day: 2
+    number: 4
+    title: 안전장치 점검과 기록
+    type: practice
+    subject: S6
+    track: core
+    status: planned
+    elements: [guardrails, observability, instructions]
+    activities:
+      - {kind: follow, name: 데이터 제어 설정 확인, minutes: 5}
+      - {kind: check, name: D2-3 결과의 개인정보·초안 표시 점검, minutes: 8}
+      - {kind: practice, name: 공격성 입력 2건 실행, minutes: 8}
+      - {kind: practice, name: 지침에 규칙 추가 후 재실행, minutes: 8}
+      - {kind: reflect, name: 로그 대장 정리(담당자·주간 개정), minutes: 6}
+    objectives:
+      - {id: d2-04-o1, text: 개인정보 노출과 숨은 지시문 같은 위험을 찾아 지침으로 막는다, outputs: [d2-04-p1]}
+      - {id: d2-04-o2, text: 질문·답변·출처·검토자와 개정 주기를 기록하는 운영 규칙을 정한다, outputs: [d2-04-p2]}
+    outputs:
+      - {id: d2-04-p1, text: 안전장치 체크리스트와 민원 하네스 완성본, used_by: [d2-project-design]}
+      - {id: d2-04-p2, text: 로그 대장(담당자·주간 개정), used_by: [d2-wrapup]}
+    checks:
+      - 공격성 입력 2건에 대해 수정된 지침이 안전하게 답한다
+    cards: [card-risk-finder]
+    stuck_points:
+      - {id: sp-d2-04-a, text: 데이터 제어 설정 메뉴를 찾지 못한다, supports: [7]}
+      - {id: sp-d2-04-b, text: 숨은 지시문 개념이 낯설다, supports: [3, 4, 5]}
+      - {id: sp-d2-04-c, text: 위험을 막는 규칙을 문장으로 쓰지 못한다, supports: [2, 6], card: card-risk-finder}
+    skip_if_short: [숨은 지시문 사례]
+
+  - id: d2-project-design
+    day: 2
+    number: 5
+    title: 내 업무 하네스 설계
+    type: project
+    subject: S7
+    track: core
+    status: planned
+    elements: [instructions, context, tools, evals, guardrails, observability]
+    activities:
+      - {kind: explain, name: 예시 5종과 선택 기준, minutes: 5}
+      - {kind: practice, name: 예시 업무 선택, minutes: 5}
+      - {kind: practice, name: 하네스 설계서 1장 작성(민원 완성본 참고), minutes: 15}
+      - {kind: practice, name: 평가 10문항 작성(평가세트 먼저), minutes: 10}
+    objectives:
+      - {id: d2-05-o1, text: 선택한 업무를 6요소 설계서로 정리한다, outputs: [d2-05-p1]}
+      - {id: d2-05-o2, text: 만들기 전에 평가 문항부터 정한다, outputs: [d2-05-p2]}
+    outputs:
+      - {id: d2-05-p1, text: 하네스 설계서 v1, used_by: [d2-project-build]}
+      - {id: d2-05-p2, text: 내 업무 평가 10문항, used_by: [d2-project-build]}
+    checks:
+      - 설계서 6칸이 모두 채워지고 평가 문항이 10개 이상이다
+    cards: [card-work-analysis]
+    stuck_points:
+      - {id: sp-d2-05-a, text: 설계서 6칸을 어떻게 채울지 모른다, supports: [3, 4, 9]}
+      - {id: sp-d2-05-b, text: 처음 보는 업무를 AI에게 설명하지 못한다, supports: [2, 5], card: card-work-analysis}
+    skip_if_short: [평가 문항을 5개로]
+
+  - id: d2-project-build
+    day: 2
+    number: 6
+    title: 내 업무 하네스 제작
+    type: project
+    subject: S7
+    track: core
+    status: planned
+    elements: [instructions, context, tools, evals, guardrails, observability]
+    activities:
+      - {kind: practice, name: Project 만들기와 지침 입력, minutes: 10}
+      - {kind: practice, name: 키트 근거 자료 업로드, minutes: 5}
+      - {kind: practice, name: (선택) 업무용 폼 사본 수정, minutes: 8}
+      - {kind: check, name: 평가 5문항 실행과 기록, minutes: 12}
+    objectives:
+      - {id: d2-06-o1, text: 설계서를 실제로 동작하는 Project로 옮긴다, outputs: [d2-06-p1]}
+      - {id: d2-06-o2, text: 평가 문항으로 첫 점수를 확인한다, outputs: [d2-06-p2]}
+    outputs:
+      - {id: d2-06-p1, text: 내 업무 Project, used_by: [d2-wrapup]}
+      - {id: d2-06-p2, text: 내 업무 1차 점수, used_by: [d2-wrapup]}
+    checks:
+      - 내 업무 Project가 평가 5문항에 답하고 점수가 기록되어 있다
+    cards: [card-design-to-guideline]
+    stuck_points:
+      - {id: sp-d2-06-a, text: 설계서를 지침 문장으로 옮기지 못한다, supports: [6, 2], card: card-design-to-guideline}
+      - {id: sp-d2-06-b, text: 결과가 이상한데 원인을 모른다, supports: [8], card: card-help-odd-result}
+    skip_if_short: [업무용 폼]
+
+  - id: d2-wrapup
+    day: 2
+    number: 7
+    title: 개선·상호평가·적용 로드맵
+    type: project
+    subject: S7
+    track: core
+    status: planned
+    elements: [instructions, context, tools, evals, guardrails, observability]
+    activities:
+      - {kind: practice, name: 실패 1건 개선과 재실행, minutes: 10}
+      - {kind: check, name: 점검표 12항목 짝 상호평가(구글 폼), minutes: 10}
+      - {kind: practice, name: 적용 로드맵 작성(기관 보안 협의 포함), minutes: 8}
+      - {kind: reflect, name: 발표 2~3명, minutes: 5}
+      - {kind: admin, name: 수료 설문, minutes: 5}
+    objectives:
+      - {id: d2-07-o1, text: 한 번 더 개선해 점수 변화를 확인한다, outputs: [d2-07-p1]}
+      - {id: d2-07-o2, text: 실제 업무 적용 단계를 로드맵으로 정한다, outputs: [d2-07-p2]}
+    outputs:
+      - {id: d2-07-p1, text: 내 업무 점수 전·후와 상호평가 결과, used_by: []}
+      - {id: d2-07-p2, text: 적용 로드맵, used_by: []}
+    checks:
+      - 로드맵에 기관 보안 협의 단계와 개정 담당자가 있다
+    cards: [card-improvement-finder]
+    stuck_points:
+      - {id: sp-d2-07-a, text: 무엇을 개선할지 모른다, supports: [2, 6], card: card-improvement-finder}
+      - {id: sp-d2-07-b, text: 로드맵에 무엇을 쓸지 모른다, supports: [3, 4]}
+    skip_if_short: [발표]
+
+modules:
+  - id: optional-codex
+    title: "선택 심화: Codex로 반복 작업 자동화"
+    track: optional
+    status: planned
+    path: /optional/codex

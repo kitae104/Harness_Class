@@ -1,0 +1,17 @@
+# 금지 표현 등록부
+# scope:
+#   content  = 수강생에게 보이는 콘텐츠(content/**/*.md, *.mdx)와 deliverables/
+#   student  = 수강생 화면 전용 (개발 용어). content와 같은 범위에 적용한다.
+# docs/는 규칙을 설명하기 위해 금지 표현을 인용하므로 검사하지 않는다.
+terms:
+  - {pattern: "무료 계정", scope: content, reason: "CD-01: 교육 대상은 개인 ChatGPT Plus 사용자다", replace: "ChatGPT Plus 계정"}
+  - {pattern: "모두 무료", scope: content, reason: "CD-01: 유료 요금제를 전제로 한다", replace: "별도 설치 없이"}
+  - {pattern: "결제 없이", scope: content, reason: "CD-01: 유료 요금제를 전제로 한다", replace: "별도 설치 없이"}
+  - {pattern: "긴 프롬프트 ?= ?하네스", scope: content, reason: "과정의 핵심 오해. 하네스는 프롬프트 길이가 아니라 업무 환경이다", replace: null}
+  - {pattern: "GPT-[0-9]", scope: content, reason: "모델명은 변경 가능한 제품 정보다. product-features 등록부의 <Feature>로만 언급한다", replace: "<Feature id>"}
+  - {pattern: "\\bo[1-9](-mini)?\\b", scope: content, reason: "모델명은 변경 가능한 제품 정보다", replace: "<Feature id>"}
+  - {pattern: "프롬프트 인젝션", scope: student, reason: "수강생 화면 용어 규칙", replace: "숨은 지시문"}
+  - {pattern: "회귀 ?테스트|\\b회귀\\b", scope: student, reason: "수강생 화면 용어 규칙", replace: "다른 문항도 망가지지 않았는지 확인"}
+  - {pattern: "플레이스홀더", scope: student, reason: "수강생 화면 용어 규칙", replace: "대괄호 부분"}
+  - {pattern: "Prompt Card", scope: student, reason: "수강생 화면 용어 규칙", replace: "AI에게 도움받기"}
+  - {pattern: "LEVEL ?[123]", scope: student, reason: "수강생 화면 용어 규칙", replace: "따라 쓰기 / 바꿔 쓰기 / 직접 쓰기"}

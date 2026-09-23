@@ -1,0 +1,24 @@
+# 용어집 등록부 — 한국어를 먼저 쓰고 영문을 병기한다.
+# student_label: 수강생 화면에 표시하는 말. 없으면 term을 그대로 쓴다.
+terms:
+  - {id: harness, term: 하네스, en: Harness, definition: "지침·근거·도구·검증·안전장치·기록을 묶어 AI가 특정 업무를 반복해서 안정적으로 하도록 만든 업무 환경"}
+  - {id: harness-engineering, term: 하네스 엔지니어링, en: Harness Engineering, definition: "AI 모델 자체가 아니라 모델을 둘러싼 업무 환경을 설계하는 방법"}
+  - {id: prompt-engineering, term: 프롬프트 엔지니어링, en: Prompt Engineering, definition: "한 번의 질문을 잘 쓰는 방법"}
+  - {id: context-engineering, term: 컨텍스트 엔지니어링, en: Context Engineering, definition: "AI가 판단할 때 함께 보여 줄 자료와 정보를 설계하는 방법"}
+  - {id: instructions, term: 지침, en: Instructions, definition: "역할·범위·금지사항·출력 형식·모를 때 행동을 적은 업무 지침서"}
+  - {id: context, term: 근거, en: Context, definition: "규정·편람·FAQ·업무 매뉴얼 등 AI가 답할 때 기준으로 삼는 자료와 그 출처"}
+  - {id: tools, term: 도구, en: Tools, definition: "입력을 모으고, 쌓고, 여러 건을 처리하는 업무 흐름을 만드는 수단(ChatGPT, 구글 폼·시트 등)"}
+  - {id: evals, term: 검증, en: Evals, definition: "평가 문항·기대 답변·채점 기준으로 결과를 점수화하고 개선을 확인하는 일", student_label: 평가}
+  - {id: guardrails, term: 안전장치, en: Guardrails, definition: "개인정보 보호, 근거 없는 답변 방지, 사람의 최종 검토 등 AI가 하면 안 되는 일을 막는 장치"}
+  - {id: observability, term: 기록, en: Observability, definition: "질문·답변·근거·오류·검토자·수정 내용·개정 이유를 남겨 나중에 고칠 수 있게 하는 일"}
+  - {id: project, term: 프로젝트, en: ChatGPT Projects, definition: "지침과 파일을 묶어 두고 그 안의 대화에서 같은 규칙과 근거를 쓰게 하는 ChatGPT 기능"}
+  - {id: eval-set, term: 평가세트, en: Eval set, definition: "평가 문항과 기대 답변의 묶음"}
+  - {id: prompt-card, term: AI에게 도움받기 카드, en: Prompt Card, definition: "막히는 지점에서 복사해 쓰는 프롬프트와 사용 안내", student_label: AI에게 도움받기}
+  - {id: level-1, term: 따라 쓰기, en: LEVEL 1, definition: "프롬프트를 그대로 복사해 쓰는 단계", student_label: 따라 쓰기}
+  - {id: level-2, term: 바꿔 쓰기, en: LEVEL 2, definition: "대괄호 부분을 내 업무로 바꿔 쓰는 단계", student_label: 바꿔 쓰기}
+  - {id: level-3, term: 직접 쓰기, en: LEVEL 3, definition: "구조만 보고 프롬프트를 직접 설계하는 단계", student_label: 직접 쓰기}
+  - {id: hidden-instruction, term: 숨은 지시문, en: Prompt injection, definition: "민원 본문이나 첨부 문서 안에 들어 있어 AI의 지침을 바꾸려는 문장", student_label: 숨은 지시문}
+  - {id: regression-check, term: 다른 문항 확인, en: Regression check, definition: "수정 뒤 원래 맞던 문항이 틀려지지 않았는지 확인하는 일", student_label: 다른 문항도 망가지지 않았는지 확인}
+  - {id: csv, term: 표 파일(CSV), en: CSV, definition: "쉼표로 칸을 구분한 표 파일. 구글 시트에서 내려받을 수 있다", student_label: 표 파일(CSV)}
+  - {id: core, term: 필수, en: CORE, definition: "모든 수강생이 반드시 학습하는 내용", student_label: 필수}
+  - {id: optional, term: 선택, en: OPTIONAL, definition: "시간과 수준에 따라 선택하는 심화 내용", student_label: 선택}
