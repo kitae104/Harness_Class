@@ -105,7 +105,8 @@
         "tests/unit/*"
       ],
       "started_at": "2026-09-24T10:24:23+0900",
-      "summary": "scripts/content_hash.py(UTF-8 읽기→CRLF·CR을 LF로 정규화→'sha256:<hex>', target_file: lesson=content/day{d}/{nn}.mdx·card=content/prompts/{id}.md, CRLF·LF 동일 해시 테스트); scripts/review_approve.py(<id> [--root], 콘텐츠 파일 없으면 non-zero, course.yaml은 해당 항목 줄만 텍스트 수정(블록·인라인 {...} 둘 다, 주석·CRLF 보존, reviewed_hash는 따옴표 문자열, 수정 후 yaml 재파싱으로 다른 값 불변 확인), '<id>: <old> → reviewed (sha256:…)' 출력, 테스트 16개); validator V-REV-002(reviewed 교시·카드의 해시 불일치·파일 없음·hash 없음 오류, --scope 적용, V-REV-001 동작 유지, cp949 콘솔에서 출력 문자 replace) + QUALITY_CHECKLIST 구현 표시; scripts/new_content.mjs(checkName·lessonTarget·fillTemplate·planNew·registrationHint·run export, 없는 교시·미등록 카드 오류, 덮어쓰기 금지(wx), 등록부 미수정·module/kit 등록 안내, approve 하위명령이 verify.mjs pickPython으로 review_approve.py 실행) + package.json new:lesson·new:module·new:prompt·new:kit·review:approve; scripts/scaffold 6종(교시 유형별 3종은 CONTENT_GUIDE 1절 섹션 제목+'작성 예정'+가상 자료 문구 자리, prompt.md는 PROMPT_GUIDE 2절 필드·5칸 뼈대(zod 통과), module.mdx, kit.yaml은 PRACTICE_CASES 1절 항목); tests/unit/new-content.test.ts 17개 + node-shims.d.ts(@types/node 없이 테스트용 node 선언)"
+      "summary": "scripts/content_hash.py(UTF-8 읽기→CRLF·CR을 LF로 정규화→'sha256:<hex>', target_file: lesson=content/day{d}/{nn}.mdx·card=content/prompts/{id}.md, CRLF·LF 동일 해시 테스트); scripts/review_approve.py(<id> [--root], 콘텐츠 파일 없으면 non-zero, course.yaml은 해당 항목 줄만 텍스트 수정(블록·인라인 {...} 둘 다, 주석·CRLF 보존, reviewed_hash는 따옴표 문자열, 수정 후 yaml 재파싱으로 다른 값 불변 확인), '<id>: <old> → reviewed (sha256:…)' 출력, 테스트 16개); validator V-REV-002(reviewed 교시·카드의 해시 불일치·파일 없음·hash 없음 오류, --scope 적용, V-REV-001 동작 유지, cp949 콘솔에서 출력 문자 replace) + QUALITY_CHECKLIST 구현 표시; scripts/new_content.mjs(checkName·lessonTarget·fillTemplate·planNew·registrationHint·run export, 없는 교시·미등록 카드 오류, 덮어쓰기 금지(wx), 등록부 미수정·module/kit 등록 안내, approve 하위명령이 verify.mjs pickPython으로 review_approve.py 실행) + package.json new:lesson·new:module·new:prompt·new:kit·review:approve; scripts/scaffold 6종(교시 유형별 3종은 CONTENT_GUIDE 1절 섹션 제목+'작성 예정'+가상 자료 문구 자리, prompt.md는 PROMPT_GUIDE 2절 필드·5칸 뼈대(zod 통과), module.mdx, kit.yaml은 PRACTICE_CASES 1절 항목); tests/unit/new-content.test.ts 17개 + node-shims.d.ts(@types/node 없이 테스트용 node 선언)",
+      "completed_at": "2026-09-24T10:35:02+0900"
     },
     {
       "step": 5,
@@ -151,4 +152,4 @@
     }
   ],
   "created_at": "2026-09-24T09:16:28+0900"
-}
+}
