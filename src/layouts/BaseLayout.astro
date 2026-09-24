@@ -1,6 +1,8 @@
 ---
-// 모든 페이지의 공통 틀: 머리글 메뉴 + 사이드바 + 본문. 스크립트를 넣지 않는다(ADR-008).
+// 모든 페이지의 공통 틀: 머리글 메뉴 + 사이드바 + 본문. 레이아웃 자체에는 스크립트가 없다(ADR-008).
+// 발표 모드 토글만 인라인 스크립트를 가진 컴포넌트로 머리글에 둔다.
 import '../styles/global.css';
+import PresentationToggle from '../components/PresentationToggle.astro';
 import Sidebar from '../components/Sidebar.astro';
 import { loadCourse } from '../lib/course';
 
@@ -51,6 +53,7 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
           }
         </ul>
       </nav>
+      <PresentationToggle />
     </header>
     <div class="site-body">
       <Sidebar currentId={currentLessonId} />

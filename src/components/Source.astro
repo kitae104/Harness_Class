@@ -1,0 +1,33 @@
+---
+// 출처 표시: 제목, 조문, 시행일(법령). 값은 sources.yaml에서만 읽는다.
+// article은 등록된 조문이어야 한다(등록부에 없는 조문은 서술하지 않는다, CLAUDE.md CRITICAL).
+import { sourceById } from '../lib/registries';
+
+interface Props {
+  id: string;
+  /** 예: "제16조" — sources.yaml articles 중 하나로 시작해야 한다 */
+  article?: string;
+}
+
+const { id, article } = Astro.props;
+const source = sourceById(id);
+if (!source) throw new Error(`Source: sources.yaml에 없는 id "${id}"`);
+
+let articleLabel: string | undefined;
+if (article) {
+  const entry = (source.articles ?? []).find(
+    (item) => item === article || item.startsWith(`${article}(`) || item.startsWith(`${article} `),
+  );
+  if (!entry) throw new Error(`Source: ${id}에 등록되지 않은 조문 "${article}"`);
+  // "제16조(거주지의 이동) — 설명"에서 설명은 표시하지 않는다.
+  articleLabel = entry.split(' — ')[0];
+}
+---
+
+<cite class="source">
+  {source.url ? <a href={source.url}>{source.title}</a> : <span>{source.title}</span>}
+  {articleLabel && <span class="source-article">{articleLabel}</span>}
+  {source.type === 'law' && source.effective_date && (
+    <small class="source-date">시행 {source.effective_date}</small>
+  )}
+</cite>

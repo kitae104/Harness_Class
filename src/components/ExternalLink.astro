@@ -1,0 +1,25 @@
+---
+// 저장소 밖 자원(구글 시트·폼) 링크. active이고 url이 있을 때만 링크, 아니면 fallback 안내.
+import { linkById } from '../lib/registries';
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+const link = linkById(id);
+if (!link) throw new Error(`ExternalLink: external-links.yaml에 없는 id "${id}"`);
+const active = link.status === 'active' && Boolean(link.url);
+---
+
+{
+  active ? (
+    <a class="external-link" href={link.url}>
+      {link.title}
+    </a>
+  ) : (
+    <span class="external-link external-link-fallback">
+      {link.title}(링크 준비 중) — 대신 쓸 자료: {link.fallback}
+    </span>
+  )
+}

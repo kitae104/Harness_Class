@@ -1,0 +1,26 @@
+---
+// 제품 기능 표시. 기능명·확인일은 product-features.yaml에서 읽는다(CLAUDE.md CRITICAL).
+// unavailable이면 fallback을 주의 박스로, unverified면 "확인 중"을 붙인다. 문단 안에서 쓰므로 span만 쓴다.
+import { featureById } from '../lib/registries';
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+const feature = featureById(id);
+if (!feature) throw new Error(`Feature: product-features.yaml에 없는 id "${id}"`);
+---
+
+<span class="feature">
+  <span class="feature-name">{feature.name}</span>
+  {feature.status === 'unverified' && <span class="badge badge-check">확인 중</span>}
+  {feature.verified_at && <small class="feature-date">확인일 {feature.verified_at}</small>}
+</span>{
+  feature.status === 'unavailable' && (
+    <span class="callout callout-warn feature-fallback" role="note">
+      <span class="callout-title">지금은 쓸 수 없는 기능입니다</span>
+      {feature.fallback}
+    </span>
+  )
+}

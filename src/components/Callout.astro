@@ -1,0 +1,32 @@
+---
+// 주의·팁·검토·확인필요 박스. 왼쪽 굵은 선 + 옅은 배경, 의미는 제목 텍스트로 전달한다.
+type Kind = '주의' | '팁' | '검토' | '확인필요';
+
+interface Props {
+  kind: Kind;
+  /** 기본 제목(kind 이름) 대신 쓸 제목 */
+  title?: string;
+}
+
+const KIND_CLASS: Record<Kind, string> = {
+  주의: 'warn',
+  팁: 'tip',
+  검토: 'review',
+  확인필요: 'check',
+};
+const KIND_TITLE: Record<Kind, string> = {
+  주의: '주의',
+  팁: '팁',
+  검토: '검토',
+  확인필요: '확인 필요',
+};
+
+const { kind, title } = Astro.props;
+const className = KIND_CLASS[kind];
+if (className === undefined) throw new Error(`Callout: 알 수 없는 kind "${kind}"`);
+---
+
+<aside class:list={['callout', `callout-${className}`]} role="note">
+  <p class="callout-title">{title ?? KIND_TITLE[kind]}</p>
+  <slot />
+</aside>

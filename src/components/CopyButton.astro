@@ -1,0 +1,70 @@
+---
+// 복사 버튼. Clipboard API를 먼저 쓰고, 실패하면 숨긴 textarea를 선택해 execCommand('copy')로 복사한다.
+// 스크립트는 인라인 비모듈이다(file://, ADR-008). 버튼이 여러 개여도 전역 처리기는 한 번만 등록한다.
+interface Props {
+  /** 복사할 텍스트 */
+  text: string;
+  /** 버튼 문구 */
+  label?: string;
+}
+
+const { text, label = '복사' } = Astro.props;
+---
+
+<span class="copy">
+  <button type="button" class="copy-button" data-copy-text={text}>{label}</button>
+  <span class="copy-status" role="status" aria-live="polite"></span>
+</span>
+<script is:inline>
+  (function () {
+    if (window.harnessCopyReady) return;
+    window.harnessCopyReady = true;
+
+    function fallbackCopy(text) {
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.setAttribute('readonly', '');
+      area.style.position = 'fixed';
+      area.style.top = '-1000px';
+      document.body.appendChild(area);
+      area.select();
+      let ok = false;
+      try {
+        ok = document.execCommand('copy');
+      } catch {
+        ok = false;
+      }
+      document.body.removeChild(area);
+      return ok;
+    }
+
+    function show(button, message) {
+      const status = button.parentNode && button.parentNode.querySelector('.copy-status');
+      if (!status) return;
+      status.textContent = message;
+      clearTimeout(button.harnessCopyTimer);
+      button.harnessCopyTimer = setTimeout(function () {
+        status.textContent = '';
+      }, 3000);
+    }
+
+    document.addEventListener('click', function (event) {
+      const target = event.target;
+      const button = target && target.closest ? target.closest('[data-copy-text]') : null;
+      if (!button) return;
+      const text = button.getAttribute('data-copy-text') || '';
+      const done = function () {
+        show(button, '복사됨');
+      };
+      const fail = function () {
+        if (fallbackCopy(text)) done();
+        else show(button, '복사하지 못했습니다. 프롬프트를 직접 선택해 복사하세요.');
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fail);
+      } else {
+        fail();
+      }
+    });
+  })();
+</script>

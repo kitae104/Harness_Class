@@ -1,0 +1,44 @@
+---
+// 발표 모드: <html>에 presentation 클래스를 토글해 글자를 키우고 사이드바를 숨긴다.
+// 선택은 localStorage에 기억한다(막힌 환경에서는 이번 페이지에만 적용).
+---
+
+<button type="button" class="presentation-toggle" aria-pressed="false" data-presentation-toggle>발표 모드</button>
+<script is:inline>
+  (function () {
+    const KEY = 'harness-presentation';
+    const root = document.documentElement;
+
+    function apply(on) {
+      root.classList.toggle('presentation', on);
+      Array.prototype.forEach.call(document.querySelectorAll('[data-presentation-toggle]'), function (button) {
+        button.setAttribute('aria-pressed', on ? 'true' : 'false');
+        button.textContent = on ? '발표 모드 끄기' : '발표 모드';
+      });
+    }
+
+    if (!window.harnessPresentationReady) {
+      window.harnessPresentationReady = true;
+      document.addEventListener('click', function (event) {
+        const target = event.target;
+        const button = target && target.closest ? target.closest('[data-presentation-toggle]') : null;
+        if (!button) return;
+        const on = !root.classList.contains('presentation');
+        apply(on);
+        try {
+          window.localStorage.setItem(KEY, on ? '1' : '0');
+        } catch {
+          /* 저장이 막힌 환경 */
+        }
+      });
+    }
+
+    let saved = false;
+    try {
+      saved = window.localStorage.getItem(KEY) === '1';
+    } catch {
+      saved = false;
+    }
+    apply(saved || root.classList.contains('presentation'));
+  })();
+</script>
