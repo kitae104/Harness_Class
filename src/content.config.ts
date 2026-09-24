@@ -52,4 +52,11 @@ const modules = defineCollection({
   }),
 });
 
-export const collections = { lessons, prompts, modules };
+// 공개 가능한 강사 진행 안내(CD-02, ARCHITECTURE 8절). frontmatter가 없다.
+// ID는 파일 경로에서 온다: content/instructor/day1/01.md → "day1/01".
+const instructor = defineCollection({
+  loader: glob({ base: './content/instructor', pattern: 'day*/*.md' }),
+  schema: z.object({}),
+});
+
+export const collections = { lessons, prompts, modules, instructor };

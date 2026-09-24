@@ -74,3 +74,27 @@ test('체크리스트는 새로고침 뒤에도 유지되고 "진행 초기화"�
   await page.reload();
   await expect(box).not.toBeChecked();
 });
+
+test('D1-01 하단에 접힌 "강사 안내"가 있고, 준비 중인 D1-02에는 없다', async ({ page }) => {
+  await page.goto(D1_01);
+  const notes = page.locator('details.instructor-notes');
+  await expect(notes).toHaveCount(1);
+  await expect(notes.locator('summary')).toHaveText('강사 안내');
+  await expect(notes).not.toHaveAttribute('open', /.*/);
+  await expect(notes.getByRole('heading', { name: '시연 순서' })).toBeHidden();
+  // LessonNav 바로 앞에 놓인다.
+  expect(
+    await notes.evaluate((el) => el.nextElementSibling?.classList.contains('lesson-nav') ?? false),
+  ).toBe(true);
+
+  await page.goto('/course/day1/02/');
+  await expect(page.locator('details.instructor-notes')).toHaveCount(0);
+});
+
+test('강사 안내는 인쇄에서 빠지고 발표 모드에서도 접혀 있다', async ({ page }) => {
+  await page.goto(D1_01);
+  await page.getByRole('button', { name: /발표 모드/ }).click();
+  await expect(page.locator('details.instructor-notes')).not.toHaveAttribute('open', /.*/);
+  await page.emulateMedia({ media: 'print' });
+  await expect(page.locator('details.instructor-notes')).toBeHidden();
+});

@@ -209,7 +209,7 @@
     {
       "step": 11,
       "name": "instructor-notes",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "src/content.config.ts",
         "src/layouts/LessonLayout.astro",
@@ -218,7 +218,9 @@
         "src/styles/*",
         "tests/unit/*",
         "tests/e2e/*"
-      ]
+      ],
+      "started_at": "2026-09-24T12:30:53+0900",
+      "summary": "content.config.ts에 instructor 컬렉션(glob content/instructor day*/*.md, 빈 객체 스키마, ID day{d}/{nn})·components/InstructorNotes.astro(lessonParams로 같은 위치 안내를 getEntry, 없으면 미표시, rendered.html의 제목을 한 단계씩 낮춰 <details class=instructor-notes><summary>강사 안내</summary> 기본 접힘)·LessonLayout에서 준비 중이 아닐 때만 LessonNav 바로 앞에 표시, global.css 강사 안내 박스 스타일과 인쇄 시 details.instructor-notes 숨김(발표 모드는 접힘 유지, 스크립트 없음); vitest 1개(안내 ID 매핑)·e2e 2개(D1-01 접힘·LessonNav 앞·D1-02 없음, 인쇄 숨김·발표 모드 접힘); 판정: lint·build·vitest 108·pytest 296·build:offline·e2e 11 통과, validator 오류는 D1-01 V-LSN-005 3건뿐. 참고: 사용자의 npm run preview(4321)가 Astro 단일 preview 잠금을 잡고 있어 e2e는 dist/를 python http.server 4322로 띄우는 임시 설정(실행 후 삭제)으로 돌림"
     },
     {
       "step": 12,

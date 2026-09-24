@@ -27,6 +27,11 @@ describe('lessonHref / lessonParams', () => {
   it('builds getStaticPaths params that match the URL', () => {
     expect(lessonParams(lesson('t3-third'))).toEqual({ day: 'day2', num: '01' });
   });
+
+  it('gives the instructor-notes entry ID (content/instructor/day{d}/{nn}.md)', () => {
+    const { day, num } = lessonParams(lesson('t2-second'));
+    expect(`${day}/${num}`).toBe('day1/02');
+  });
 });
 
 describe('locationLabel', () => {
