@@ -83,12 +83,12 @@ npm run verify
 
 (사용자가 연결 작업을 마친 뒤 아래를 채운다. 비어 있으면 이 step은 blocked로 끝난다.)
 
-- 원작자 허락(OQ-01): 미해결 — OQ-01 open 유지
+- 원작자 허락(OQ-01): 사용자가 원작자의 사용 허락을 직접 확인함(2026-09-24). 별도 라이선스 문구 없음
 - 저장소 URL(OQ-11): https://github.com/kitae104/Harness_Class (Public)
-- 첫 CI 실행 결과 링크: verify workflow 성공 확인(실행 링크는 기록하지 않음)
-- Vercel Preview URL: 미확인 — 아직 확인하지 않음
-- Vercel 요금제 결정(OQ-09): 미결정 — OQ-09 open 유지
-- 라이선스 결정과 문구 출처(OQ-13): 
-- main 브랜치 Ruleset(확인됨): Pull Request 필수, verify status check 필수, branch up-to-date 필수, force push 금지
-- Vercel Production 배포(확인됨): https://harness-class.vercel.app
+- 첫 CI 실행 결과: verify workflow 성공 확인(실행 링크는 기록하지 않음)
+- Vercel Preview URL(확인됨): 브랜치 feat-repo-connect → https://harness-class-git-feat-repo-connect-aqua0405-2866s-projects.vercel.app/ , D1-01: /course/day1/01/ (배포 보호로 비로그인 시 Vercel 로그인 화면)
+- Vercel 요금제 결정(OQ-09): 개인적·비상업적 강의자료 제작 프로젝트이므로 현재 Vercel Hobby 유지(이 조건에서만의 결정)
+- 라이선스 결정과 문구 출처(OQ-13): 미결정 — OQ-13 open 유지, LICENSE 만들지 않음
+- main 브랜치 Ruleset(확인됨): Pull Request 필수, verify status check 통과 필수, branch up-to-date 필수, force push 금지
+- Vercel Production 배포(확인됨): https://harness-class.vercel.app/
 - D1-01 Production 페이지(확인됨): https://harness-class.vercel.app/course/day1/01/

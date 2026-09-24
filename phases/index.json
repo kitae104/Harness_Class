@@ -19,10 +19,11 @@
     },
     {
       "dir": "1b-repo-connect",
-      "status": "pending",
+      "status": "blocked",
       "depends_on": [
         "1-web-foundation"
-      ]
+      ],
+      "blocked_at": "2026-09-24T12:59:32+0900"
     }
   ]
 }
