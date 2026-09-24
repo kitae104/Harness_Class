@@ -226,13 +226,16 @@
     {
       "step": 12,
       "name": "d1-01-revise",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/day1/01.mdx",
         "content/instructor/day1/01.md",
         "public/images/d1-harness-intro/*",
         "content/course.yaml"
-      ]
+      ],
+      "started_at": "2026-09-24T12:35:45+0900",
+      "completed_at": "2026-09-24T12:42:00+0900",
+      "summary": "A1 체험 근거를 <Source> 제16조+제40조로(판정은 D1-4, 기한·금액 미기재); A2 잘 안 될 때 대안 문구 삭제→<Feature chatgpt-temporary-chat show=fallback>; A3 정리 섹션(짝에게 빈칸 틀로 한 문장 설명, 그림 없이 6요소 이름 적고 Checklist d1-01-elements 체크); A4 하네스 대장·비개인화 임시 채팅을 첫 등장에 glossary 뜻으로 풀이+<Feature show=detail>; A5 접이식 '답이 다른 예시 보기'(교육용 가상, 법령 단정 없음); A6 <ExternalLink sheet-harness-ledger tab=baseline> 표 양식+기록은 답 붙여 넣기·근거 예/아니오, 기록 예시 접이식; course.yaml d1-harness-intro만: checks {id,text} c1~c3, o1→[c1,c2]·o2→[c2,c3](o2 문장 '설명하고…적는다'), 산출물 d1-01-p2(6요소 한 줄 메모, used_by d2-project-design, o2 연결), activities 10/10/8/practice 10/check 2=40, 막힘 지점 sp-d1-01-c(기록할 곳, 3·9)·d(비개인화, 6·7) 추가, skip_if_short에 '답이 다른 예시 보기'; 강사 안내에 짝 설명·표 양식 기록·생략 항목 반영; 루브릭 자가점검: 목표 달성(목표마다 증거 활동·결과 확인), 초보자 지원(막힘 4곳 지원), 하네스 관점(도구 절차마다 이유), 정확성(등록부 컴포넌트만); 판정: verify(scope·전체) 통과(vitest 108·pytest 295), build:offline·e2e 11 통과(사용자 preview 4321 잠금으로 임시 http.server 설정 사용 후 삭제), --scope phase --require-reviewed 오류는 V-REV-001(draft)뿐. 참고: scripts/test_validate_course.py의 KNOWN_REAL_ERRORS는 수정 허용 경로 밖이라 비우지 않음(현재 해당 오류 없음)"
     },
     {
       "step": 13,
