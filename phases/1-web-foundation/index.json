@@ -156,8 +156,10 @@
     {
       "step": 8,
       "name": "human-review",
-      "status": "pending",
-      "allowed_paths": []
+      "status": "blocked",
+      "allowed_paths": [],
+      "started_at": "2026-09-24T10:57:05+0900",
+      "blocked_reason": "D1-01 사람 검토 필요(V-REV-001: d1-harness-intro status가 draft): 1) npm run build && npm run preview → /course/day1/01/ 확인(선택: npm run build:offline → dist-offline/index.html) 2) QUALITY_CHECKLIST 3절 루브릭 4개 항목이 모두 2점이어야 승인, 수정이 필요하면 content/day1/01.mdx를 고친 뒤 다시 검토 3) 승인: npm run review:approve d1-harness-intro 4) 이 step의 status를 pending으로 되돌리고 blocked_reason을 지운 뒤 python scripts/execute.py 1-web-foundation 재실행"
     }
   ],
   "created_at": "2026-09-24T09:16:28+0900"
