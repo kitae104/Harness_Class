@@ -22,3 +22,5 @@ terms:
   - {id: csv, term: 표 파일(CSV), en: CSV, definition: "쉼표로 칸을 구분한 표 파일. 구글 시트에서 내려받을 수 있다", student_label: 표 파일(CSV)}
   - {id: core, term: 필수, en: CORE, definition: "모든 수강생이 반드시 학습하는 내용", student_label: 필수}
   - {id: optional, term: 선택, en: OPTIONAL, definition: "시간과 수준에 따라 선택하는 심화 내용", student_label: 선택}
+  - {id: harness-ledger, term: 하네스 대장, en: Harness ledger, definition: "지침 버전·자료 목록·평가·로그를 기록하는 시트", student_label: 하네스 대장}
+  - {id: unpersonalized-chat, term: 비개인화 임시 채팅, en: Unpersonalized temporary chat, definition: "메모리와 맞춤 지침을 쓰지 않는 임시 채팅", student_label: 비개인화 임시 채팅}

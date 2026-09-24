@@ -156,7 +156,7 @@
     {
       "step": 8,
       "name": "review-rules-docs",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "docs/LEARNING_OBJECTIVES.md",
         "docs/CONTENT_GUIDE.md",
@@ -167,7 +167,9 @@
         "docs/QUALITY_CHECKLIST.md",
         "content/glossary.yaml",
         "content/external-links.yaml"
-      ]
+      ],
+      "started_at": "2026-09-24T12:16:13+0900",
+      "summary": "docs 규칙 반영: B1 LEARNING_OBJECTIVES 3절(checks {id,text}·objectives[].checks, 목표마다 결과 확인 1개 이상)·ARCHITECTURE 4절 스키마(문자열 checks는 planned만)·CONTENT_GUIDE 8절(목표별 증거 활동); B2 ARCHITECTURE 2·4·6절(external-links fallback_kind template/download/none·fallback_templates 탭→{title,columns}, <ExternalLink id tab> 표 양식)·CONTENT_GUIDE 5절, external-links sheet-harness-ledger에 fallback 문구 교체·fallback_kind: template·fallback_templates.baseline(기준 질문 기록: 번호/질문/답(붙여 넣기)/근거를 밝혔나(예/아니오)/메모); B3 <Feature show=detail|fallback>(ARCHITECTURE 6절·CONTENT_GUIDE 5절 재서술 금지·UI_GUIDE 표시 형식·PRODUCT_FEATURES 2절); B5 CONTENT_GUIDE 1절·UI_GUIDE 원칙 2(학습목표 자동 표시 뒤 본문 첫 섹션은 이번 시간에 할 일·필수 경로); B6 PRACTICE_DESIGN 9절(AI 질문 1회 2분, 질문 수×2분+정리, 기록은 판단 하나+붙여 넣기); B7 glossary harness-ledger·unpersonalized-chat 추가·CONTENT_GUIDE 4절 첫 등장 풀이; QUALITY_CHECKLIST에 V-LSN-005·V-LNK-001 예정(P1)"
     },
     {
       "step": 9,

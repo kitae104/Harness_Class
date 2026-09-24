@@ -38,12 +38,14 @@
 | V-LSN-002 | AUTO-오류 | 교시 유형별 필수 섹션 존재(CONTENT_GUIDE 1절 공통 섹션, 실습형은 예상 결과·잘못된 결과 예시. 접이식 `<summary>` 제목도 인정) | 구현 |
 | V-LSN-003 | AUTO-경고 | 학습목표 동사 휴리스틱("이해한다·안다·알아본다"로 끝남), 본문 문장 120자 초과 | 구현 |
 | V-LSN-004 | AUTO-경고 | 교시 본문에 제품 정보를 직접 쓴 흔적(메뉴 경로 `설정 >`, "파일 N개", "N MB·GB"). 코드 블록·컴포넌트 태그 제외, `<Feature>`로 참조 | 구현 |
+| V-LSN-005 | AUTO-오류 | draft·reviewed 교시는 학습목표마다 결과 확인이 연결되어 있다(`objectives[].checks`가 존재하는 `checks[].id`를 1개 이상 가리킴). planned 교시는 경고 | 예정(P1) |
 | V-PRM-001 | AUTO-오류 | 카드 파일이 course.yaml 카드와 1:1(draft·reviewed 카드는 파일 존재), 교차 필드(id·stuck_point·where·default_level) 일치, 대괄호↔replace 일치 | 구현 |
 | V-PRM-002 | AUTO-오류 | 직접 쓰기(L3) 카드에 바꿔 쓰기(L2) 대안 존재 | 구현 |
 | V-PRM-003 | AUTO-경고 | 카드 tested_at 없음 또는 경과 | 구현 |
 | V-REV-002 | AUTO-오류 | reviewed 항목의 콘텐츠 파일 해시(LF 정규화)가 course.yaml의 reviewed_hash와 일치 | 구현 |
 | V-WEB-001 | AUTO-오류 | 빌드 산출물(`dist/`) 내부 링크·이미지 경로. `dist/`가 없으면 정보 메시지, `--docs-only`에서 건너뜀 | 구현 |
 | V-WEB-002 | AUTO-오류 | `dist/`·`dist-offline/`에 외부 script·stylesheet·웹폰트와 모듈 스크립트 없음, 오프라인 번들 내부 링크는 상대경로. `--docs-only`에서 건너뜀 | 구현 |
+| V-LNK-001 | AUTO-경고 | 교시가 준비 전(active가 아닌) 외부 링크를 참조하는데 그 링크의 대안이 `fallback_kind: template`도 아니고 실제 존재하는 다운로드 파일(`download`)도 아니다. `--require-reviewed`에서 오류 | 예정(P1) |
 | V-KIT-001 | AUTO-오류 | kit.yaml 필수 구성요소, 근거가 sources.yaml ID를 가리킴 | 예정(P2) |
 | V-PRP-001 | AUTO-오류 | 제안서 개정본의 시간·교시·산출물이 course.yaml과 일치 | 예정(P9) |
 

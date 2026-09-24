@@ -17,7 +17,7 @@ ChatGPT·Codex·Google·Vercel의 요금제, 기능, 한도, 메뉴 위치, 모�
 | `verified_at`, `verified_by` | 확인일, 확인 방법(web = 공식 문서, hands-on = 실제 계정) |
 | `source` | 공식 출처 URL |
 | `ui_path` | 메뉴 위치(개념 설명과 분리) |
-| `fallback` | 기능이 없거나 바뀌었을 때 수업에서 할 일 — **필수**. `<Feature>`는 status가 unavailable이면 이 문구를 표시한다 |
+| `fallback` | 기능이 없거나 바뀌었을 때 수업에서 할 일 — **필수**. `<Feature>`는 status가 unavailable이면 이 문구를 표시한다. 본문은 이 문구를 다시 쓰지 않고 `<Feature show="fallback">`으로만 표시한다 |
 | `used_in` | 이 기능을 쓰는 교시·모듈 ID |
 | `tbd` | unverified일 때 OQ 태그 |
 

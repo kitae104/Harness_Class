@@ -33,9 +33,9 @@ content/course.yaml ──┬─> 사이트 내비게이션·시간표·이전/�
                       ├─> 교시 페이지의 목표·산출물·결과 확인 블록
                       └─> validate_course.py (구조·추적성·커버리지)
 content/prompts/*.md ─> 교시 본문 <PromptCard id> ─> /prompts 자동 목록
-product-features.yaml ─> <Feature id> (확인일 자동 표시, unavailable이면 fallback 표시)
+product-features.yaml ─> <Feature id show> (확인일 자동 표시, unavailable이면 fallback 표시, show로 detail·fallback 본문 표시)
 sources.yaml ─────────> <Source id article> (시행일·조문 표시)
-external-links.yaml ──> <ExternalLink id> (링크 없으면 fallback 다운로드)
+external-links.yaml ──> <ExternalLink id tab> (준비 전이면 fallback_kind에 따라 표 양식 또는 다운로드)
 content/kits/ ────────> 빌드 시 zip·xlsx 다운로드 생성 (public/downloads에 직접 커밋 금지)
 ```
 원칙: 한 정보는 한 곳에만 있다. 목록 페이지(/prompts, /practice)는 수작업으로 만들지 않고 원천에서 생성한다.
@@ -57,8 +57,18 @@ content/kits/ ────────> 빌드 시 zip·xlsx 다운로드 생성
 | `elements` · `subjects` · `supports` · `activity_kinds` | 허용값 사전 (6요소, 교과목 7개, 지원 방식 9종, 활동 종류) |
 | `completion` | 필수·선택 산출물, 참여 조건, 사전·사후 자기진단 |
 | `cards[]` | id, lesson(교시 ID 또는 common), title, category(A~I), level(1~3), where, track, **status, reviewed_hash** |
-| `lessons[]` | id(의미형 고정), day, number, title, type(concept/practice/project), subject, track, **status, reviewed_hash**, elements, activities[kind,name,minutes], objectives[id,text,outputs], outputs[id,text,used_by], checks, cards, stuck_points[id,text,supports,card], skip_if_short |
+| `lessons[]` | id(의미형 고정), day, number, title, type(concept/practice/project), subject, track, **status, reviewed_hash**, elements, activities[kind,name,minutes], objectives[id,text,outputs,checks], outputs[id,text,used_by], checks[id,text], cards, stuck_points[id,text,supports,card], skip_if_short |
 | `modules[]` | 교시가 아닌 추가 콘텐츠(시간 합계 제외): id, title, track, status, path |
+
+- `objectives[].checks`는 그 목표를 확인하는 `lessons[].checks[].id` 목록이다. 학습목표마다 1개 이상(V-LSN-005, [LEARNING_OBJECTIVES.md](LEARNING_OBJECTIVES.md) 3절).
+- `checks`를 문자열 목록으로 쓰는 기존 형식은 과거 형식이며 planned 교시에서만 허용된다. draft로 올리는 교시는 `{id, text}` 형식으로 바꾼다.
+
+external-links.yaml의 대안 필드:
+| 키 | 내용 |
+|---|---|
+| `fallback` | 링크가 준비되기 전 수강생이 할 일(한 문장) |
+| `fallback_kind` | `template`(등록부의 표 양식을 표시) / `download`(실제 존재하는 다운로드 파일) / `none`(대안 없음 — 준비 전에는 교시에서 참조할 수 없음) |
+| `fallback_templates` | `fallback_kind: template`일 때 탭 ID → `title`(탭 이름), `columns`(열 이름 목록) |
 
 ## 5. 사이트 구조와 URL 규칙 (Phase 1에서 구현)
 | URL | 원천 |
@@ -79,7 +89,8 @@ content/kits/ ────────> 빌드 시 zip·xlsx 다운로드 생성
 |---|---|---|
 | `PromptCard` | `id` | 카드 파일을 읽어 5칸 뼈대·문장별 해설·붙여넣을 곳 배지·복사 버튼·3단계 펼침을 표시. 기본 단계는 카드의 `default_level` |
 | `CopyButton` | 대상 텍스트 | Clipboard API 우선, 실패 시 선택 후 복사. "대괄호를 모두 바꿨나요?" 확인 |
-| `Feature` | `id` | 기능명과 확인일 표시. status가 unavailable이면 fallback 문구 표시 |
+| `Feature` | `id`, `show`(선택: `detail` / `fallback`) | 기능명과 확인일 표시. status가 unavailable이면 fallback 문구 표시. `show="detail"`은 등록부 `detail`을, `show="fallback"`은 등록부 `fallback`을 본문 안에 표시한다 |
+| `ExternalLink` | `id`, `tab`(선택) | active이고 url이 있으면 링크. 준비 전이면 `fallback` 문구와 함께, `fallback_kind: template`이면 `tab`에 해당하는 `fallback_templates` 표 양식을 복사 가능한 형태로 표시 |
 | `Source` | `id`, `article` | 법령명·조문·시행일 표시 |
 | `Callout` | `kind`(주의·팁·검토) | 주의사항 강조 |
 | `Checklist` | 항목 | 진행 체크(localStorage), 진행 초기화 버튼 |

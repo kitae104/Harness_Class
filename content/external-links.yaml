@@ -8,7 +8,12 @@ links:
     owner: "[TBD: OQ-06]"
     url: null
     verified_at: null
-    fallback: 빌드 시 생성되는 xlsx 다운로드
+    fallback: 아래 표 양식을 복사해 메모장이나 내 구글 시트에 붙여 넣어 기록합니다(대장 템플릿 준비 전 임시)
+    fallback_kind: template
+    fallback_templates:
+      baseline:
+        title: 기준 질문 기록
+        columns: [번호, 질문, 답(붙여 넣기), 근거를 밝혔나(예/아니오), 메모]
     status: planned
   - id: form-shared-civil-intake
     title: 강사 공용 민원 접수 폼(역할카드 응답용)
