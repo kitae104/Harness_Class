@@ -3,6 +3,7 @@
 import BaseLayout from './BaseLayout.astro';
 import LocationBar from '../components/LocationBar.astro';
 import LessonNav from '../components/LessonNav.astro';
+import { checkTexts } from '../lib/course';
 import type { Lesson } from '../lib/types';
 
 interface Props {
@@ -34,7 +35,7 @@ const { lesson, placeholder = false } = Astro.props;
       <section class="lesson-summary" aria-labelledby="checks">
         <h2 id="checks">결과 확인</h2>
         <ul>
-          {lesson.checks.map((check) => (
+          {checkTexts(lesson).map((check) => (
             <li>{check}</li>
           ))}
         </ul>

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   cardsForLesson,
+  checkTexts,
   commonCards,
   lessonById,
   lessonByPosition,
@@ -105,5 +106,15 @@ describe('real content/course.yaml', () => {
       ...[1, 2, 3, 4, 5, 6, 7].map((n) => [1, n]),
       ...[1, 2, 3, 4, 5, 6, 7].map((n) => [2, n]),
     ]);
+  });
+});
+
+describe('checkTexts', () => {
+  it('reads the {id, text} check format', () => {
+    expect(checkTexts(lessonById(course, 't1-first')!)).toEqual(['새 형식 확인']);
+  });
+
+  it('still reads the legacy string format (planned lessons)', () => {
+    expect(checkTexts(lessonById(course, 't3-third')!)).toEqual(['확인']);
   });
 });

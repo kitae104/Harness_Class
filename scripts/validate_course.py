@@ -54,6 +54,7 @@ FEATURE_VERIFIED_BY = ("web", "hands-on")
 SOURCE_TYPES = ("law", "official-doc", "proposal", "user-decision", "fictional", "guideline")
 LINK_KINDS = ("sheet-template", "form-template", "shared-form", "doc")
 LINK_STATUS = ("planned", "active", "retired")
+LINK_FALLBACK_KINDS = ("template", "download", "none")
 PRACTICE_KINDS = ("practice", "follow")
 OPTIONAL_WORDS = re.compile(r"codex", re.I)
 
@@ -110,6 +111,8 @@ RULES = {
     "V-LSN-002": "교시 MDX에 공통 필수 섹션과 유형별 필수 섹션(실습형: 예상 결과·잘못된 결과 예시) 존재",
     "V-LSN-003": "학습목표 동사(이해한다·안다·알아본다)와 본문 문장 길이 (경고)",
     "V-LSN-004": "교시 본문에 제품 정보(메뉴 경로·파일 개수·용량)를 직접 쓴 흔적 (경고)",
+    "V-LSN-005": "draft·reviewed 교시는 학습목표마다 결과 확인({id, text})이 연결됨, planned는 경고",
+    "V-LNK-001": "교시가 참조한 준비 전 외부 링크에 바로 쓸 수 있는 대안(template·download)이 있음 (경고, --require-reviewed에서 오류)",
     "V-PRM-001": "카드 파일이 course.yaml 카드와 1:1, 교차 필드 일치, 대괄호↔replace 일치, draft·reviewed 카드는 파일 존재",
     "V-PRM-002": "직접 쓰기(level 3) 카드에 바꿔 쓰기(l2_template) 대안 존재",
     "V-PRM-003": "카드 tested_at 없음 또는 경과 (경고)",
@@ -197,6 +200,10 @@ def _require(obj, keys, where, out):
     return ok
 
 
+def _nonempty_str(value):
+    return isinstance(value, str) and value.strip() != ""
+
+
 def _enum(value, allowed, field, where, out):
     if value not in allowed:
         out.append(Finding("V-CRS-001", "error", f"{field} 값 '{value}'은 허용값 {list(allowed)}이 아니다", where))
@@ -244,6 +251,16 @@ def check_course(root, out, scope_lessons=None):
             for s in sp.get("supports") or []:
                 if s not in supports:
                     out.append(Finding("V-CRS-001", "error", f"막힘 지점 {sp.get('id')}의 지원 방식 {s}은 1~9가 아니다", w))
+        # 결과 확인: 문자열(과거 형식, planned만 — V-LSN-005) 또는 {id, text}
+        for ch in les["checks"] if isinstance(les["checks"], list) else [les["checks"]]:
+            if not (_nonempty_str(ch) or (isinstance(ch, dict) and _nonempty_str(ch.get("id"))
+                                          and _nonempty_str(ch.get("text")))):
+                out.append(Finding("V-CRS-001", "error", f"결과 확인 {ch!r}은 문자열 또는 {{id, text}}여야 한다", w))
+        for o in les["objectives"]:
+            refs = o.get("checks") if isinstance(o, dict) else None
+            if refs is not None and not (isinstance(refs, list) and all(_nonempty_str(r) for r in refs)):
+                out.append(Finding("V-CRS-001", "error",
+                                   f"학습목표 {o.get('id')}의 checks는 결과 확인 ID 목록이어야 한다", w))
     for c in cards:
         w = f"card {c.get('id')}"
         if _require(c, ("id", "lesson", "title", "category", "level", "where", "track"), w, out):
@@ -277,6 +294,9 @@ def check_course(root, out, scope_lessons=None):
             _id("output", o.get("id"), les.get("id"))
         for sp in les.get("stuck_points") or []:
             _id("stuck_point", sp.get("id"), les.get("id"))
+        for ch in les.get("checks") or []:
+            if isinstance(ch, dict) and ch.get("id"):
+                _id("check", ch.get("id"), les.get("id"))
     for c in cards:
         _id("card", c.get("id"), "cards")
     for m in course.get("modules") or []:
@@ -451,6 +471,29 @@ def check_registries(root, out, today, freshness, feature_ids):
                 out.append(Finding("V-REG-004", "error", "active 링크는 url과 verified_at이 필요하다", w))
             elif ln.get("status") == "active" and _stale(ln.get("verified_at"), today, freshness):
                 out.append(Finding("V-REG-003", "warn", f"링크 확인일 {ln.get('verified_at')}이 오래되었다", w))
+            _check_link_fallback(ln, w, out)
+
+
+def _check_link_fallback(ln, w, out):
+    """V-REG-004: 준비 전 대안의 형식. fallback_templates는 탭 ID → {title, columns(문자열 목록)}."""
+    kind = ln.get("fallback_kind")
+    if kind is not None and kind not in LINK_FALLBACK_KINDS:
+        out.append(Finding("V-REG-004", "error", f"fallback_kind '{kind}'은 허용값 {list(LINK_FALLBACK_KINDS)}이 아니다", w))
+    templates = ln.get("fallback_templates")
+    if templates is not None:
+        if not isinstance(templates, dict) or not templates:
+            out.append(Finding("V-REG-004", "error", "fallback_templates는 탭 ID → {title, columns} 형식이어야 한다", w))
+        else:
+            for tab, tpl in templates.items():
+                cols = tpl.get("columns") if isinstance(tpl, dict) else None
+                if not (isinstance(tpl, dict) and _nonempty_str(tpl.get("title")) and isinstance(cols, list)
+                        and cols and all(_nonempty_str(c) for c in cols)):
+                    out.append(Finding("V-REG-004", "error",
+                                       f"fallback_templates.{tab}는 title(문자열)과 columns(문자열 목록)가 필요하다", w))
+    elif kind == "template":
+        out.append(Finding("V-REG-004", "error", "fallback_kind: template에는 fallback_templates가 필요하다", w))
+    if kind == "download" and not _nonempty_str(ln.get("fallback_file")):
+        out.append(Finding("V-REG-004", "error", "fallback_kind: download에는 fallback_file(저장소 기준 경로)이 필요하다", w))
 
 
 def feature_ids(root):
@@ -772,6 +815,78 @@ def check_lesson_files(root, course, out, scope_lessons):
                                f"교시 {lid}는 status가 {les.get('status')}인데 교시 파일이 없다", where))
 
 
+def check_objective_checks(course, out, scope_lessons):
+    """V-LSN-005: 학습목표마다 같은 교시의 결과 확인({id, text})이 1개 이상 연결되어 있다.
+    draft·reviewed는 항목마다 오류, planned는 교시당 경고 1개(교시를 작성하는 step에서 새 형식으로 바꾼다)."""
+    if course is None:
+        return
+    for les in course.get("lessons") or []:
+        if not isinstance(les, dict) or (scope_lessons is not None and les.get("id") not in scope_lessons):
+            continue
+        checks = les.get("checks") if isinstance(les.get("checks"), list) else []
+        check_ids = {ch.get("id") for ch in checks if isinstance(ch, dict) and ch.get("id")}
+        problems = []
+        legacy = [ch for ch in checks if not isinstance(ch, dict)]
+        if legacy:
+            problems.append(f"결과 확인 {len(legacy)}개가 {{id, text}} 형식이 아니다(과거 문자열 형식)")
+        for o in les.get("objectives") or []:
+            refs = o.get("checks") if isinstance(o.get("checks"), list) else []
+            if not refs:
+                problems.append(f"학습목표 {o.get('id')}에 연결된 결과 확인(objectives[].checks)이 없다")
+            for r in refs:
+                if r not in check_ids:
+                    problems.append(f"학습목표 {o.get('id')}가 이 교시에 없는 결과 확인 {r}을 가리킨다")
+        if not problems:
+            continue
+        where = f"lesson {les.get('id')}"
+        if les.get("status") in ("draft", "reviewed"):
+            out.extend(Finding("V-LSN-005", "error", msg, where) for msg in problems)
+        else:
+            out.append(Finding("V-LSN-005", "warn",
+                               "; ".join(problems) + " — draft로 올리기 전에 고친다(LEARNING_OBJECTIVES 3절)", where))
+
+
+EXTERNAL_LINK_TAG_RE = re.compile(r"<ExternalLink\b[^<>]*>")
+
+
+def check_lesson_links(root, course, out, scope_lessons, strict=False):
+    """V-LNK-001: 교시 본문이 참조한 준비 전(active가 아닌) 외부 링크에 바로 쓸 수 있는 대안이 있다."""
+    if course is None:
+        return
+    path = root / "content" / "external-links.yaml"
+    links = {ln.get("id"): ln for ln in (_load_yaml(path).get("links") or [])} if path.exists() else {}
+    by_pos = {(les.get("day"), les.get("number")): les
+              for les in course.get("lessons") or [] if isinstance(les, dict)}
+    level = "error" if strict else "warn"
+    for day, lesson_path in _lesson_files(root):
+        les = by_pos.get((day, int(lesson_path.stem))) if lesson_path.stem.isdigit() else None
+        if les is None or (scope_lessons is not None and les.get("id") not in scope_lessons):
+            continue  # 위치에 맞는 교시가 없는 파일은 V-LSN-001이 보고한다
+        where = _rel(root, lesson_path)
+        body = MDX_COMMENT_RE.sub("", FENCE_RE.sub("", lesson_path.read_text(encoding="utf-8")))
+        for tag in EXTERNAL_LINK_TAG_RE.findall(INLINE_CODE_RE.sub("", body)):
+            lid, tab = _attr(tag, "id"), _attr(tag, "tab")
+            ln = links.get(lid)
+            if ln is None or ln.get("status") == "active":
+                continue  # 없는 ID는 빌드(ExternalLink 컴포넌트)가 실패시킨다
+            kind = ln.get("fallback_kind")
+            templates = ln.get("fallback_templates") if isinstance(ln.get("fallback_templates"), dict) else {}
+            file = ln.get("fallback_file")
+            if kind == "template" and templates and (tab is None or tab in templates):
+                continue
+            if kind == "download" and _nonempty_str(file) and (root / file).is_file():
+                continue
+            if kind == "template" and tab is not None and templates:
+                why = f"fallback_templates에 탭 '{tab}'이 없다(있는 탭: {', '.join(templates)})"
+            elif kind == "download":
+                why = f"다운로드 파일 {file}이 없다"
+            else:
+                why = f"바로 쓸 수 있는 대안이 없다(fallback_kind: {kind})"
+            out.append(Finding("V-LNK-001", level,
+                               f"준비 전({ln.get('status')}) 외부 링크 {lid}: {why} — template 또는 실제 download가 필요하다",
+                               where))
+
+
 # ---------------------------------------------------------------------------
 # 규칙: 카드 파일 (V-PRM-*)
 # 필드 타입·형식은 zod(src/content.config.ts)가 본다(ADR-004). 여기서는 course.yaml과의 교차 규칙만 본다.
@@ -999,6 +1114,8 @@ def validate(root: Path, *, docs_only=False, scope=None, require_reviewed=False,
         check_git_tracking(root, out)
     check_review_hashes(root, course, out, scope_lessons, scope_cards)
     check_lesson_files(root, course, out, scope_lessons)
+    check_objective_checks(course, out, scope_lessons)
+    check_lesson_links(root, course, out, scope_lessons, strict=require_reviewed)
     check_prompt_files(root, course, out, today, freshness, scope_lessons, scope_cards)
     if not docs_only:  # 빌드 결과 검사는 docs_only(Phase 1 이전 AC·Stop 훅)에서 건너뛴다
         check_web(root, out)

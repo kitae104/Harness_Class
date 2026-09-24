@@ -1,5 +1,5 @@
 // course.yaml 조회 함수. 레이아웃·컴포넌트는 course.yaml을 직접 읽지 않고 이 모듈을 쓴다.
-import type { Card, Course, Lesson } from './types';
+import type { Card, Check, Course, Lesson } from './types';
 import { contentPath, readYaml } from './yaml';
 
 export function loadCourse(path: string | URL = contentPath('course.yaml')): Course {
@@ -41,4 +41,9 @@ export function cardsForLesson(course: Course, id: string): Card[] {
 
 export function commonCards(course: Course): Card[] {
   return cardsForLesson(course, 'common');
+}
+
+/** 결과 확인 문장. `{id, text}`와 과거 문자열 형식을 모두 읽는다. */
+export function checkTexts(lesson: Pick<Lesson, 'checks'>): string[] {
+  return lesson.checks.map((check: Check) => (typeof check === 'string' ? check : check.text));
 }

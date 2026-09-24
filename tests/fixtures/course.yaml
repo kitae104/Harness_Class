@@ -66,9 +66,9 @@ lessons:
     elements: []
     overview: true
     activities: [{kind: explain, name: 설명, minutes: 10}]
-    objectives: [{id: t1-o1, text: 설명한다, outputs: [t1-p1]}]
+    objectives: [{id: t1-o1, text: 설명한다, outputs: [t1-p1], checks: [t1-c1]}]
     outputs: [{id: t1-p1, text: 산출물, used_by: [t2-second]}]
-    checks: [확인]
+    checks: [{id: t1-c1, text: 새 형식 확인}]
     cards: []
     stuck_points: []
     skip_if_short: []

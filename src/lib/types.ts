@@ -18,7 +18,16 @@ export interface Objective {
   id: string;
   text: string;
   outputs: string[];
+  /** 이 목표를 확인하는 lessons[].checks[].id 목록(V-LSN-005) */
+  checks?: string[];
 }
+
+/** 결과 확인. 문자열은 planned 교시에서만 허용되는 과거 형식이다. */
+export interface CheckItem {
+  id: string;
+  text: string;
+}
+export type Check = string | CheckItem;
 
 export interface Output {
   id: string;
@@ -61,7 +70,7 @@ export interface Lesson {
   activities: Activity[];
   objectives: Objective[];
   outputs: Output[];
-  checks: string[];
+  checks: Check[];
   cards: string[];
   stuck_points: StuckPoint[];
   skip_if_short: string[];
@@ -151,6 +160,12 @@ export interface ExternalLink {
   url: string | null;
   verified_at: string | null;
   fallback: string;
+  /** 준비 전 대안: 표 양식 / 실제 다운로드 파일 / 없음(V-LNK-001) */
+  fallback_kind?: 'template' | 'download' | 'none';
+  /** fallback_kind: template일 때 탭 ID → 표 양식 */
+  fallback_templates?: Record<string, { title: string; columns: string[] }>;
+  /** fallback_kind: download일 때 파일 경로 */
+  fallback_file?: string;
   status: string;
 }
 

@@ -175,7 +175,7 @@
     {
       "step": 9,
       "name": "objective-check-rules",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "scripts/validate_course.py",
         "scripts/test_validate_course.py",
@@ -184,7 +184,10 @@
         "src/layouts/LessonLayout.astro",
         "tests/unit/*",
         "tests/fixtures/*"
-      ]
+      ],
+      "started_at": "2026-09-24T12:19:34+0900",
+      "summary": "V-LSN-005(draft·reviewed 교시: checks 전부 {id,text}·목표마다 objectives[].checks 1개 이상·같은 교시 check id만, 어기면 항목별 오류 / planned는 교시당 경고 1개, --scope 적용)·V-LNK-001(교시 MDX의 <ExternalLink id tab>가 active 아닌 링크를 가리키면 fallback_kind template+해당 tab(없으면 템플릿 1개 이상) 또는 download+fallback_file 실파일 필요, 기본 경고·--require-reviewed/--production 오류, 코드 블록 제외) 구현(규칙 38개); V-CRS-001이 checks 두 형식(문자열|{id,text})과 objectives[].checks(ID 목록) 검사, V-CRS-007에 결과 확인 ID 포함, V-REG-004에 fallback_kind(template|download|none)·fallback_templates(탭→{title,columns 문자열 목록}, template이면 필수)·download면 fallback_file(저장소 기준 경로, docs 미기재 신규 필드) 검사; types.ts Check=string|{id,text}·Objective.checks·ExternalLink fallback_kind/fallback_templates/fallback_file, course.ts checkTexts로 LessonLayout이 두 형식 표시(vitest 2개, fixture t1-first 새 형식); pytest 25개 추가, 실제 저장소 테스트는 KNOWN_REAL_ERRORS(D1-01 V-LSN-005)만 허용 — step 12에서 비운다; QUALITY_CHECKLIST 두 규칙 구현 표시; 판정: lint·build·vitest 94·pytest 295(+1 skip) 통과, validate_course.py 오류는 D1-01(d1-harness-intro)의 V-LSN-005 3건뿐(문자열 checks·o1·o2 연결 없음)이라 npm run verify 전체는 의도대로 실패 — step 12가 D1-01을 새 형식으로 바꿔 해소",
+      "completed_at": "2026-09-24T12:25:38+0900"
     },
     {
       "step": 10,
