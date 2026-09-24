@@ -24,6 +24,67 @@ from typing import Optional
 ROOT = Path(__file__).resolve().parent.parent
 
 
+# --- UTF-8 입출력 ---
+#
+# Windows의 기본 로캘 인코딩(예: cp949)은 UTF-8이 아니다. subprocess를 text=True로만 실행하면
+# 자식 프로세스의 UTF-8 출력(한글, ✓ 같은 기호)을 로캘 인코딩으로 디코딩하다 실패하고,
+# Windows에서는 그 실패가 읽기 스레드 안에서 일어나 returncode 0 + stdout None으로 돌아온다.
+# 그래서 모든 외부 프로세스는 run_process()로 실행한다. 바이트로 받은 뒤 UTF-8로 직접 디코딩한다.
+
+class SubprocessDecodeError(RuntimeError):
+    """외부 프로세스의 stdout이 UTF-8이 아니어서 해석할 수 없을 때."""
+
+
+def _decode(data, errors: str) -> str:
+    if data is None:
+        return ""
+    if isinstance(data, str):  # 테스트 대역(mock)이 문자열을 돌려주는 경우
+        return data
+    return data.decode("utf-8", errors=errors)
+
+
+def run_process(cmd, *, cwd=None, input_text: Optional[str] = None, env=None, timeout=None,
+                stdout_errors: str = "strict") -> subprocess.CompletedProcess:
+    """외부 프로세스를 실행하고 stdin·stdout·stderr를 UTF-8로 처리한다.
+
+    - stdin: input_text를 UTF-8로 인코딩해 보낸다.
+    - stdout: 기본은 엄격(strict) 디코딩. 해석할 수 없으면 원인을 담은 SubprocessDecodeError.
+      JSON·경로처럼 제어 흐름에 쓰는 출력은 반드시 strict로 둔다.
+    - stderr: 진단용이므로 backslashreplace로 디코딩한다. 잘못된 바이트는 버리지 않고 \\xNN으로 남긴다.
+    - stdout·stderr는 None이 아니라 항상 문자열이다.
+    """
+    r = subprocess.run(
+        cmd, cwd=cwd, capture_output=True, env=env, timeout=timeout,
+        input=None if input_text is None else input_text.encode("utf-8"),
+    )
+    try:
+        out = _decode(r.stdout, stdout_errors)
+    except UnicodeDecodeError as e:
+        snippet = r.stdout[max(0, e.start - 8): e.start + 8]
+        shown = " ".join(str(c) for c in list(cmd)[:4])
+        raise SubprocessDecodeError(
+            f"'{shown}' 의 출력을 UTF-8로 해석하지 못했습니다 "
+            f"(위치 {e.start}, 주변 바이트 {snippet!r}). 출력 인코딩 설정을 확인하세요."
+        ) from e
+    err = _decode(r.stderr, "backslashreplace")
+    return subprocess.CompletedProcess(r.args, r.returncode, out, err)
+
+
+def configure_console(*streams):
+    """콘솔·파이프 출력을 UTF-8로 맞춘다(✓ ⏸ ↻ ◐ 같은 기호와 한글이 cp949에서 깨지지 않게).
+
+    인코딩할 수 없는 문자는 버리지 않고 backslashreplace로 남긴다.
+    """
+    for stream in streams or (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is None:
+            continue
+        try:
+            reconfigure(encoding="utf-8", errors="backslashreplace")
+        except (ValueError, OSError):
+            pass
+
+
 @contextlib.contextmanager
 def progress_indicator(label: str):
     """터미널 진행 표시기. with 문으로 사용하며 .elapsed 로 경과 시간을 읽는다."""
@@ -118,7 +179,7 @@ class StepExecutor:
 
     def _run_git(self, *args) -> subprocess.CompletedProcess:
         cmd = ["git"] + list(args)
-        return subprocess.run(cmd, cwd=self._root, capture_output=True, text=True)
+        return run_process(cmd, cwd=self._root)
 
     def _checkout_branch(self):
         branch = f"feat-{self._phase_name}"
@@ -196,12 +257,27 @@ class StepExecutor:
         top = self._read_json(self._top_index_file)
         me = next((p for p in top.get("phases", []) if p.get("dir") == self._phase_dir_name), {})
         for dep in me.get("depends_on", []):
-            r = self._run_git("show", f"{self.BASE_BRANCH}:phases/{dep}/index.json")
+            target = f"{self.BASE_BRANCH}:phases/{dep}/index.json"
+            try:
+                r = self._run_git("show", target)
+            except SubprocessDecodeError as e:
+                print(f"\n  ✗ 선행 phase '{dep}'의 index.json을 읽지 못했습니다: {e}")
+                sys.exit(1)
             if r.returncode != 0:
                 print(f"\n  ✗ 선행 phase '{dep}'가 {self.BASE_BRANCH}에 병합되지 않았습니다.")
                 print(f"  선행 phase를 PR로 {self.BASE_BRANCH}에 병합한 뒤 다시 실행하세요.")
                 sys.exit(1)
-            dep_index = json.loads(r.stdout)
+            if not r.stdout:
+                print(f"\n  ✗ 선행 phase '{dep}'의 index.json 내용이 비어 있습니다 (git show {target}).")
+                print(f"  stderr: {r.stderr.strip() or '(없음)'}")
+                sys.exit(1)
+            try:
+                dep_index = json.loads(r.stdout)
+            except json.JSONDecodeError as e:
+                print(f"\n  ✗ 선행 phase '{dep}'의 index.json이 올바른 JSON이 아닙니다 "
+                      f"({e.msg}, {e.lineno}행 {e.colno}열, git show {target}).")
+                print(f"  앞부분: {r.stdout[:200]!r}")
+                sys.exit(1)
             unfinished = [s["name"] for s in dep_index.get("steps", []) if s.get("status") != "completed"]
             if unfinished:
                 print(f"\n  ✗ 선행 phase '{dep}'에 완료되지 않은 step이 있습니다: {', '.join(unfinished)}")
@@ -312,10 +388,11 @@ class StepExecutor:
         claude_bin = shutil.which("claude") or "claude"
         env = {**os.environ, "HARNESS_EXECUTING": "1"}
         # 프롬프트는 stdin으로 전달한다 (Windows 명령줄 길이 한계 회피).
-        result = subprocess.run(
+        # Claude 출력은 기록용이므로 잘못된 바이트가 있어도 실행을 멈추지 않고 \xNN으로 보존한다.
+        result = run_process(
             [claude_bin, "-p", "--dangerously-skip-permissions", "--output-format", "json"],
-            input=prompt, cwd=self._root, capture_output=True, text=True,
-            encoding="utf-8", errors="replace", env=env, timeout=1800,
+            cwd=self._root, input_text=prompt, env=env, timeout=1800,
+            stdout_errors="backslashreplace",
         )
 
         if result.returncode != 0:
@@ -525,6 +602,7 @@ def main():
     parser.add_argument("--push", action="store_true", help="Push branch after completion")
     args = parser.parse_args()
 
+    configure_console()
     StepExecutor(args.phase_dir, auto_push=args.push).run()
 
 
