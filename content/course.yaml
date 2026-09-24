@@ -75,7 +75,7 @@ completion:
 
 # 카드 status·reviewed_hash도 여기에만 둔다(ADR-011). 카드 파일에는 상태를 쓰지 않는다.
 cards:
-  - {id: card-guideline-critique, lesson: d1-guideline, title: 내 지침에서 애매한 곳 찾기, category: C, level: 1, where: new-chat, track: core, status: planned}
+  - {id: card-guideline-critique, lesson: d1-guideline, title: 내 지침에서 애매한 곳 찾기, category: C, level: 1, where: new-chat, track: core, status: draft}
   - {id: card-source-rule-snippet, lesson: d1-context, title: 출처 규칙 지침 문장, category: D, level: 2, where: instructions, track: core, status: reviewed, reviewed_hash: "sha256:c7e812fe0fa55a6d07868d8e1fc6956c22576344b25fcdae03252c5f082857b4"}
   - {id: card-eval-question-critique, lesson: d1-evalset, title: 내가 쓴 평가 문항 비판받기, category: E, level: 2, where: new-chat, track: core, status: planned}
   - {id: card-batch-grading, lesson: d1-eval-run, title: 받은 답 채점(Project 밖), category: E, level: 1, where: temporary-chat, track: core, status: planned}
@@ -139,25 +139,28 @@ lessons:
     type: practice
     subject: S2
     track: core
-    status: planned
+    status: draft
     elements: [instructions]
     activities:
-      - {kind: demo, name: 민원 업무 흐름과 AI·사람 역할 구분 시연, minutes: 8}
+      - {kind: demo, name: 민원 업무 흐름과 AI·사람 역할 구분 시연, minutes: 7}
       - {kind: follow, name: v0 지침 함께 진단, minutes: 7}
-      - {kind: practice, name: 지침서 5항목으로 v1 개선, minutes: 15}
-      - {kind: check, name: AI에게 애매한 곳 비판받기, minutes: 5}
+      - {kind: practice, name: 지침서 5항목으로 v1 개선, minutes: 16}
+      - {kind: check, name: AI에게 애매한 곳 비판받기, minutes: 7}
     objectives:
-      - {id: d1-02-o1, text: 지침서 5항목(역할·범위·금지사항·출력 형식·모를 때 행동)으로 지침을 작성한다, outputs: [d1-02-p1]}
-      - {id: d1-02-o2, text: 업무에서 AI가 맡을 일과 사람이 맡을 일을 구분한다, outputs: [d1-02-p1]}
+      - {id: d1-02-o1, text: 지침서 5항목(역할·범위·금지사항·출력 형식·모를 때 행동)으로 지침을 작성한다, outputs: [d1-02-p1], checks: [d1-02-c1, d1-02-c3]}
+      - {id: d1-02-o2, text: 업무에서 AI가 맡을 일과 사람이 맡을 일을 구분한다, outputs: [d1-02-p1], checks: [d1-02-c2]}
     outputs:
       - {id: d1-02-p1, text: 지침서 v1(하네스 대장 지침 버전 탭), used_by: [d1-project]}
     checks:
-      - 지침서 5항목이 모두 채워져 있고 추상적 표현(친절하게 등)이 구체적으로 바뀌었다
+      - {id: d1-02-c1, text: 지침서 5항목이 모두 채워져 있고 추상적 표현(친절하게 등)이 구체적으로 바뀌었다}
+      - {id: d1-02-c2, text: 민원 업무 흐름의 단계마다 AI와 사람 중 누가 맡는지 표시했고 사람이 맡을 일이 지침의 금지사항이나 모를 때 행동에 적혀 있다}
+      - {id: d1-02-c3, text: 하네스 대장(또는 표 양식)의 지침 버전에 v0 원문과 v1 전문이 바꾼 이유와 함께 기록되어 있다}
     cards: [card-guideline-critique]
     stuck_points:
       - {id: sp-d1-02-a, text: 업무를 AI에게 어떻게 설명할지 모른다, supports: [3, 7]}
       - {id: sp-d1-02-b, text: 범위와 금지사항을 구분하지 못하고 추상적으로 쓴다, supports: [5, 9]}
       - {id: sp-d1-02-c, text: 쓴 지침이 충분한지 판단하지 못한다, supports: [1, 4, 6], card: card-guideline-critique}
+      - {id: sp-d1-02-d, text: AI가 제안한 문장을 모두 붙여 지침이 길어지고 자료에 없는 내용이 들어간다, supports: [5, 9]}
     skip_if_short: [AI 비판 단계]
 
   - id: d1-project

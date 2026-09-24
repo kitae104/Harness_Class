@@ -17,6 +17,9 @@ links:
       sources:
         title: 자료 목록
         columns: [자료명, 기준일, 올린 곳, 메모]
+      guideline-versions:
+        title: 지침 버전
+        columns: [버전, 날짜, 지침 전문, 바꾼 이유]
     status: planned
   - id: form-shared-civil-intake
     title: 강사 공용 민원 접수 폼(역할카드 응답용)
