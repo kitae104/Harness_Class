@@ -155,11 +155,78 @@
     },
     {
       "step": 8,
+      "name": "review-rules-docs",
+      "status": "pending",
+      "allowed_paths": [
+        "docs/LEARNING_OBJECTIVES.md",
+        "docs/CONTENT_GUIDE.md",
+        "docs/PRACTICE_DESIGN.md",
+        "docs/UI_GUIDE.md",
+        "docs/ARCHITECTURE.md",
+        "docs/PRODUCT_FEATURES.md",
+        "docs/QUALITY_CHECKLIST.md",
+        "content/glossary.yaml",
+        "content/external-links.yaml"
+      ]
+    },
+    {
+      "step": 9,
+      "name": "objective-check-rules",
+      "status": "pending",
+      "allowed_paths": [
+        "scripts/validate_course.py",
+        "scripts/test_validate_course.py",
+        "docs/QUALITY_CHECKLIST.md",
+        "src/lib/*",
+        "src/layouts/LessonLayout.astro",
+        "tests/unit/*",
+        "tests/fixtures/*"
+      ]
+    },
+    {
+      "step": 10,
+      "name": "registry-display",
+      "status": "pending",
+      "allowed_paths": [
+        "src/components/Feature.astro",
+        "src/components/ExternalLink.astro",
+        "src/components/CopyButton.astro",
+        "src/lib/*",
+        "src/styles/*",
+        "tests/unit/*",
+        "tests/fixtures/*"
+      ]
+    },
+    {
+      "step": 11,
+      "name": "instructor-notes",
+      "status": "pending",
+      "allowed_paths": [
+        "src/content.config.ts",
+        "src/layouts/LessonLayout.astro",
+        "src/pages/course/*",
+        "src/components/InstructorNotes.astro",
+        "src/styles/*",
+        "tests/unit/*",
+        "tests/e2e/*"
+      ]
+    },
+    {
+      "step": 12,
+      "name": "d1-01-revise",
+      "status": "pending",
+      "allowed_paths": [
+        "content/day1/01.mdx",
+        "content/instructor/day1/01.md",
+        "public/images/d1-harness-intro/*",
+        "content/course.yaml"
+      ]
+    },
+    {
+      "step": 13,
       "name": "human-review",
-      "status": "blocked",
-      "allowed_paths": [],
-      "started_at": "2026-09-24T10:57:05+0900",
-      "blocked_reason": "D1-01 사람 검토 필요(V-REV-001: d1-harness-intro status가 draft): 1) npm run build && npm run preview → /course/day1/01/ 확인(선택: npm run build:offline → dist-offline/index.html) 2) QUALITY_CHECKLIST 3절 루브릭 4개 항목이 모두 2점이어야 승인, 수정이 필요하면 content/day1/01.mdx를 고친 뒤 다시 검토 3) 승인: npm run review:approve d1-harness-intro 4) 이 step의 status를 pending으로 되돌리고 blocked_reason을 지운 뒤 python scripts/execute.py 1-web-foundation 재실행"
+      "status": "pending",
+      "allowed_paths": []
     }
   ],
   "created_at": "2026-09-24T09:16:28+0900"
