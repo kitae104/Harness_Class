@@ -89,7 +89,8 @@
       ],
       "started_at": "2026-09-24T22:05:30+0900",
       "blocked_at": "2026-09-24T22:06:37+0900",
-      "summary": "D1-04 기준 예시·day1-civil 키트·card-source-rule-snippet 사람 승인 확인(reviewed_hash 일치)"
+      "summary": "D1-04 기준 예시·day1-civil 키트·card-source-rule-snippet 사람 승인 확인(reviewed_hash 일치)",
+      "completed_at": "2026-09-24T22:40:05+0900"
     },
     {
       "step": 5,
