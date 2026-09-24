@@ -447,11 +447,12 @@ class TestInvokeClaude:
             executor._invoke_claude(step, "PREAMBLE\n")
 
         cmd = mock_run.call_args[0][0]
-        stdin_text = mock_run.call_args[1]["input"]
+        stdin_bytes = mock_run.call_args[1]["input"]
+        assert isinstance(stdin_bytes, bytes)  # 로캘이 아니라 UTF-8로 인코딩해 보낸다
+        stdin_text = stdin_bytes.decode("utf-8")
         assert "PREAMBLE" in stdin_text
         assert "UI를 구현하세요" in stdin_text
         assert not any("PREAMBLE" in arg for arg in cmd)
-        assert mock_run.call_args[1]["encoding"] == "utf-8"
 
     def test_sets_harness_executing_env(self, executor):
         """실행 중에는 Stop 훅이 전체 verify를 반복하지 않도록 환경변수를 설정한다."""
@@ -478,7 +479,7 @@ class TestInvokeClaude:
         mock_result = MagicMock(returncode=0, stdout="{}", stderr="")
         with patch("subprocess.run", return_value=mock_result) as mock_run:
             executor._invoke_claude({"step": 2, "name": "ui"}, "")
-        assert "전입신고 안내" in mock_run.call_args[1]["input"]
+        assert "전입신고 안내" in mock_run.call_args[1]["input"].decode("utf-8")
 
     def test_saves_output_json(self, executor):
         mock_result = MagicMock(returncode=0, stdout='{"ok": true}', stderr="")
