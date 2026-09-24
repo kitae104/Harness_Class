@@ -203,7 +203,8 @@
         "tests/fixtures/*"
       ],
       "started_at": "2026-09-24T12:26:45+0900",
-      "summary": "Feature show(detail: 기능명 뒤 detail 한 문장 / fallback: status 무관 '안 될 때' 주의 박스 '대신 이렇게 합니다:')·ExternalLink tab(준비 전+fallback_kind template이면 준비 중 배지·fallback 문장·열 이름만 있는 빈 표·탭 구분 머리행 복사 CopyButton, 없는 tab은 id·tab 포함 빌드 오류, active면 링크만, download/none과 tab 생략(D1-01 기존 사용처)은 fallback 문장만) — 순수 함수 src/lib/registry-display.ts(featureDisplay·templateToTsv·linkDisplay, 테스트 13개, fixture 링크 2개 추가), CSS는 기존 table-wrap 재사용; 블록 표이므로 step 12에서 문단 밖 단독 줄에 둘 것; 판정: lint·build·vitest 107·pytest 296 통과, dist 모듈 스크립트 0, validator 오류는 D1-01 V-LSN-005 3건뿐"
+      "summary": "Feature show(detail: 기능명 뒤 detail 한 문장 / fallback: status 무관 '안 될 때' 주의 박스 '대신 이렇게 합니다:')·ExternalLink tab(준비 전+fallback_kind template이면 준비 중 배지·fallback 문장·열 이름만 있는 빈 표·탭 구분 머리행 복사 CopyButton, 없는 tab은 id·tab 포함 빌드 오류, active면 링크만, download/none과 tab 생략(D1-01 기존 사용처)은 fallback 문장만) — 순수 함수 src/lib/registry-display.ts(featureDisplay·templateToTsv·linkDisplay, 테스트 13개, fixture 링크 2개 추가), CSS는 기존 table-wrap 재사용; 블록 표이므로 step 12에서 문단 밖 단독 줄에 둘 것; 판정: lint·build·vitest 107·pytest 296 통과, dist 모듈 스크립트 0, validator 오류는 D1-01 V-LSN-005 3건뿐",
+      "completed_at": "2026-09-24T12:30:53+0900"
     },
     {
       "step": 11,
