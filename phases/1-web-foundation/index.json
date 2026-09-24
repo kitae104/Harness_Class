@@ -138,7 +138,7 @@
       ],
       "started_at": "2026-09-24T10:39:07+0900",
       "summary": "scripts/build_offline.mjs(dist/→dist-offline/ 복사, HTML의 루트 기준 href·src를 파일 위치 기준 상대경로로·디렉터리 링크는 index.html로(toRelative·rewriteHtml, Windows 구분자 정규화), 외부 script·stylesheet·img 발견 시 실패(findExternalAssets), fflate zipSync로 dist-offline.zip, OS 명령 없음, 단위 테스트 13개) + package.json build:offline·test:e2e(@playwright/test 1.63, fflate devDependency, Chromium만 설치, verify에 미포함); playwright.config.ts(Chromium 1개, webServer npm run preview --port 4322 재사용 안 함); e2e 9개 — site.spec(홈→전체 과정→D1-01, 다음→D1-02 준비 중, 복사됨+클립보드 일치, 375px 가로 스크롤 없음 4쪽, 체크리스트 새로고침 유지·진행 초기화), offline.spec(file://로 index→교시 이동·스타일 적용, 이전/다음, Clipboard API 복사, Clipboard API 제거 시 execCommand 대체 복사, 콘솔 오류 0), 두 파일 모두 localhost·file 외 요청 abort 후 발생 시 실패; .gitignore에 dist-offline.zip·test-results·playwright-report; QUALITY_CHECKLIST V-WEB-003 행 삭제·배포 관문 오프라인·UI 변경 행에 내용 병기",
-      "completed_at": "2026-09-24T10:46:00+0900"
+      "completed_at": "2026-09-24T10:46:30+0900"
     },
     {
       "step": 7,
