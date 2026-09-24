@@ -16,3 +16,29 @@ links:
     verified_at: null
     fallback: CSV
     status: planned
+  - id: sheet-template-planned
+    title: 준비 중 시트
+    kind: sheet-template
+    owner: "[TBD: OQ-06]"
+    url: null
+    verified_at: null
+    fallback: 아래 표 양식을 복사해 씁니다
+    fallback_kind: template
+    fallback_templates:
+      baseline:
+        title: 기준 질문 기록
+        columns: [번호, 질문, 답(붙여 넣기), 메모]
+      log:
+        title: 로그
+        columns: [날짜, 내용]
+    status: planned
+  - id: sheet-download-planned
+    title: 다운로드 대안 시트
+    kind: sheet-template
+    owner: "[TBD: OQ-06]"
+    url: null
+    verified_at: null
+    fallback: xlsx 파일을 내려받아 씁니다
+    fallback_kind: download
+    fallback_file: public/downloads/sample.xlsx
+    status: planned

@@ -1,25 +1,51 @@
 ---
 // 저장소 밖 자원(구글 시트·폼) 링크. active이고 url이 있을 때만 링크, 아니면 fallback 안내.
+// 준비 전이고 fallback_kind: template이면 tab의 표 양식(열 이름만)과 탭 구분 머리행 복사 버튼을 보여 준다.
+// 문구·열 이름은 external-links.yaml에서만 읽는다. 없는 id·tab은 빌드를 멈춘다.
+import CopyButton from './CopyButton.astro';
 import { linkById } from '../lib/registries';
+import { linkDisplay } from '../lib/registry-display';
 
 interface Props {
   id: string;
+  /** fallback_templates의 탭 ID */
+  tab?: string;
 }
 
-const { id } = Astro.props;
+const { id, tab } = Astro.props;
 const link = linkById(id);
 if (!link) throw new Error(`ExternalLink: external-links.yaml에 없는 id "${id}"`);
-const active = link.status === 'active' && Boolean(link.url);
+const display = linkDisplay(link, tab);
 ---
 
 {
-  active ? (
-    <a class="external-link" href={link.url}>
-      {link.title}
+  display.kind === 'link' ? (
+    <a class="external-link" href={display.url}>
+      {display.title}
     </a>
-  ) : (
+  ) : display.kind === 'text' ? (
     <span class="external-link external-link-fallback">
-      {link.title}(링크 준비 중) — 대신 쓸 자료: {link.fallback}
+      {display.title}(링크 준비 중) — 대신 쓸 자료: {display.fallback}
     </span>
+  ) : (
+    <div class="external-link-template">
+      <p class="external-link-fallback">
+        <span class="badge badge-check">준비 중</span> {display.title} — {display.fallback}
+      </p>
+      <div class="template-head">
+        <strong class="template-title">{display.tableTitle}</strong>
+        <CopyButton text={display.tsv} label="표 머리행 복사" />
+      </div>
+      <div class="table-wrap">
+        <table class="template-table">
+          <thead>
+            <tr>{display.columns.map((column) => <th scope="col">{column}</th>)}</tr>
+          </thead>
+          <tbody>
+            <tr>{display.columns.map(() => <td />)}</tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   )
 }

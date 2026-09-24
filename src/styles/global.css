@@ -392,6 +392,36 @@ input:focus-visible {
   color: var(--color-muted);
 }
 
+/* 링크 준비 전 대안 표 양식(ExternalLink tab) */
+.external-link-template {
+  margin: 1rem 0;
+}
+
+.template-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.template-table {
+  margin-top: 0.5rem;
+}
+
+.template-table th,
+.template-table td {
+  border: 1px solid var(--color-border);
+}
+
+.template-table th {
+  background: var(--color-surface);
+}
+
+.template-table td {
+  height: 2rem;
+}
+
 /* ── 체크리스트 ─────────────────────────── */
 .checklist ul {
   list-style: none;
