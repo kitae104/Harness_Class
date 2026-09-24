@@ -16,16 +16,38 @@ def normalized_bytes(path: Path) -> bytes:
     return text.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
 
 
+def _file_bytes(path: Path) -> bytes:
+    """텍스트(UTF-8)는 줄바꿈을 정규화하고, 바이너리(xlsx 등)는 그대로 쓴다."""
+    try:
+        return normalized_bytes(path)
+    except UnicodeDecodeError:
+        return Path(path).read_bytes()
+
+
 def content_hash(path: Path) -> str:
-    """'sha256:<hex>' 형식의 해시."""
-    return "sha256:" + hashlib.sha256(normalized_bytes(path)).hexdigest()
+    """'sha256:<hex>' 형식의 해시.
+
+    파일이면 그 파일(UTF-8, 줄바꿈 정규화)의 해시다. 폴더(키트)이면 하위 파일을 상대 경로 순으로 정렬해
+    "상대 경로 + 내용"을 이어 해시한다. 파일 생성 순서·OS 줄바꿈과 무관하고, 이름 변경·추가·삭제는 해시를 바꾼다.
+    """
+    path = Path(path)
+    if not path.is_dir():
+        return "sha256:" + hashlib.sha256(normalized_bytes(path)).hexdigest()
+    digest = hashlib.sha256()
+    for f in sorted((q for q in path.rglob("*") if q.is_file()), key=lambda q: q.relative_to(path).as_posix()):
+        data = _file_bytes(f)
+        digest.update(f.relative_to(path).as_posix().encode("utf-8") + b"\0")
+        digest.update(str(len(data)).encode("ascii") + b"\0" + data)
+    return "sha256:" + digest.hexdigest()
 
 
 def target_file(root: Path, kind: str, item: dict) -> Path:
-    """course.yaml 항목의 콘텐츠 파일 경로. kind는 'lesson' 또는 'card'."""
+    """course.yaml 항목의 콘텐츠 경로. kind는 'lesson'·'card'(파일) 또는 'kit'(폴더)."""
     root = Path(root)
     if kind == "lesson":
         return root / "content" / f"day{int(item['day'])}" / f"{int(item['number']):02d}.mdx"
     if kind == "card":
         return root / "content" / "prompts" / f"{item['id']}.md"
-    raise ValueError(f"알 수 없는 종류: {kind} (lesson | card)")
+    if kind == "kit":
+        return root / "content" / "kits" / str(item["id"])
+    raise ValueError(f"알 수 없는 종류: {kind} (lesson | card | kit)")

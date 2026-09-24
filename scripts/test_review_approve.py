@@ -188,3 +188,30 @@ class TestApproveText:
         # l1을 찾을 때 l1-o1(목표) 줄을 건드리면 안 된다
         out = ra.approve_text(COURSE, "lessons", "l1", "sha256:x")
         assert "      - {id: l1-o1, text: 목표, outputs: [l1-p1]}" in out
+
+
+KIT_COURSE = COURSE.replace("\nlessons:\n", """
+kits:
+  - id: day1-x
+    title: 키트
+    status: draft
+
+lessons:
+""")
+
+
+class TestApproveKit:
+    def test_approve_kit_records_folder_hash(self, tmp_path):
+        root = make_root(tmp_path, KIT_COURSE)
+        add_file(root, "content/kits/day1-x/kit.yaml", "id: day1-x\n")
+        add_file(root, "content/kits/day1-x/faq.md", "교육용 FAQ\n")
+        assert ra.main(["day1-x", "--root", str(root)]) == 0
+        data = yaml.safe_load(course_text(root))
+        kit = data["kits"][0]
+        assert kit["status"] == "reviewed"
+        assert kit["reviewed_hash"] == ch.content_hash(root / "content" / "kits" / "day1-x")
+        assert "# 머리 주석 — 보존되어야 한다" in course_text(root)
+
+    def test_approve_kit_without_folder_fails(self, tmp_path):
+        root = make_root(tmp_path, KIT_COURSE)
+        assert ra.main(["day1-x", "--root", str(root)]) == 1

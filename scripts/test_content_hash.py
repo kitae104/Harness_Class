@@ -63,3 +63,35 @@ class TestTargetFile:
     def test_unknown_kind_is_error(self, tmp_path):
         with pytest.raises(ValueError):
             ch.target_file(tmp_path, "module", {"id": "m"})
+
+
+class TestDirectoryHash:
+    def _kit(self, root, newline="\n", order=("a.md", "b/c.md")):
+        texts = {"a.md": "첫 파일\n둘째 줄\n", "b/c.md": "하위 폴더\n"}
+        for rel in order:
+            write_bytes(root / rel, texts[rel].replace("\n", newline).encode("utf-8"))
+        return root
+
+    def test_crlf_and_lf_folders_have_same_hash(self, tmp_path):
+        lf = self._kit(tmp_path / "lf")
+        crlf = self._kit(tmp_path / "crlf", newline="\r\n")
+        assert ch.content_hash(lf) == ch.content_hash(crlf)
+
+    def test_creation_order_does_not_matter(self, tmp_path):
+        a = self._kit(tmp_path / "a", order=("a.md", "b/c.md"))
+        b = self._kit(tmp_path / "b", order=("b/c.md", "a.md"))
+        assert ch.content_hash(a) == ch.content_hash(b)
+
+    def test_rename_changes_hash(self, tmp_path):
+        a = self._kit(tmp_path / "a")
+        before = ch.content_hash(a)
+        (a / "a.md").rename(a / "z.md")
+        assert ch.content_hash(a) != before
+
+    def test_binary_file_is_hashed_as_is(self, tmp_path):
+        d = tmp_path / "k"
+        write_bytes(d / "sheet.xlsx", b"PK\x03\x04\xff\xfe")
+        assert ch.content_hash(d).startswith("sha256:")
+
+    def test_kit_target_is_folder(self, tmp_path):
+        assert ch.target_file(tmp_path, "kit", {"id": "day1-x"}) == tmp_path / "content" / "kits" / "day1-x"

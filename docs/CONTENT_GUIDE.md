@@ -21,8 +21,8 @@ course.yaml `type`에 따라 템플릿을 고른다. 13섹션을 모든 교시�
 | 유형 | 기준 예시 | 만드는 시점 |
 |---|---|---|
 | 개념형 | D1-1 `d1-harness-intro` | Phase 1 |
-| 실습형 | D1-4 `d1-context` | Phase 3 첫 step |
-| 프로젝트형 | D2-5 `d2-project-design` | Phase 5 첫 step |
+| 실습형 | D1-4 `d1-context` | 실습형 교시를 만드는 phase의 첫 콘텐츠 step |
+| 프로젝트형 | D2-5 `d2-project-design` | 프로젝트형 교시를 만드는 phase의 첫 콘텐츠 step |
 
 기준 예시가 reviewed가 되기 전에는 같은 유형의 다른 교시를 만들지 않는다.
 
@@ -63,4 +63,4 @@ course.yaml `type`에 따라 템플릿을 고른다. 13섹션을 모든 교시�
 1. course.yaml의 해당 교시(목표·산출물·막힘 지점·카드)가 먼저 정해져 있어야 한다.
 2. 기준 예시를 읽는다.
 3. 필수 경로 → 실습 → 결과 확인 → 나머지 섹션 순으로 쓴다. 학습목표마다 수강생이 증거를 남기는 활동(말하기·쓰기·체크·기록)을 본문에 둔다.
-4. course.yaml에서 자기 교시(와 그 교시의 카드)의 status만 `draft`로 바꾸고, `npm run verify -- --scope lesson:<id>`로 검사한다. reviewed로 올리지 않는다(ADR-011).
+4. course.yaml은 CLAUDE.md 예외 범위 안에서만 고친다: 자기 교시(와 그 교시의 카드) 항목의 `status`(draft까지), `checks` 새 형식 전환과 `objectives[].checks` 연결, `stuck_points` 추가, `activities` 분 조정. 강사 안내(`content/instructor/day{d}/{nn}.md`)도 함께 만든다(V-INS-001). `npm run verify -- --scope lesson:<id>`로 검사하고, reviewed로 올리지 않는다(ADR-011).

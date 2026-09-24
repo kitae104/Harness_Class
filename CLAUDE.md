@@ -14,8 +14,8 @@ PDF와 다르게 정한 것은 ADR CD 항목의 "PDF 원문" 필드에 기록한
 ## CRITICAL 규칙
 - CRITICAL: 수치·구조(시간, 교시, 목표, 산출물, 카드 배치)는 `content/course.yaml`에만, 제품 정보는 `content/product-features.yaml`에만, 출처·법령 조문은 `content/sources.yaml`에만, 외부 링크는 `content/external-links.yaml`에만 둔다. 본문과 docs에 직접 쓰지 말고 ID로 참조한다.
 - CRITICAL: ID(교시·목표·산출물·카드·출처·기능)는 한번 정하면 바꾸지 않는다. 이유: 여러 파일의 참조가 조용히 깨진다.
-- CRITICAL: 교시·카드의 status와 reviewed_hash는 `content/course.yaml`에만 있다. AI는 status를 `draft`까지만 올린다. `reviewed`는 사람이 `npm run review:approve <id>`로만 올린다. reviewed 콘텐츠 파일을 수정하면 해시가 달라져 다시 검토 대상이 된다.
-- CRITICAL: step 파일의 "수정 허용 경로" 밖을 수정하지 않는다. 공유 등록부(`content/*.yaml`)에는 추가만 한다. 유일한 예외: 콘텐츠 step은 course.yaml에서 **자기 교시·카드의 status 필드만** `draft`로 바꿀 수 있다.
+- CRITICAL: 교시·카드·키트의 status와 reviewed_hash는 `content/course.yaml`에만 있다. AI는 status를 `draft`까지만 올린다. `reviewed`는 사람이 `npm run review:approve <id>`로만 올린다. reviewed 콘텐츠 파일을 수정하면 해시가 달라져 다시 검토 대상이 된다.
+- CRITICAL: step 파일의 "수정 허용 경로" 밖을 수정하지 않는다. 공유 등록부(`content/*.yaml`)에는 추가만 한다. 유일한 예외: 콘텐츠 step은 course.yaml에서 **자기 교시·카드·키트 항목 안의** `status`(draft까지), `checks` 형식 전환(`{id, text}`)과 `objectives[].checks` 연결, `stuck_points` 추가, `activities` 분 조정만 바꿀 수 있다. 학습목표·산출물의 뜻, ID, 다른 항목은 바꾸지 않는다(필요하면 error로 보고).
 - CRITICAL: 등록부에 없는 제품 기능·법령 조문은 서술하지 않는다. 필요하면 `[TBD: OQ-xx]`로 표시하고 [docs/OPEN_QUESTIONS.md](docs/OPEN_QUESTIONS.md)에 등록한다.
 - CRITICAL: 실제 개인정보, 실제 기관 문서, 비공개 원본(`references/`)을 커밋하지 않는다. 가상 자료는 "가상"으로 표기하고 전화번호는 `010-0000-XXXX`만 쓴다. 캡처는 계정 식별정보를 가린다.
 - CRITICAL: Codex와 optional 콘텐츠를 core 교시의 선행 조건으로 만들지 않는다.

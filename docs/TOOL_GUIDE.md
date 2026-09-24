@@ -15,7 +15,7 @@
 | 붙여넣을 곳 | 무엇을 넣나 | 오래 남나 |
 |---|---|---|
 | **Project 지침란** | 지침서 5항목, 지침 조각 카드 | 그 Project의 모든 대화에 적용 |
-| **Project 파일** | 근거 자료(법령 발췌, 교육용 FAQ) | Project에 계속 남음 [AS-OF: chatgpt-project-file-limit] |
+| **Project 파일** | 근거 자료(교육용 가상 규정·법령 발췌, 교육용 FAQ) | Project에 계속 남음 [AS-OF: chatgpt-project-file-limit] |
 | **채팅 입력창 / 첨부** | 이번에 처리할 입력 데이터(CSV), 요청 카드 | 그 대화에만 (첨부가 Project 파일이 되는지는 확인 전 [TBD: OQ-05]) |
 
 입력 데이터(민원 CSV)는 Project 파일이 아니라 채팅 첨부로 넣는다(CD-07). 근거와 입력을 섞으면 ② 근거가 오염된다.
@@ -23,7 +23,7 @@
 ## 3. ChatGPT 수업 방식
 - **Project 만들기(D1-3)**: 강사가 전체를 시연하고 수강생이 따라 한다. 지침은 반드시 지침란에 넣는다.
 - **근거 연결(D1-4)**: 제공 zip 1개를 내려받아 올린다. 지침에 "올린 자료 안에서만, 출처(조문) 표시, 자료에 없으면 확인 필요" 규칙을 추가한다.
-- **평가(D1-6)**: 평가는 새 대화에서 한다. 같은 Project의 다른 대화가 영향을 줄 수 있다 [AS-OF: chatgpt-project-memory] [TBD: OQ-03].
+- **평가(D1-6)**: 답변은 Project의 새 대화에 질문만, 채점은 Project 밖 임시 채팅에서 한다. 절차는 [PRACTICE_DESIGN.md](PRACTICE_DESIGN.md) 3절(CD-17)을 따른다.
 - **기준 답변(D1-1)**: 비개인화 임시 채팅을 쓴다 [AS-OF: chatgpt-temporary-chat].
 - **데이터 제어(D2-4)**: 수강생이 직접 "모델 학습에 대화 사용"을 끈다 [AS-OF: chatgpt-data-controls-training].
 - **동료 공유**: 프로젝트 공유로 안내한다 [AS-OF: chatgpt-project-sharing]. 맞춤형 GPT는 개인 Plus에서 새로 만들 수 없으므로 가르치지 않는다 [AS-OF: chatgpt-custom-gpt-creation].

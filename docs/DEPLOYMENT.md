@@ -2,10 +2,14 @@
 
 Claude Code에서 자료 수정 → 로컬 검증 → commit → GitHub push → Vercel Preview 확인 → main 반영 → Production 갱신. Phase 1 이전에는 사이트가 없으므로 1~2절의 Phase 0 절차만 적용된다. 사이트 명령(`npm run ...`)은 Phase 1에서 구현되며, 이 문서는 Phase 8에서 확정한다 [PROVISIONAL].
 
-## 1. 현재 상태와 전제
-- 원작자 허락 전에는 Public 저장소로 push하지 않는다(CD-15, [TBD: OQ-01]). 그동안 로컬에서 검증한다.
-- git origin은 아직 원본 저장소(`jha0313/harness_framework`)를 가리킨다. 사용자 저장소 URL이 정해지면 교체한다 [TBD: OQ-11].
-- Vercel Hobby는 비상업 용도만 허용한다. Production 공개 전에 요금제를 결정한다 [AS-OF: vercel-hobby-commercial] [TBD: OQ-09].
+## 1. 현재 상태와 전제 (2026-09-24 확인)
+- 원작자 사용 허락: 사용자가 직접 확인했다(CD-15, OQ-01 closed). 콘텐츠 라이선스는 아직 정하지 않았다(OQ-13 open, LICENSE 없음).
+- GitHub: Public 저장소 https://github.com/kitae104/Harness_Class, origin이 이 저장소를 가리킨다(OQ-11 closed). `git ls-files references` 출력은 비어 있다.
+- CI: `.github/workflows/verify.yml`의 verify workflow 성공을 사용자가 확인했다.
+- main Ruleset: Pull Request 필수, verify status check 통과 필수, branch up-to-date 필수, force push 금지.
+- Vercel Production: https://harness-class.vercel.app/ (D1-01: https://harness-class.vercel.app/course/day1/01/) 배포 성공.
+- Vercel Preview: 브랜치 `feat-repo-connect` → https://harness-class-git-feat-repo-connect-aqua0405-2866s-projects.vercel.app/ (D1-01: `/course/day1/01/`). 사용자가 확인했다. Preview는 Vercel 배포 보호가 켜져 있어 로그인하지 않으면 Vercel 로그인 화면이 보인다.
+- 요금제: 개인적·비상업적 강의자료 제작 프로젝트이므로 현재 Vercel Hobby를 유지한다(OQ-09 closed). 유료 강의 운영 등 상업적 이용으로 바뀌면 다시 검토한다 [AS-OF: vercel-hobby-commercial].
 
 ## 2. 로컬 실행과 검증
 ```bash
