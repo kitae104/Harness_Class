@@ -5,7 +5,7 @@
 `/docs/OPEN_QUESTIONS.md`에서 **OQ-03** 행의 상태를 읽는다.
 
 - **open이면**: 아무 파일도 만들거나 고치지 말고, `phases/2-day1-content/index.json`의 step 11을 `"status": "blocked"`, `"blocked_reason"`에 아래 내용을 적은 뒤 **즉시 중단**한다.
-  - "OQ-03 open: PRACTICE_DESIGN 3절에 따라 D1-06은 OQ-03이 닫히기 전 draft 금지. 사람이 할 일: ① 교육용 Plus 계정으로 OQ-03 실사용 테스트 ② docs/OPEN_QUESTIONS.md OQ-03을 closed로 바꾸고 해결 내용 기록, docs/PRACTICE_DESIGN.md 3절의 [TBD: OQ-03] 정리 ③ 이 변경을 phase 브랜치(feat-2-day1-content)에 **커밋** ④ step 11을 pending으로 되돌리고 blocked_reason 삭제 ⑤ python scripts/execute.py 2-day1-content"
+  - "OQ-03 open: PRACTICE_DESIGN 3절에 따라 D1-06은 OQ-03이 닫히기 전 draft 금지. 사람이 할 일: ① 교육용 Plus 계정으로 OQ-03 실사용 테스트 ② docs/OPEN_QUESTIONS.md OQ-03을 closed로 바꾸고 해결 내용 기록, docs/PRACTICE_DESIGN.md 3절의 [TBD: OQ-03] 정리 ③ 이 변경을 phase 브랜치(feat-day1-content)에 **커밋** ④ step 11을 pending으로 되돌리고 blocked_reason 삭제 ⑤ python scripts/execute.py 2-day1-content"
   - ③의 커밋이 없으면 docs 변경이 이 step의 허용 경로 밖이라 error가 난다.
 - **closed이면**: OQ-03의 해결 내용과 PRACTICE_DESIGN 3절의 현재 문장을 읽고 아래 작업을 진행한다.
 
@@ -35,6 +35,8 @@ D1-06 `d1-eval-run`(일괄 평가 실행)을 만든다. 평가세트 23문항으
    2. **채점**: **Project 밖** 비개인화 임시 채팅에서 질문·기대 답변·받은 답을 넣고 `<PromptCard id="card-batch-grading" />`을 쓴다.
    3. **표본 확인**: 사람이 3문항을 직접 채점해 AI 채점과 비교한다.
    - OQ-03 해결 내용(연습 대화 정리, 메모리 설정 등)을 절차에 반영한다.
+   - 답변을 받기 **전** 체크: Project 파일 목록에 규정·FAQ 두 파일만 있고 평가 질문·기대 답변 파일이 없는지 확인한다(TOOL_GUIDE 3절, CD-17).
+   - 채점 카드는 기대 답변의 "참고(감점 사유 아님)" 항목으로 감점하지 않게 한다(CD-06: 자료에 없음 문항은 "확인 필요"면 1점).
    - 제품 정보(임시 채팅, 프로젝트 메모리)는 `<Feature>`로만.
    - 출력이 끊길 때(sp-d1-06-a): `<PromptCard id="card-help-long-output" />`.
    - 예상 결과 / 잘못된 결과 예시: **관대한 자기채점**(PRACTICE_DESIGN 3절)과 어디가 왜 틀렸는지.

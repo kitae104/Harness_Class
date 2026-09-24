@@ -88,7 +88,8 @@
         "lesson:d1-context",
         "card:card-source-rule-snippet"
       ],
-      "started_at": "2026-09-24T22:05:30+0900"
+      "started_at": "2026-09-24T22:05:30+0900",
+      "blocked_at": "2026-09-24T22:06:37+0900"
     },
     {
       "step": 5,

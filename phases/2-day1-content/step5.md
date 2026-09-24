@@ -30,7 +30,7 @@ D1-02 `d1-guideline`(업무 지침서 작성)을 만든다. Day 1 흐름에서 D
 2. `content/prompts/card-guideline-critique.md` — `where: new-chat`, 기본 단계 1(따라 쓰기). 5칸 뼈대, "확인 필요", 개인정보 안내, `check`, `do_not_trust`, `next`(반복 규칙은 지침으로 옮기기). `tested_at`/`tested_by`는 비워 둔다.
 3. `content/instructor/day1/02.md` — 공개 가능한 진행 안내만.
 4. `content/course.yaml` — **`d1-guideline`·`card-guideline-critique` 항목 안에서만** 예외 범위로: `status: draft`, `checks` `{id, text}` 전환과 `objectives[].checks` 연결, `stuck_points` 추가, `activities` 분 조정.
-5. `content/external-links.yaml` — `sheet-harness-ledger.fallback_templates`에 "지침 버전" 탭을 **추가만**(예: 버전 / 날짜 / 지침 전문 / 바꾼 이유). 이미 있으면 그대로 쓴다.
+5. `content/external-links.yaml` — `sheet-harness-ledger.fallback_templates`에 "지침 버전" 탭을 **추가만**(예: 버전 / 날짜 / 지침 전문 / 바꾼 이유). 이미 있으면 그대로 쓴다. 탭 제목(`title`)은 **"지침 버전"** 으로 정확히 맞춘다 — 승인된 D1-04 본문이 이미 "하네스 대장 지침 버전 탭"이라고 부른다. 탭 ID는 `guideline-versions`를 권장한다.
 
 ## 수정 허용 경로
 

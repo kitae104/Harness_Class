@@ -29,11 +29,12 @@
     },
     {
       "dir": "2-day1-content",
-      "status": "pending",
+      "status": "blocked",
       "depends_on": [
         "1-web-foundation",
         "1b-repo-connect"
-      ]
+      ],
+      "blocked_at": "2026-09-24T22:06:37+0900"
     }
   ]
 }
