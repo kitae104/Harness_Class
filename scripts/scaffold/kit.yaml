@@ -1,19 +1,15 @@
-# 실습 키트 뼈대 — npm run new:kit으로 만들었다(PRACTICE_CASES 1절 필수 항목).
+# 실습 키트 뼈대 — npm run new:kit으로 만들었다(필드는 docs/PRACTICE_CASES.md 1절, 검사는 V-KIT-001).
+# 1) course.yaml kits에 {id, title, status: planned}를 추가한다. 2) 자료 파일을 이 폴더에 두고 files에 모두 적는다.
 # 근거(sources)에는 content/sources.yaml에 등록된 ID만 적는다. 법령 조문·시행일을 여기에 직접 쓰지 않는다.
+# Day 1 실습 규정은 교육용 가상 규정(type: fictional)이다(CD-21).
 # 실제 기관 문서·실제 개인정보를 넣지 않는다. 전화번호는 010-0000-XXXX 형식만 쓴다.
 id: {{kit_id}}
 title: 작성 예정
 track: core
-sources: []            # sources.yaml ID(법령 조문 단위) 또는 fictional 자료 ID
-guideline_frame:       # 지침서 5항목 틀
-  role: 작성 예정
-  scope: 작성 예정
-  prohibited: 작성 예정
-  output_format: 작성 예정
-  when_unknown: 모르는 정보는 지어내지 말고 "확인 필요"라고 표시한다
-context_files: []      # Project에 올릴 근거 자료(법령 발췌, 교육용 FAQ)
-input_data: []         # 채팅에 첨부할 가상 입력 데이터(CSV)
-eval_candidates: []    # 평가 문항 후보와 기대 답변(핵심 포인트 2개 + 근거)
-form_template: []      # 업무용 폼 문항(선택 산출물용)
+sources: []            # sources.yaml ID
 privacy_notes: 작성 예정
 fictional_label: 교육용 가상 자료입니다. 실제 인물·기관과 관계없습니다.
+# files: 이 폴더의 모든 자료 파일(kit.yaml 제외). 목록 밖 파일이 있으면 V-KIT-001 오류.
+#   role: guideline | context | eval | input-data | form-template | other
+#   예: - {path: faq.md, role: context, download: true, description: 교육용 FAQ}
+files: []
