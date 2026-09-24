@@ -1,0 +1,13 @@
+{
+  "project": "공무원을 위한 하네스 엔지니어링",
+  "phase": "repo-connect",
+  "guardrail_docs": ["DEPLOYMENT.md", "OPEN_QUESTIONS.md", "PRODUCT_FEATURES.md"],
+  "steps": [
+    {
+      "step": 0,
+      "name": "repo-connect",
+      "status": "pending",
+      "allowed_paths": ["docs/OPEN_QUESTIONS.md", "docs/DEPLOYMENT.md", "LICENSE"]
+    }
+  ]
+}

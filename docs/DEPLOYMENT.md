@@ -19,11 +19,12 @@ npm run dev          # 개발 서버
 npm run build        # dist/ 생성
 npm run preview      # 빌드 결과 확인 (Vercel 대신 강사 PC에서 수업할 때도 사용)
 npm run build:offline  # dist-offline/ + zip (교육망에서 Vercel이 막힐 때)
-npm run verify -- --scope <대상>   # lint + build + test + validate
+npm run verify -- --scope <대상>   # lint(eslint + astro check) + build + vitest + pytest + validate
+npm run test:e2e     # Playwright(Chromium) 브라우저 테스트, 최초 1회 npx playwright install chromium
 ```
 Windows는 `python`, macOS·Linux는 `python3`를 쓴다.
 
-## 3. GitHub 저장소 연결 (Phase 1 마지막 step, 사용자 작업)
+## 3. GitHub 저장소 연결 (`1b-repo-connect` phase, 사용자 작업, ADR-013)
 1. 원작자 허락을 받는다(CD-15).
 2. 사용자 계정에 Public 저장소를 만든다.
 3. `git remote set-url origin <사용자 저장소 URL>` 후 main과 phase 브랜치를 push한다.

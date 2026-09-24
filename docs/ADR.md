@@ -30,7 +30,7 @@
 **트레이드오프**: Vercel 빌드는 Python 검사를 돌리지 않는다 → ADR-007의 CI로 보완.
 
 ### ADR-005: 사람 검토 관문과 해시
-**결정**: 콘텐츠 status는 planned → draft → reviewed. AI는 draft까지만. 사람이 `review:approve`로 승인하면 `reviewed_hash`를 기록하고, 이후 본문이 바뀌면 오류로 처리한다. Production은 core 전부 reviewed일 때만.
+**결정**: 콘텐츠 status는 planned → draft → reviewed. AI는 draft까지만. 사람이 `review:approve`로 승인하면 콘텐츠 파일의 해시를 course.yaml의 `reviewed_hash`에 기록하고(ADR-011), 이후 파일이 바뀌면 오류로 처리한다. 해시는 줄바꿈을 LF로 정규화한 뒤 계산한다(Windows 작업 폴더의 CRLF와 CI의 LF가 달라도 같은 값). Production은 core 전부 reviewed일 때만.
 **이유**: 법령 해석과 교육 적합성은 자동 검사로 보장할 수 없다. 승인 후 수정이 검토를 우회하지 못하게 한다.
 **트레이드오프**: 사람 검토가 병목이 된다 → 콘텐츠 phase마다 human-review step을 두어 분산한다.
 
@@ -40,7 +40,7 @@
 **트레이드오프**: step 설계 시 allowed_paths와 guardrail_docs를 적어야 한다.
 
 ### ADR-007: 브랜치와 배포 — phase 브랜치 → PR → CI → main = Production
-**결정**: phase는 한 번에 하나씩, `feat-<phase>` 브랜치에서 실행하고 PR로 main에 병합한다. GitHub Actions에서 `npm run verify`를 돌리고 main을 보호한다. 웹 편집도 새 브랜치 → PR로만 반영한다. Phase 0은 로컬 `feat-0-foundation` 브랜치.
+**결정**: phase는 한 번에 하나씩, `feat-<phase>` 브랜치에서 실행하고 PR로 main에 병합한다. GitHub Actions에서 `npm run verify`를 돌리고 main을 보호한다. 웹 편집도 새 브랜치 → PR로만 반영한다. Phase 0은 로컬 `feat-0-foundation` 브랜치. 저장소·Vercel 연결은 별도 phase `1b-repo-connect`로 두어, 원작자 허락(CD-15)을 기다리는 동안에도 콘텐츠 phase가 진행되게 한다(ADR-013).
 **이유**: Vercel Preview로 확인한 것만 Production에 가게 하고, Python 검사를 CI에서 강제한다.
 **트레이드오프**: 작은 수정도 PR을 거친다.
 
@@ -58,6 +58,21 @@
 **결정**: Vercel을 유지하되, Hobby 요금제는 비상업 용도만 허용하므로 유료 강의 운영에는 Pro 요금제 또는 대안 호스팅을 검토한다 [AS-OF: vercel-hobby-commercial] [TBD: OQ-09].
 **이유**: 사용자 요구는 Vercel 배포이나, 약관상 강의 수익과 연결된 배포는 상업적 사용으로 볼 수 있다.
 **트레이드오프**: Production 공개 전에 결정해야 한다(Phase 0~7 제작은 막지 않음).
+
+### ADR-011: 검토 상태의 단일 원천 — course.yaml
+**결정**: 교시·카드의 `status`와 `reviewed_hash`는 course.yaml에만 둔다. 콘텐츠 파일(MDX, 카드 파일)에는 상태를 쓰지 않는다. 콘텐츠 step은 course.yaml에서 자기 교시·카드의 status만 draft로 바꿀 수 있다(CLAUDE.md 예외).
+**이유**: 상태가 두 곳에 있으면 어긋난다. 해시를 콘텐츠 파일 밖에 두면 해시를 기록하는 행위가 파일을 바꾸지 않는다. 진행 현황을 한 파일에서 볼 수 있다.
+**트레이드오프**: 콘텐츠 step이 공유 등록부를 수정한다. "자기 항목만 수정"은 경로 검사로 강제할 수 없어 step 금지사항과 사람 검토로 보완한다.
+
+### ADR-012: 브라우저 테스트 — Playwright(Chromium), verify와 분리
+**결정**: Playwright로 복사 버튼, 이전/다음, 375px 화면, file:// 오프라인 번들, 외부 요청 차단 상태 표시를 검사한다. 명령은 `npm run test:e2e`로 `npm run verify`와 분리한다.
+**이유**: 오프라인 제약(ADR-008)은 브라우저로만 검증할 수 있다. 느린 테스트를 매 step AC에 넣지 않는다.
+**트레이드오프**: 브라우저 설치(약 150MB)가 필요하다. 오프라인·UI를 바꾸는 step과 배포 관문에서만 실행한다.
+
+### ADR-013: 저장소 연결을 별도 phase로
+**결정**: GitHub 저장소 연결, origin 교체, Vercel 연결, 브랜치 보호는 `1b-repo-connect` phase에서 한다. 배포 phase만 이 phase에 의존한다.
+**이유**: execute.py는 선행 phase의 모든 step이 completed여야 다음 phase를 실행한다. 원작자 허락을 기다리는 step을 Phase 1에 두면 이후 콘텐츠 제작 전체가 멈춘다.
+**트레이드오프**: 허락 전까지 CI와 Vercel Preview가 없어 로컬 `npm run verify`·`npm run preview`로 대신한다.
 
 ---
 

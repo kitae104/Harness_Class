@@ -6,6 +6,16 @@
       "depends_on": [],
       "summary": "제작 Harness 기반: execute.py·훅 개편, course.yaml(7+7교시 단일 원천)과 등록부 5종, docs 18개, validate_course.py 26개 규칙",
       "completed_at": "2026-09-24T02:55:33+0900"
+    },
+    {
+      "dir": "1-web-foundation",
+      "status": "pending",
+      "depends_on": ["0-foundation"]
+    },
+    {
+      "dir": "1b-repo-connect",
+      "status": "pending",
+      "depends_on": ["1-web-foundation"]
     }
   ]
 }

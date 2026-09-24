@@ -1,0 +1,139 @@
+{
+  "project": "공무원을 위한 하네스 엔지니어링",
+  "phase": "web-foundation",
+  "guardrail_docs": [
+    "UI_GUIDE.md",
+    "PROMPT_GUIDE.md",
+    "QUALITY_CHECKLIST.md",
+    "HARNESS_ELEMENTS.md",
+    "PRACTICE_DESIGN.md",
+    "LEARNING_OBJECTIVES.md",
+    "COURSE_MAP.md",
+    "TOOL_GUIDE.md",
+    "PRODUCT_FEATURES.md",
+    "SOURCE_REGISTER.md",
+    "DEPLOYMENT.md"
+  ],
+  "review_targets": [
+    "lesson:d1-harness-intro"
+  ],
+  "steps": [
+    {
+      "step": 0,
+      "name": "astro-setup",
+      "status": "pending",
+      "allowed_paths": [
+        "package.json",
+        "package-lock.json",
+        "astro.config.mjs",
+        "tsconfig.json",
+        ".nvmrc",
+        "eslint.config.js",
+        "vitest.config.ts",
+        ".gitignore",
+        "scripts/verify.mjs",
+        "tests/unit/*",
+        ".github/*",
+        "src/env.d.ts",
+        "src/pages/index.astro",
+        "public/favicon.svg"
+      ]
+    },
+    {
+      "step": 1,
+      "name": "content-schema",
+      "status": "pending",
+      "allowed_paths": [
+        "src/content.config.ts",
+        "src/lib/*",
+        "tests/unit/*",
+        "tests/fixtures/*"
+      ]
+    },
+    {
+      "step": 2,
+      "name": "layout-nav",
+      "status": "pending",
+      "allowed_paths": [
+        "src/layouts/*",
+        "src/pages/*",
+        "src/components/*",
+        "src/styles/*",
+        "tests/unit/*"
+      ]
+    },
+    {
+      "step": 3,
+      "name": "ui-components",
+      "status": "pending",
+      "allowed_paths": [
+        "src/components/*",
+        "src/layouts/*",
+        "src/styles/*",
+        "src/lib/*",
+        "tests/unit/*",
+        "tests/fixtures/*"
+      ]
+    },
+    {
+      "step": 4,
+      "name": "authoring-tools",
+      "status": "pending",
+      "allowed_paths": [
+        "scripts/content_hash.py",
+        "scripts/review_approve.py",
+        "scripts/new_content.mjs",
+        "scripts/scaffold/*",
+        "scripts/test_content_hash.py",
+        "scripts/test_review_approve.py",
+        "scripts/validate_course.py",
+        "scripts/test_validate_course.py",
+        "docs/QUALITY_CHECKLIST.md",
+        "package.json",
+        "tests/unit/*"
+      ]
+    },
+    {
+      "step": 5,
+      "name": "d1-01-exemplar",
+      "status": "pending",
+      "allowed_paths": [
+        "content/day1/01.mdx",
+        "content/instructor/day1/01.md",
+        "public/images/d1-harness-intro/*",
+        "content/course.yaml"
+      ]
+    },
+    {
+      "step": 6,
+      "name": "offline-build",
+      "status": "pending",
+      "allowed_paths": [
+        "scripts/build_offline.mjs",
+        "playwright.config.ts",
+        "tests/e2e/*",
+        "tests/unit/*",
+        "package.json",
+        "package-lock.json",
+        ".gitignore",
+        "docs/QUALITY_CHECKLIST.md"
+      ]
+    },
+    {
+      "step": 7,
+      "name": "validator-web",
+      "status": "pending",
+      "allowed_paths": [
+        "scripts/validate_course.py",
+        "scripts/test_validate_course.py",
+        "docs/QUALITY_CHECKLIST.md"
+      ]
+    },
+    {
+      "step": 8,
+      "name": "human-review",
+      "status": "pending",
+      "allowed_paths": []
+    }
+  ]
+}
