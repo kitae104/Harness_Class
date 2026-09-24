@@ -24,3 +24,5 @@ terms:
   - {id: optional, term: 선택, en: OPTIONAL, definition: "시간과 수준에 따라 선택하는 심화 내용", student_label: 선택}
   - {id: harness-ledger, term: 하네스 대장, en: Harness ledger, definition: "지침 버전·자료 목록·평가·로그를 기록하는 시트", student_label: 하네스 대장}
   - {id: unpersonalized-chat, term: 비개인화 임시 채팅, en: Unpersonalized temporary chat, definition: "메모리와 맞춤 지침을 쓰지 않는 임시 채팅", student_label: 비개인화 임시 채팅}
+  - {id: fictional-rule, term: 교육용 가상 규정, en: Fictional training rule, definition: "실제 법령의 구조와 취지를 참고해 실습용으로 만든 규정. 실제 법령 원문이 아니며 법적 효력이 없다"}
+  - {id: as-of-date, term: 기준일, en: As-of date, definition: "자료가 어느 시점의 내용인지 알려 주는 날짜. 법령은 시행일을, 내려받은 실습 자료는 받은 날을 적는다"}

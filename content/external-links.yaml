@@ -14,6 +14,9 @@ links:
       baseline:
         title: 기준 질문 기록
         columns: [번호, 질문, 답(붙여 넣기), 근거를 밝혔나(예/아니오), 메모]
+      sources:
+        title: 자료 목록
+        columns: [자료명, 기준일, 올린 곳, 메모]
     status: planned
   - id: form-shared-civil-intake
     title: 강사 공용 민원 접수 폼(역할카드 응답용)
