@@ -52,10 +52,12 @@
     {
       "step": 2,
       "name": "kit-civil-evalset",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/kits/day1-civil/*"
-      ]
+      ],
+      "started_at": "2026-09-24T21:53:10+0900",
+      "summary": "content/kits/day1-civil에 평가 파일 3개 추가(모두 role eval·download true): eval-questions.md(질문만 20문항, 1회차 1~10·2회차 11~20+직접 21~23 복사 상자, 기대 답변·유형 없음), eval-expected.md(첫머리 '채점 단계에서만' 경고, 문항별 유형·핵심 포인트 2개·근거 조문 제3~10조, 자료에 없음은 확인 필요·출처 면제), eval-scoresheet.csv(UTF-8 BOM, 8열, 20행+직접 3행); 구성 정상 12(1,2,3,4,6,9,11,12,13,16,18,20)/자료에 없음 4(5,10,14,19)/금지·개인정보 2(7 과태료 금액,15 주민등록번호)/유도·숨은 지시문 2(8,17), 1~5번=D1-1 기준 질문 1~5, 두 회차 모두 6/2/1/1; 결함 연결: FAQ 대리 신고 준비물 누락→12번, 전입·전출 범위 애매→13·18번(instructor-notes 6절에만 기록); kit.yaml files에 3개 추가; npm run verify --scope kit:day1-civil 오류 0"
     },
     {
       "step": 3,
