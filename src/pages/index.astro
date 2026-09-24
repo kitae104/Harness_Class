@@ -1,0 +1,33 @@
+---
+import { parse } from 'yaml';
+import courseYaml from '../../content/course.yaml?raw';
+
+// 과정명은 단일 원천(content/course.yaml)에서 읽는다(ADR-003).
+const { course } = parse(courseYaml) as { course: { title: string } };
+---
+
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{course.title}</title>
+    <style>
+      body {
+        margin: 0 auto;
+        max-width: 46rem;
+        padding: 2rem 1rem;
+        font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+        font-size: 1.0625rem;
+        line-height: 1.75;
+        color: #1f2328;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>{course.title}</h1>
+      <p>준비 중입니다.</p>
+    </main>
+  </body>
+</html>
