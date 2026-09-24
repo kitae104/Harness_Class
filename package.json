@@ -13,7 +13,12 @@
     "preview": "astro preview",
     "lint": "eslint . && astro check",
     "test": "vitest run",
-    "verify": "node scripts/verify.mjs"
+    "verify": "node scripts/verify.mjs",
+    "new:lesson": "node scripts/new_content.mjs lesson",
+    "new:module": "node scripts/new_content.mjs module",
+    "new:prompt": "node scripts/new_content.mjs prompt",
+    "new:kit": "node scripts/new_content.mjs kit",
+    "review:approve": "node scripts/new_content.mjs approve"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.2",

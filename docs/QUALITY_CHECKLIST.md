@@ -40,7 +40,7 @@
 | V-PRM-001 | AUTO-오류 | 카드 파일이 course.yaml 카드와 1:1, 필수 필드, 대괄호↔replace 일치 | 예정(P1) |
 | V-PRM-002 | AUTO-오류 | 직접 쓰기(L3) 카드에 바꿔 쓰기(L2) 대안 존재 | 예정(P1) |
 | V-PRM-003 | AUTO-경고 | 카드 tested_at 경과 | 예정(P1) |
-| V-REV-002 | AUTO-오류 | reviewed 항목의 콘텐츠 파일 해시(LF 정규화)가 course.yaml의 reviewed_hash와 일치 | 예정(P1) |
+| V-REV-002 | AUTO-오류 | reviewed 항목의 콘텐츠 파일 해시(LF 정규화)가 course.yaml의 reviewed_hash와 일치 | 구현 |
 | V-WEB-001 | AUTO-오류 | 빌드 산출물 내부 링크·이미지 경로 | 예정(P1) |
 | V-WEB-002 | AUTO-오류 | 오프라인 번들 상대경로, 외부 CDN·웹폰트 없음 | 예정(P1) |
 | V-WEB-003 | AUTO-오류 | 복사 버튼·이전/다음·375px 표시·file:// 동작·외부 요청 차단 상태 표시(Playwright, `npm run test:e2e`) | 예정(P1) |

@@ -29,6 +29,9 @@ except ImportError:  # pragma: no cover
     print("PyYAML이 필요합니다: pip install -r requirements-dev.txt")
     sys.exit(2)
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from content_hash import content_hash, target_file  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 
 REQUIRED_DOCS = (
@@ -100,6 +103,7 @@ RULES = {
     "V-SEC-001": "비공개 원본(references/)이 git에 추적되지 않음",
     "V-QUA-001": "QUALITY_CHECKLIST의 구현 열(구현/예정)과 실제 구현된 규칙이 일치",
     "V-REV-001": "--require-reviewed: 범위 안 항목이 모두 reviewed",
+    "V-REV-002": "reviewed 항목의 콘텐츠 파일 해시(LF 정규화)가 course.yaml의 reviewed_hash와 일치",
     "V-CLI-001": "--scope 대상이 존재",
 }
 
@@ -561,6 +565,37 @@ def check_reviewed(course, out, scope_lessons):
             out.append(Finding("V-REV-001", "error", f"{kind} {it.get('id')}의 status가 reviewed가 아니다({it.get('status', 'planned')})"))
 
 
+def check_review_hashes(root, course, out, scope_lessons):
+    """V-REV-002: reviewed 교시·카드의 콘텐츠 파일이 승인 이후 바뀌지 않았는지 해시로 대조한다."""
+    if course is None:
+        return
+    items = [("lesson", les) for les in course.get("lessons") or []
+             if scope_lessons is None or les.get("id") in scope_lessons]
+    items += [("card", c) for c in course.get("cards") or []
+              if scope_lessons is None or c.get("lesson") in scope_lessons]
+    for kind, it in items:
+        if it.get("status") != "reviewed":
+            continue
+        iid = it.get("id")
+        try:
+            path = target_file(root, kind, it)
+        except (KeyError, TypeError, ValueError):
+            continue  # 필드 누락은 V-CRS-001·V-CRS-008이 보고한다
+        where = _rel(root, path)
+        expected = it.get("reviewed_hash")
+        if not expected:
+            out.append(Finding("V-REV-002", "error", f"{kind} {iid}는 reviewed인데 reviewed_hash가 없다 — npm run review:approve {iid}", where))
+        elif not path.is_file():
+            out.append(Finding("V-REV-002", "error", f"{kind} {iid}는 reviewed인데 콘텐츠 파일이 없다", where))
+        else:
+            try:
+                actual = content_hash(path)
+            except UnicodeDecodeError:
+                actual = None
+            if actual != expected:
+                out.append(Finding("V-REV-002", "error", f"{kind} {iid}: 승인 후 수정됨 — 다시 검토 필요(npm run review:approve {iid})", where))
+
+
 # ---------------------------------------------------------------------------
 # 실행
 # ---------------------------------------------------------------------------
@@ -601,11 +636,19 @@ def validate(root: Path, *, docs_only=False, scope=None, require_reviewed=False,
     check_quality_link(root, out)
     if check_git:
         check_git_tracking(root, out)
+    check_review_hashes(root, course, out, scope_lessons)
     if require_reviewed:
         check_reviewed(course, out, scope_lessons)
     # docs_only: 현재 모든 규칙이 docs·yaml 수준이다. 웹 빌드 검사(V-WEB-*)는 Phase 1에서 추가하며 docs_only일 때 건너뛴다.
     return out
 
+
+
+def _safe_console():
+    """콘솔 인코딩(예: Windows cp949)에 없는 문자('—' 등)는 바꿔 출력해 검사가 출력 단계에서 죽지 않게 한다."""
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(errors="replace")
 
 
 def main(argv=None):
@@ -619,6 +662,7 @@ def main(argv=None):
     parser.add_argument("--today", default=None, help="기준일(YYYY-MM-DD), 테스트용")
     parser.add_argument("--json", action="store_true", help="JSON으로 출력")
     args = parser.parse_args(argv)
+    _safe_console()
 
     findings = validate(
         ROOT, docs_only=args.docs_only, scope=args.scope,

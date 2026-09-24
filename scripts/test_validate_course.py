@@ -466,6 +466,15 @@ class TestModes:
         assert "V-REV-001" not in ids(run(tmp_path, require_reviewed=True, scope="lesson:l1"))
         assert "V-REV-001" in ids(run(tmp_path, require_reviewed=True, scope="lesson:l2"))
 
+    def test_require_reviewed_does_not_need_hash_rule(self, tmp_path):
+        # V-REV-001은 status만 본다(기존 동작 유지). 해시 검사는 V-REV-002가 따로 한다.
+        def m(c):
+            c["lessons"][0]["status"] = "reviewed"
+        write_project(tmp_path, course=course_with(m))
+        found = run(tmp_path, require_reviewed=True, scope="lesson:l1")
+        assert "V-REV-001" not in ids(found)
+        assert "V-REV-002" in ids(found, "error")
+
     def test_unknown_scope_is_error(self, tmp_path):
         write_project(tmp_path)
         assert "V-CLI-001" in ids(run(tmp_path, scope="lesson:ghost"), "error")
@@ -483,3 +492,73 @@ class TestModes:
         vc.main(["--no-git", "--json", "--today", "2026-09-24"])
         data = json.loads(capsys.readouterr().out)
         assert "findings" in data and "summary" in data
+
+
+class TestReviewHash:
+    """V-REV-002: reviewed 항목의 콘텐츠 파일 해시가 reviewed_hash와 일치한다."""
+
+    def _approved(self, tmp_path, text="본문\n"):
+        mdx = tmp_path / "content" / "day1" / "01.mdx"
+        md = tmp_path / "content" / "prompts" / "card-a.md"
+
+        def m(c):
+            c["lessons"][0].update(status="reviewed", reviewed_hash="sha256:placeholder")
+            c["cards"][0].update(status="reviewed", reviewed_hash="sha256:placeholder")
+        write_project(tmp_path, course=course_with(m))
+        for p in (mdx, md):
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_bytes(text.encode("utf-8"))
+        course_path = tmp_path / "content" / "course.yaml"
+        data = yaml.safe_load(course_path.read_text(encoding="utf-8"))
+        data["lessons"][0]["reviewed_hash"] = vc.content_hash(mdx)
+        data["cards"][0]["reviewed_hash"] = vc.content_hash(md)
+        course_path.write_text(yaml.safe_dump(data, allow_unicode=True, sort_keys=False), encoding="utf-8")
+        return mdx, md
+
+    def test_matching_hash_passes(self, tmp_path):
+        self._approved(tmp_path)
+        assert "V-REV-002" not in ids(run(tmp_path))
+
+    def test_crlf_working_copy_matches_lf_hash(self, tmp_path):
+        mdx, _ = self._approved(tmp_path, "첫 줄\n둘째 줄\n")
+        mdx.write_bytes("첫 줄\r\n둘째 줄\r\n".encode("utf-8"))
+        assert "V-REV-002" not in ids(run(tmp_path))
+
+    def test_modified_lesson_after_approval_is_error(self, tmp_path):
+        mdx, _ = self._approved(tmp_path)
+        mdx.write_text("본문 수정\n", encoding="utf-8")
+        found = [f for f in run(tmp_path) if f.rule == "V-REV-002"]
+        assert len(found) == 1 and found[0].level == "error"
+        assert "승인 후 수정됨" in found[0].message and "l1" in found[0].message
+
+    def test_modified_card_after_approval_is_error(self, tmp_path):
+        _, md = self._approved(tmp_path)
+        md.write_text("카드 수정\n", encoding="utf-8")
+        found = [f for f in run(tmp_path) if f.rule == "V-REV-002"]
+        assert len(found) == 1 and "card-a" in found[0].message
+
+    def test_missing_file_is_error(self, tmp_path):
+        mdx, _ = self._approved(tmp_path)
+        mdx.unlink()
+        assert "V-REV-002" in ids(run(tmp_path), "error")
+
+    def test_missing_hash_is_error(self, tmp_path):
+        def m(c):
+            c["cards"][0]["status"] = "reviewed"
+        write_project(tmp_path, course=course_with(m))
+        md = tmp_path / "content" / "prompts" / "card-a.md"
+        md.parent.mkdir(parents=True)
+        md.write_text("카드\n", encoding="utf-8")
+        assert "V-REV-002" in ids(run(tmp_path), "error")
+
+    def test_draft_items_are_not_checked(self, tmp_path):
+        def m(c):
+            c["lessons"][0].update(status="draft", reviewed_hash="sha256:stale")
+        write_project(tmp_path, course=course_with(m))
+        assert "V-REV-002" not in ids(run(tmp_path))
+
+    def test_scope_limits_hash_check(self, tmp_path):
+        mdx, _ = self._approved(tmp_path)
+        mdx.write_text("본문 수정\n", encoding="utf-8")
+        assert "V-REV-002" in ids(run(tmp_path, scope="lesson:l1"))
+        assert "V-REV-002" not in ids(run(tmp_path, scope="lesson:l2"))
