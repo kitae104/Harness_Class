@@ -43,7 +43,6 @@
 | V-REV-002 | AUTO-오류 | reviewed 항목의 콘텐츠 파일 해시(LF 정규화)가 course.yaml의 reviewed_hash와 일치 | 구현 |
 | V-WEB-001 | AUTO-오류 | 빌드 산출물 내부 링크·이미지 경로 | 예정(P1) |
 | V-WEB-002 | AUTO-오류 | 오프라인 번들 상대경로, 외부 CDN·웹폰트 없음 | 예정(P1) |
-| V-WEB-003 | AUTO-오류 | 복사 버튼·이전/다음·375px 표시·file:// 동작·외부 요청 차단 상태 표시(Playwright, `npm run test:e2e`) | 예정(P1) |
 | V-KIT-001 | AUTO-오류 | kit.yaml 필수 구성요소, 근거가 sources.yaml ID를 가리킴 | 예정(P2) |
 | V-PRP-001 | AUTO-오류 | 제안서 개정본의 시간·교시·산출물이 course.yaml과 일치 | 예정(P9) |
 
@@ -77,7 +76,7 @@
 | Phase 1 이전 step AC | `python -m pytest scripts -q` + `python scripts/validate_course.py --docs-only` 오류 0 |
 | step AC(Phase 1 이후) | `npm run verify -- --scope <대상>` 오류 0 |
 | human-review step | `validate_course.py --scope phase:<id> --require-reviewed` 오류 0 (phase index.json의 `review_targets`만 검사, `phase:` 범위 구현 전에는 `--scope lesson:<id>`) |
-| 오프라인·UI 변경 | `npm run build:offline && npm run test:e2e` 통과 |
+| 오프라인·UI 변경 | `npm run build:offline && npm run test:e2e` 통과 (V-WEB-003 내용: 복사·이전/다음·375px·file://·외부 요청 차단) |
 | Preview | CI 통과 + 강사가 Preview URL에서 해당 교시 확인(저장소 연결 전에는 `npm run preview`) |
 | Production | `validate_course.py --production` 오류 0(core 전부 reviewed, 해시 일치, 링크 오류 0) |
 | 개설 전 | `validate_course.py --pre-launch` 오류 0 + 교육망 접속 테스트 + 법령 개정 확인 |

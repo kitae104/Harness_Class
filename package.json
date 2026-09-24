@@ -10,10 +10,12 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:offline": "npm run build && node scripts/build_offline.mjs",
     "preview": "astro preview",
     "lint": "eslint . && astro check",
     "test": "vitest run",
     "verify": "node scripts/verify.mjs",
+    "test:e2e": "playwright test",
     "new:lesson": "node scripts/new_content.mjs lesson",
     "new:module": "node scripts/new_content.mjs module",
     "new:prompt": "node scripts/new_content.mjs prompt",
@@ -27,8 +29,10 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@playwright/test": "^1.63.0",
     "eslint": "^10.11.0",
     "eslint-plugin-astro": "^3.2.1",
+    "fflate": "^0.8.3",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.70.1",
     "vitest": "^5.0.1"

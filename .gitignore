@@ -18,3 +18,8 @@ phases/**/step*-output.json
 
 # Test coverage
 coverage/
+
+# 오프라인 번들 zip과 Playwright 결과
+dist-offline.zip
+test-results/
+playwright-report/
