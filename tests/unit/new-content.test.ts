@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { parse as parseYaml } from 'yaml';
 import {
   checkName,
   fillTemplate,
@@ -93,6 +94,12 @@ describe('planNew', () => {
     });
   });
 
+  it('kit hint asks to register the kit in course.yaml kits', () => {
+    const { hint } = planNew('kit', 'day1-civil', course);
+    expect(hint).toContain('course.yaml kits');
+    expect(hint).toContain('id: day1-civil');
+  });
+
   it('rejects bad names and unknown kinds', () => {
     expect(() => planNew('module', '../escape', course)).toThrow();
     expect(() => planNew('page', 'x', course)).toThrow(/lesson \| module \| prompt \| kit/);
@@ -164,6 +171,19 @@ describe('run (temporary folder)', () => {
     expect(card).not.toContain('{{');
     expect(readFileSync(join(root, 'content', 'modules', 'my-practice.mdx'), 'utf8')).toContain('module_id: my-practice');
     expect(readFileSync(join(root, 'content', 'kits', 'day1-civil', 'kit.yaml'), 'utf8')).toContain('id: day1-civil');
+  });
+
+  it('kit scaffold follows the PRACTICE_CASES 1 schema (files[], no legacy fields)', () => {
+    const root = makeRoot();
+    expect(run(['kit', 'day1-civil'], { root, io: quiet })).toBe(0);
+    const kit = parseYaml(readFileSync(join(root, 'content', 'kits', 'day1-civil', 'kit.yaml'), 'utf8'));
+    for (const key of ['id', 'title', 'track', 'sources', 'privacy_notes', 'fictional_label', 'files']) {
+      expect(kit).toHaveProperty(key);
+    }
+    expect(Array.isArray(kit.files)).toBe(true);
+    for (const legacy of ['guideline_frame', 'context_files', 'input_data', 'eval_candidates', 'form_template']) {
+      expect(kit).not.toHaveProperty(legacy);
+    }
   });
 
   it('missing arguments exit non-zero', () => {
