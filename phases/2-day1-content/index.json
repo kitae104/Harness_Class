@@ -121,7 +121,7 @@
       ],
       "started_at": "2026-09-24T22:45:57+0900",
       "summary": "content/day1/03.mdx(실습형, D1-04 구조): 이번 시간에 할 일·필수 경로 5단계·지난 시간에서 이어가기·핵심 개념(Project=지침·근거 그릇, 지침란/파일/채팅창, chatgpt-projects detail)(접이식)·강사 시연(지침란 vs 채팅창 붙여넣기 새 대화 비교+체크)·함께 따라하기(v1을 지침란에 저장, 저장 확인 체크, 주의 Callout '긴 프롬프트≠하네스')·잘못된 결과 예시(채팅창에 붙인 지침이 새 대화에서 사라짐)·실습(Project 새 대화에서 기준 질문 5개 재질문, ExternalLink tab=before-after, 붙여넣기 2회+예/아니오 판단, 비교 체크 4, 빈칸 한 문장)·예상 결과(1번 전·후 답, 근거 줄은 비어 있음)·잘못된 결과 예시(형식만 맞고 금액 단정·근거 없는 조문 → '아니오')·선택(빼보기 실험 후 지침 버전 v1으로 되돌림, chatgpt-project-duplicate fallback[OQ-02] / 동료 공유 chatgpt-project-sharing detail·fallback, 짝은 대화 시작 안 함)·잘 안 될 때(chatgpt-projects fallback)·Harness에서 무엇을 바꿨는가(지침이 환경에, 근거는 아직 없음)·다음 교시 연결; content/instructor/day1/03.md; course.yaml d1-project: status draft, checks {id,text} 3개(d1-03-c1 지침란 저장·새 대화 형식, c2 비교표 개선 표시, c3 한 문장 정리)와 objectives 연결(o1→c1 / o2→c2,c3), activities 10/10/10/5→7/8/16/5(합계 36), stuck_points sp-d1-03-c(형식만 보고 금지 위반도 개선 표시) 추가; external-links sheet-harness-ledger fallback_templates에 before-after(적용 전·후 비교: 번호/질문/전 답(붙여 넣기)/후 답(붙여 넣기)/형식·범위 개선(예/아니오)/메모) 추가; 넘기는 산출물: 민원 답변 비서 Project v1(지침란에 v1) → D1-4, 적용 전·후 비교표 → D1-7; npm run verify --scope lesson:d1-project 오류 0(경고: 기존 V-TAG-002)",
-      "completed_at": "2026-09-24T22:50:16+0900"
+      "completed_at": "2026-09-24T22:51:11+0900"
     },
     {
       "step": 7,
