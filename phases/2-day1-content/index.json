@@ -80,13 +80,15 @@
     {
       "step": 4,
       "name": "human-review-exemplar",
-      "status": "pending",
+      "status": "blocked",
+      "blocked_reason": "사람 검토 필요(V-REV-001): kit:day1-civil, lesson:d1-context, card:card-source-rule-snippet이 모두 draft. 확인: npm run build && npm run preview → /course/day1/04/, 키트 zip 내려받아 열어 보기. 검토 초점: H-01(가상 규정·FAQ·기대 답변 상호 일치, 가상 규정이 실제 법령 원문으로 오해되지 않게 표기), D1-04 가상 규정 안내 네 가지 뜻, 실습형 기준 예시로서 구조·분량·어조, 카드를 교육용 Plus 계정에서 실제 테스트 후 tested_at·tested_by 기록(PROMPT_GUIDE 6절, 현재 V-PRM-003 경고), QUALITY_CHECKLIST 루브릭 전 항목 2점. 수정이 필요하면 파일을 고친 뒤 다시 검토. 승인: npm run review:approve day1-civil / d1-context / card-source-rule-snippet. 이후 이 step status를 pending으로 되돌리고 blocked_reason을 지운 뒤 python scripts/execute.py 2-day1-content 재실행",
       "allowed_paths": [],
       "review_targets": [
         "kit:day1-civil",
         "lesson:d1-context",
         "card:card-source-rule-snippet"
-      ]
+      ],
+      "started_at": "2026-09-24T22:05:30+0900"
     },
     {
       "step": 5,
