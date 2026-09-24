@@ -39,12 +39,14 @@
     {
       "step": 1,
       "name": "kit-civil-context",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/kits/day1-civil/*",
         "content/sources.yaml",
         "content/course.yaml"
-      ]
+      ],
+      "started_at": "2026-09-24T21:48:32+0900",
+      "summary": "content/kits/day1-civil/: kit.yaml(PRACTICE_CASES 1절 스키마, sources=[fictional-day1-move-in-rule]), rule-move-in.md(누리시 전입신고 안내 규정, 교육용 가상 규정 제1~10조, 과태료 금액 없음, context·download), faq-move-in.md(교육용 FAQ 10항목·항목별 근거 조문, context·download), guideline-v0.md(일부러 단순한 v0 지침: 역할·범위·출력 형식 추상, 금지사항·모를 때 행동 비어 있음, guideline·download), instructor-notes.md(D1-1 질문 대응표, 결함·보강 FAQ 11항 전문, H-01 항목, other·download false); sources.yaml에 fictional-day1-move-in-rule(조문 10개) 추가; course.yaml kits에 day1-civil draft 추가; 의도된 결함: FAQ에서 '가족이 대신 신고할 때 준비물(위임장·대리인 신분증·신고할 사람 신분증)' 항목을 빠뜨림(규정 제6조 제3항이 FAQ로 위임); D1-1 체험·기준 질문 1~4는 제3·4·5·6·7조로 답 가능, 5(자동차 주소)는 자료에 없음; npm run verify --scope kit:day1-civil 오류 0"
     },
     {
       "step": 2,

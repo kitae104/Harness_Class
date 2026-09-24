@@ -1,0 +1,26 @@
+# Day 1 공통 키트 — 전입신고 민원 답변 비서 (docs/PRACTICE_CASES.md 1·2절)
+# status·reviewed_hash는 content/course.yaml kits에만 둔다(ADR-011).
+# 평가 문항과 기대 답변은 별도 step에서 추가한다.
+id: day1-civil
+title: Day 1 전입신고 민원 답변 비서 키트
+track: core
+sources: [fictional-day1-move-in-rule]
+privacy_notes: 실제 이름·연락처·주민등록번호를 AI에 넣지 마세요. 연락처는 010-0000-XXXX 형식의 가상 번호만 씁니다. 실제 업무에서는 실제 법령과 기관 안내를 확인하세요.
+fictional_label: 이 자료는 교육용 가상 자료이며 실제 인물·기관과 무관합니다. 누리시 규정과 FAQ는 실제 법령 원문이 아니며 법적 효력이 없는 실습용 합성 자료입니다.
+files:
+  - path: rule-move-in.md
+    role: context
+    download: true
+    description: 누리시 전입신고 안내 규정(교육용 가상 규정, 제1조~제10조). Project 파일로 올립니다.
+  - path: faq-move-in.md
+    role: context
+    download: true
+    description: 누리시 전입신고 FAQ(교육용 FAQ, 항목마다 근거 조문). Project 파일로 올립니다.
+  - path: guideline-v0.md
+    role: guideline
+    download: true
+    description: 민원 답변 비서 지침 v0(일부러 단순하게 만든 초안). D1-2에서 v1로 고칩니다.
+  - path: instructor-notes.md
+    role: other
+    download: false
+    description: 강사용 설명(D1-1 질문 대응표, 의도된 결함과 보강 항목, 사람 검토 항목)

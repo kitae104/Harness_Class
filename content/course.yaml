@@ -92,7 +92,8 @@ cards:
 
 # 실습 키트 — 자료는 content/kits/<id>/(kit.yaml 필드는 docs/PRACTICE_CASES.md 1절).
 # status·reviewed_hash도 여기에만 둔다(ADR-011). 해시는 키트 폴더 전체, 승인은 npm run review:approve <kit-id>.
-kits: []
+kits:
+  - {id: day1-civil, title: Day 1 전입신고 민원 답변 비서 키트, status: draft}
 
 lessons:
   # ───────────────────────── Day 1 — 지침·근거·검증 (전입신고 민원 답변 비서)
