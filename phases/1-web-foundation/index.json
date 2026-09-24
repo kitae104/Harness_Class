@@ -68,7 +68,8 @@
         "tests/unit/*"
       ],
       "started_at": "2026-09-24T10:13:07+0900",
-      "summary": "BaseLayout(머리글 메뉴 8개·시스템 글꼴·global.css import, 스크립트 없음)·LessonLayout(LocationBar+course.yaml 학습목표→본문→결과 확인·산출물→LessonNav, placeholder면 목표·산출물만), components/Sidebar(넓은 화면 nav, 좁은 화면 <details>, 현재 교시 aria-current)·LocationBar(필수/선택은 glossary termLabel)·LessonNav(neighbors, Day 경계 연결)·site.ts 순수 함수(lessonHref 끝 / 절대경로, lessonParams, locationLabel, coreLessons, dayGroups, activityMinutes, elementNames, lessonTypeLabel, showsPlaceholder, 테스트 12개); /course 시간표(분·시간을 constraints·activities에서 계산), /course/[day]/[num] core 14교시(lesson_id 일치 MDX가 있고 planned가 아니면 본문, 아니면 준비 중), index를 2일 지도·6요소로 교체, 나머지 7개 메뉴 페이지는 준비 중(/optional/codex 첫 줄 '몰라도 수료에 지장 없습니다.'); global.css는 UI_GUIDE 색상 변수+다크 모드+64rem 기준 사이드바 전환"
+      "summary": "BaseLayout(머리글 메뉴 8개·시스템 글꼴·global.css import, 스크립트 없음)·LessonLayout(LocationBar+course.yaml 학습목표→본문→결과 확인·산출물→LessonNav, placeholder면 목표·산출물만), components/Sidebar(넓은 화면 nav, 좁은 화면 <details>, 현재 교시 aria-current)·LocationBar(필수/선택은 glossary termLabel)·LessonNav(neighbors, Day 경계 연결)·site.ts 순수 함수(lessonHref 끝 / 절대경로, lessonParams, locationLabel, coreLessons, dayGroups, activityMinutes, elementNames, lessonTypeLabel, showsPlaceholder, 테스트 12개); /course 시간표(분·시간을 constraints·activities에서 계산), /course/[day]/[num] core 14교시(lesson_id 일치 MDX가 있고 planned가 아니면 본문, 아니면 준비 중), index를 2일 지도·6요소로 교체, 나머지 7개 메뉴 페이지는 준비 중(/optional/codex 첫 줄 '몰라도 수료에 지장 없습니다.'); global.css는 UI_GUIDE 색상 변수+다크 모드+64rem 기준 사이드바 전환",
+      "completed_at": "2026-09-24T10:17:05+0900"
     },
     {
       "step": 3,
