@@ -170,25 +170,28 @@ lessons:
     type: practice
     subject: S2
     track: core
-    status: planned
+    status: draft
     elements: [instructions]
     activities:
-      - {kind: demo, name: Project 개념과 만들기 시연, minutes: 10}
-      - {kind: follow, name: Project 생성과 지침 입력, minutes: 10}
-      - {kind: practice, name: 기준 질문 5개 재질문과 적용 전·후 비교, minutes: 10}
+      - {kind: demo, name: Project 개념과 만들기 시연, minutes: 7}
+      - {kind: follow, name: Project 생성과 지침 입력, minutes: 8}
+      - {kind: practice, name: 기준 질문 5개 재질문과 적용 전·후 비교, minutes: 16}
       - {kind: practice, name: 동료 공유(가능 시) 또는 빼보기 실험, minutes: 5}
     objectives:
-      - {id: d1-03-o1, text: 지침을 Project에 넣어 매번 같은 규칙으로 답하게 만든다, outputs: [d1-03-p1]}
-      - {id: d1-03-o2, text: 적용 전·후 답변을 비교해 지침의 효과를 설명한다, outputs: [d1-03-p2]}
+      - {id: d1-03-o1, text: 지침을 Project에 넣어 매번 같은 규칙으로 답하게 만든다, outputs: [d1-03-p1], checks: [d1-03-c1]}
+      - {id: d1-03-o2, text: 적용 전·후 답변을 비교해 지침의 효과를 설명한다, outputs: [d1-03-p2], checks: [d1-03-c2, d1-03-c3]}
     outputs:
       - {id: d1-03-p1, text: 민원 답변 비서 Project v1, used_by: [d1-context]}
       - {id: d1-03-p2, text: 적용 전·후 비교표, used_by: [d1-improve]}
     checks:
-      - 5문항 중 형식·범위가 개선된 문항을 비교표에 표시했다
+      - {id: d1-03-c1, text: Project 지침란에 지침서 v1 전문이 저장되어 있고 새 대화에서 질문만 넣어도 v1의 출력 형식대로 답한다}
+      - {id: d1-03-c2, text: 5문항 중 형식·범위가 개선된 문항을 비교표에 표시했다}
+      - {id: d1-03-c3, text: 지침으로 나아진 것과 아직 근거가 없는 것을 비교표 아래에 한 문장으로 적었다}
     cards: []
     stuck_points:
       - {id: sp-d1-03-a, text: 지침을 지침란이 아니라 채팅창에 붙여 넣는다, supports: [5, 7]}
       - {id: sp-d1-03-b, text: 전·후 답변의 차이를 찾지 못한다, supports: [4, 9]}
+      - {id: sp-d1-03-c, text: 형식이 맞으면 금지사항을 어긴 답도 개선으로 표시한다, supports: [5, 9]}
     skip_if_short: [동료 공유]
 
   - id: d1-context
