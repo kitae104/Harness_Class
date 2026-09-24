@@ -188,7 +188,8 @@
         "card:card-failure-cause"
       ],
       "started_at": "2026-09-24T23:08:38+0900",
-      "blocked_reason": "사람 검토 필요: 미승인(draft) 7건 — lesson d1-guideline·d1-project·d1-evalset·d1-improve, card card-guideline-critique·card-eval-question-critique·card-failure-cause (V-REV-001). ① 확인: npm run build && npm run preview → /course/day1/02/, 03/, 05/, 07/. ② 검토 초점: Day 1 누적 흐름(step 9 summary의 reviewed 쪽 어긋남 2건 판단 포함: course.yaml d1-harness-intro elements가 []인데 D1-01·D1-07은 기록을 D1-1부터로 셈 / D1-04 지침 백업 버전 이름 미지정), 초보자 기준, 실습형 필수 섹션, CD-17(D1-05 질문·기대 답변 용도 구분), D1-07이 평가 절차를 다시 쓰지 않는지, 카드 3장을 교육용 Plus 계정에서 실제 테스트하고 tested_at·tested_by 기록(현재 V-PRM-003 경고), QUALITY_CHECKLIST 루브릭 모두 2점. ③ 수정이 필요하면 해당 파일을 고친 뒤 다시 검토. ④ 승인: npm run review:approve <id>를 대상마다 실행(d1-guideline, d1-project, d1-evalset, d1-improve, card-guideline-critique, card-eval-question-critique, card-failure-cause). ⑤ 이 step의 status를 pending으로 되돌리고 blocked_reason을 지운 뒤 python scripts/execute.py 2-day1-content 재실행."
+      "blocked_reason": "사람 검토 필요: 미승인(draft) 7건 — lesson d1-guideline·d1-project·d1-evalset·d1-improve, card card-guideline-critique·card-eval-question-critique·card-failure-cause (V-REV-001). ① 확인: npm run build && npm run preview → /course/day1/02/, 03/, 05/, 07/. ② 검토 초점: Day 1 누적 흐름(step 9 summary의 reviewed 쪽 어긋남 2건 판단 포함: course.yaml d1-harness-intro elements가 []인데 D1-01·D1-07은 기록을 D1-1부터로 셈 / D1-04 지침 백업 버전 이름 미지정), 초보자 기준, 실습형 필수 섹션, CD-17(D1-05 질문·기대 답변 용도 구분), D1-07이 평가 절차를 다시 쓰지 않는지, 카드 3장을 교육용 Plus 계정에서 실제 테스트하고 tested_at·tested_by 기록(현재 V-PRM-003 경고), QUALITY_CHECKLIST 루브릭 모두 2점. ③ 수정이 필요하면 해당 파일을 고친 뒤 다시 검토. ④ 승인: npm run review:approve <id>를 대상마다 실행(d1-guideline, d1-project, d1-evalset, d1-improve, card-guideline-critique, card-eval-question-critique, card-failure-cause). ⑤ 이 step의 status를 pending으로 되돌리고 blocked_reason을 지운 뒤 python scripts/execute.py 2-day1-content 재실행.",
+      "blocked_at": "2026-09-24T23:09:55+0900"
     },
     {
       "step": 11,
