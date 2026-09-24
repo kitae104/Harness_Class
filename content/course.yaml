@@ -99,7 +99,8 @@ lessons:
     type: concept
     subject: S1
     track: core
-    status: draft
+    status: reviewed
+    reviewed_hash: "sha256:b64a8ea00af2ae395a5be5b044581226335cfe5d9d42af67bbc54992ffe6617a"
     elements: []
     overview: true
     activities:
