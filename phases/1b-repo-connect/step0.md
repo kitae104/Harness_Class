@@ -83,9 +83,12 @@ npm run verify
 
 (사용자가 연결 작업을 마친 뒤 아래를 채운다. 비어 있으면 이 step은 blocked로 끝난다.)
 
-- 원작자 허락(OQ-01): 
-- 저장소 URL(OQ-11): 
-- 첫 CI 실행 결과 링크: 
-- Vercel Preview URL: 
-- Vercel 요금제 결정(OQ-09): 
+- 원작자 허락(OQ-01): 미해결 — OQ-01 open 유지
+- 저장소 URL(OQ-11): https://github.com/kitae104/Harness_Class (Public)
+- 첫 CI 실행 결과 링크: verify workflow 성공 확인(실행 링크는 기록하지 않음)
+- Vercel Preview URL: 미확인 — 아직 확인하지 않음
+- Vercel 요금제 결정(OQ-09): 미결정 — OQ-09 open 유지
 - 라이선스 결정과 문구 출처(OQ-13): 
+- main 브랜치 Ruleset(확인됨): Pull Request 필수, verify status check 필수, branch up-to-date 필수, force push 금지
+- Vercel Production 배포(확인됨): https://harness-class.vercel.app
+- D1-01 Production 페이지(확인됨): https://harness-class.vercel.app/course/day1/01/
