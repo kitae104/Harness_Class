@@ -76,7 +76,7 @@ completion:
 # 카드 status·reviewed_hash도 여기에만 둔다(ADR-011). 카드 파일에는 상태를 쓰지 않는다.
 cards:
   - {id: card-guideline-critique, lesson: d1-guideline, title: 내 지침에서 애매한 곳 찾기, category: C, level: 1, where: new-chat, track: core, status: planned}
-  - {id: card-source-rule-snippet, lesson: d1-context, title: 출처 규칙 지침 문장, category: D, level: 2, where: instructions, track: core, status: draft}
+  - {id: card-source-rule-snippet, lesson: d1-context, title: 출처 규칙 지침 문장, category: D, level: 2, where: instructions, track: core, status: reviewed, reviewed_hash: "sha256:c7e812fe0fa55a6d07868d8e1fc6956c22576344b25fcdae03252c5f082857b4"}
   - {id: card-eval-question-critique, lesson: d1-evalset, title: 내가 쓴 평가 문항 비판받기, category: E, level: 2, where: new-chat, track: core, status: planned}
   - {id: card-batch-grading, lesson: d1-eval-run, title: 받은 답 채점(Project 밖), category: E, level: 1, where: temporary-chat, track: core, status: planned}
   - {id: card-failure-cause, lesson: d1-improve, title: 오답 원인 분석, category: E, level: 2, where: project-chat, track: core, status: planned}
@@ -93,7 +93,7 @@ cards:
 # 실습 키트 — 자료는 content/kits/<id>/(kit.yaml 필드는 docs/PRACTICE_CASES.md 1절).
 # status·reviewed_hash도 여기에만 둔다(ADR-011). 해시는 키트 폴더 전체, 승인은 npm run review:approve <kit-id>.
 kits:
-  - {id: day1-civil, title: Day 1 전입신고 민원 답변 비서 키트, status: draft}
+  - {id: day1-civil, title: Day 1 전입신고 민원 답변 비서 키트, status: reviewed, reviewed_hash: "sha256:99502e06b42a0e56756e57c916e369060e3c1e9f87a5c22c8b24e5a7ac85c3f6"}
 
 lessons:
   # ───────────────────────── Day 1 — 지침·근거·검증 (전입신고 민원 답변 비서)
@@ -195,7 +195,8 @@ lessons:
     type: practice
     subject: S3
     track: core
-    status: draft
+    status: reviewed
+    reviewed_hash: "sha256:20fad6063f5393ed08d334cef523800e3bf3536a7a2c52033c897d6084e6ed09"
     elements: [context, guardrails]
     activities:
       - {kind: explain, name: 근거·출처·기준일, minutes: 5}
