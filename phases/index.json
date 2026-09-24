@@ -19,11 +19,13 @@
     },
     {
       "dir": "1b-repo-connect",
-      "status": "blocked",
+      "status": "completed",
       "depends_on": [
         "1-web-foundation"
       ],
-      "blocked_at": "2026-09-24T12:59:32+0900"
+      "blocked_at": "2026-09-24T12:59:32+0900",
+      "completed_at": "2026-09-24T14:02:12+0900",
+      "summary": "저장소 https://github.com/kitae104/Harness_Class(Public, origin), references 미추적, CI verify 성공·main Ruleset(PR·verify·up-to-date·force push 금지)·Vercel Preview(feat-repo-connect)·Production(harness-class.vercel.app) 확인을 DEPLOYMENT 1절에 기록; OQ-01·OQ-09·OQ-11 closed, OQ-13 open 유지(LICENSE 미생성); npm run verify 통과(오류 0); 허용 경로 밖 닫힌 OQ 태그 잔존: docs/ADR.md·docs/PRODUCT_FEATURES.md의 [TBD: OQ-09](V-TAG-002 경고)"
     }
   ]
 }
