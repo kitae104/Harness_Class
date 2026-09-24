@@ -1,0 +1,30 @@
+---
+// 이전/다음 교시. 첫·마지막 교시는 한쪽만 표시한다.
+import { loadCourse, neighbors } from '../lib/course';
+import { lessonHref, locationLabel } from './site';
+
+interface Props {
+  lessonId: string;
+}
+
+const { prev, next } = neighbors(loadCourse(), Astro.props.lessonId);
+---
+
+<nav class="lesson-nav" aria-label="교시 이동">
+  {
+    prev && (
+      <a class="prev" href={lessonHref(prev)} rel="prev">
+        <span class="lesson-nav-label">← 이전 교시</span>
+        {locationLabel(prev)}
+      </a>
+    )
+  }
+  {
+    next && (
+      <a class="next" href={lessonHref(next)} rel="next">
+        <span class="lesson-nav-label">다음 교시 →</span>
+        {locationLabel(next)}
+      </a>
+    )
+  }
+</nav>

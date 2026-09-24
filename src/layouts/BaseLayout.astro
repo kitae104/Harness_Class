@@ -1,0 +1,62 @@
+---
+// 모든 페이지의 공통 틀: 머리글 메뉴 + 사이드바 + 본문. 스크립트를 넣지 않는다(ADR-008).
+import '../styles/global.css';
+import Sidebar from '../components/Sidebar.astro';
+import { loadCourse } from '../lib/course';
+
+interface Props {
+  title?: string;
+  currentLessonId?: string;
+}
+
+const { title, currentLessonId } = Astro.props;
+const course = loadCourse();
+const pageTitle = title ? `${title} — ${course.course.title}` : course.course.title;
+
+const menu = [
+  { href: '/', label: '홈' },
+  { href: '/before/', label: '사전 준비' },
+  { href: '/course/', label: '전체 과정' },
+  { href: '/practice/', label: '실습' },
+  { href: '/prompts/', label: '프롬프트' },
+  { href: '/templates/', label: '템플릿' },
+  { href: '/project/', label: '프로젝트' },
+  { href: '/resources/', label: '자료' },
+];
+
+const path = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="site-title" href="/">{course.course.title}</a>
+      <nav class="site-menu" aria-label="주 메뉴">
+        <ul>
+          {
+            menu.map((item) => (
+              <li>
+                <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </header>
+    <div class="site-body">
+      <Sidebar currentId={currentLessonId} />
+      <main class="site-main">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+---
+// Day별 교시 목록. 넓은 화면은 항상 펼친 목록, 좁은 화면은 <details>로 접는다(JS 없음).
+import { loadCourse } from '../lib/course';
+import { dayGroups, lessonHref } from './site';
+
+interface Props {
+  currentId?: string;
+}
+
+const { currentId } = Astro.props;
+const groups = dayGroups(loadCourse());
+---
+
+<aside class="sidebar" aria-label="교시 목록">
+  <details class="sidebar-narrow">
+    <summary>교시 목록</summary>
+    {
+      groups.map((group) => (
+        <>
+          <p class="sidebar-day">Day {group.day}</p>
+          <ol>
+            {group.lessons.map((lesson) => (
+              <li>
+                <a href={lessonHref(lesson)} aria-current={lesson.id === currentId ? 'page' : undefined}>
+                  {lesson.number}. {lesson.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </>
+      ))
+    }
+  </details>
+  <nav class="sidebar-wide" aria-label="교시 목록">
+    {
+      groups.map((group) => (
+        <>
+          <p class="sidebar-day">Day {group.day}</p>
+          <ol>
+            {group.lessons.map((lesson) => (
+              <li>
+                <a href={lessonHref(lesson)} aria-current={lesson.id === currentId ? 'page' : undefined}>
+                  {lesson.number}. {lesson.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </>
+      ))
+    }
+  </nav>
+</aside>
