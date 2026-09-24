@@ -148,7 +148,11 @@
         "scripts/validate_course.py",
         "scripts/test_validate_course.py",
         "docs/QUALITY_CHECKLIST.md"
-      ]
+      ],
+      "started_at": "2026-09-24T10:46:31+0900",
+      "status": "completed",
+      "summary": "validate_course.py 규칙 10개 추가(36개): V-LSN-001(같은 위치 lesson_id 일치·없는 교시 파일·draft/reviewed 파일 누락), V-LSN-002(공통 섹션 5개 이번 시간에 할 일/필수 경로/실습/Harness에서 무엇을 바꿨는가/다음 교시 연결 + 실습형 예상 결과·잘못된 결과 예시, 제목 접두·<summary> 인정, 코드 블록 제외), V-LSN-003 경고(목표 이해한다/안다/알아본다, 본문 문장 120자), V-LSN-004 경고(메뉴 경로 >·파일 N개·N MB/GB, 코드·태그·인용 표시 제외), V-PRM-001(카드 파일↔course.yaml 1:1, id·stuck_point·where·default_level 교차 일치, l2_template·l1_full 대괄호↔replace, draft/reviewed 파일 누락 — 타입은 zod 담당), V-PRM-002(level 3에 l2_template), V-PRM-003 경고(tested_at 없음·경과), V-WEB-001(dist/ 루트 링크·이미지 실파일, dist 없으면 info), V-WEB-002(dist·dist-offline 외부 script/stylesheet/@font-face·type=module 금지, 오프라인 링크 상대경로), 두 WEB 규칙은 --docs-only에서 건너뜀; --scope card:<id>와 phase:<dir>(phases/<dir>/index.json review_targets, 없거나 잘못되면 V-CLI-001, --require-reviewed는 대상만 검사) 지원; 테스트 61개 추가(기존 future-rule 예시를 V-KIT-001로 교체); QUALITY_CHECKLIST 해당 행 구현 표시·V-LSN-004 행 추가",
+      "completed_at": "2026-09-24T11:05:00+0900"
     },
     {
       "step": 8,
