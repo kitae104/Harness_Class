@@ -111,13 +111,16 @@
     {
       "step": 5,
       "name": "d1-01-exemplar",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/day1/01.mdx",
         "content/instructor/day1/01.md",
         "public/images/d1-harness-intro/*",
         "content/course.yaml"
-      ]
+      ],
+      "started_at": "2026-09-24T10:35:03+0900",
+      "summary": "content/day1/01.mdx 개념형 기준 예시: 섹션 순서 이번 시간에 할 일→필수 경로(5단계)→시작하기 전에(입과 안내·실습 자료 규칙 Callout)→체험(같은 질문 2회, Checklist 입력 전 확인·비교 관점 내용/형식/근거, 정답은 <Source law-resident-registration 제16조>로만)→왜 필요한가→핵심 개념(Prompt·Context·Harness 비교표+한계 열, '프롬프트를 길게 쓴다고 하네스가 되지 않습니다' Callout, 그림 A+6요소 목록, 접이식 행정 관행 표·6요소 사례(skip_if_short))→실습(비개인화 <Feature chatgpt-temporary-chat>, 기준 질문 5개 CopyButton, <ExternalLink sheet-harness-ledger>, 접이식 잘 안 될 때)→Harness에서 무엇을 바꿨는가→다음 교시 연결(D1-3 적용 전 답); 그림 public/images/d1-harness-intro/harness-six-elements.svg(<title>·<desc>·실제 <text>, UI_GUIDE 팔레트); content/instructor/day1/01.md(시연 순서·흔한 오류·생략 항목); course.yaml d1-harness-intro status draft",
+      "completed_at": "2026-09-24T10:38:20+0900"
     },
     {
       "step": 6,
