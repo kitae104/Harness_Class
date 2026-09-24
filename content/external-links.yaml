@@ -23,6 +23,9 @@ links:
       before-after:
         title: 적용 전·후 비교
         columns: [번호, 질문, 전 답(붙여 넣기), 후 답(붙여 넣기), 형식·범위 개선(예/아니오), 메모]
+      eval:
+        title: 평가
+        columns: [번호, 질문, 답변 요약, 정확, 출처, 금지, 점수, 틀린 이유]
     status: planned
   - id: form-shared-civil-intake
     title: 강사 공용 민원 접수 폼(역할카드 응답용)

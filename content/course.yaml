@@ -77,7 +77,7 @@ completion:
 cards:
   - {id: card-guideline-critique, lesson: d1-guideline, title: 내 지침에서 애매한 곳 찾기, category: C, level: 1, where: new-chat, track: core, status: draft}
   - {id: card-source-rule-snippet, lesson: d1-context, title: 출처 규칙 지침 문장, category: D, level: 2, where: instructions, track: core, status: reviewed, reviewed_hash: "sha256:c7e812fe0fa55a6d07868d8e1fc6956c22576344b25fcdae03252c5f082857b4"}
-  - {id: card-eval-question-critique, lesson: d1-evalset, title: 내가 쓴 평가 문항 비판받기, category: E, level: 2, where: new-chat, track: core, status: planned}
+  - {id: card-eval-question-critique, lesson: d1-evalset, title: 내가 쓴 평가 문항 비판받기, category: E, level: 2, where: new-chat, track: core, status: draft}
   - {id: card-batch-grading, lesson: d1-eval-run, title: 받은 답 채점(Project 밖), category: E, level: 1, where: temporary-chat, track: core, status: planned}
   - {id: card-failure-cause, lesson: d1-improve, title: 오답 원인 분석, category: E, level: 2, where: project-chat, track: core, status: planned}
   - {id: card-classify-attachment, lesson: d2-batch-classify, title: 첨부한 접수 표 분류·요약, category: B, level: 2, where: project-chat, track: core, status: planned}
@@ -236,7 +236,7 @@ lessons:
     type: practice
     subject: S4
     track: core
-    status: planned
+    status: draft
     elements: [evals, guardrails]
     activities:
       - {kind: explain, name: 평가세트 먼저, minutes: 5}
@@ -244,16 +244,19 @@ lessons:
       - {kind: follow, name: 답변 2개 손채점, minutes: 10}
       - {kind: practice, name: 내 평가 문항 3개와 기대 답변 작성, minutes: 15}
     objectives:
-      - {id: d1-05-o1, text: 평가 문항·기대 답변·채점 기준의 역할을 설명한다, outputs: [d1-05-p1]}
-      - {id: d1-05-o2, text: 기대 답변(핵심 포인트 2개 + 근거 조문)이 있는 평가 문항을 작성한다, outputs: [d1-05-p1]}
+      - {id: d1-05-o1, text: 평가 문항·기대 답변·채점 기준의 역할을 설명한다, outputs: [d1-05-p1], checks: [d1-05-c1, d1-05-c3]}
+      - {id: d1-05-o2, text: 기대 답변(핵심 포인트 2개 + 근거 조문)이 있는 평가 문항을 작성한다, outputs: [d1-05-p1], checks: [d1-05-c2]}
     outputs:
       - {id: d1-05-p1, text: 평가세트 23문항(제공 20 + 직접 3), used_by: [d1-eval-run]}
     checks:
-      - 직접 쓴 3문항에 기대 답변과 근거 조문이 있다
+      - {id: d1-05-c1, text: 가상 답변 2개를 채점 기준(정확·출처·금지)으로 손채점해 점수와 0점인 이유를 적었다}
+      - {id: d1-05-c2, text: 직접 쓴 3문항에 기대 답변(핵심 포인트 2개)과 규정 파일에 실제로 있는 근거 조문이 있고 하네스 대장(또는 표 양식) 평가에 기록되어 있다}
+      - {id: d1-05-c3, text: Project 파일 목록에 규정과 FAQ만 있고 질문·기대 답변 파일은 없는 것을 확인했다}
     cards: [card-eval-question-critique]
     stuck_points:
       - {id: sp-d1-05-a, text: 좋은 평가 질문이 무엇인지 모른다, supports: [3, 4, 9]}
       - {id: sp-d1-05-b, text: 기대 답변을 쓰지 못하거나 정답 없는 질문을 만든다, supports: [2, 5], card: card-eval-question-critique}
+      - {id: sp-d1-05-c, text: 기대 답변 파일을 Project에 올리거나 질문과 함께 붙여야 한다고 생각한다, supports: [5, 9]}
     skip_if_short: [직접 작성 문항을 3개에서 1개로]
 
   - id: d1-eval-run
