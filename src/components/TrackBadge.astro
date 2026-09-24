@@ -1,0 +1,15 @@
+---
+// 필수/선택 텍스트 배지. 문구는 glossary student_label(core → 필수, optional → 선택).
+import { termLabel } from '../lib/registries';
+import type { Track } from '../lib/types';
+
+interface Props {
+  track: Track;
+}
+
+const { track } = Astro.props;
+const label = termLabel(track);
+if (label === undefined) throw new Error(`TrackBadge: glossary에 없는 트랙 "${track}"`);
+---
+
+<span class:list={['badge', `badge-${track}`]}>{label}</span>

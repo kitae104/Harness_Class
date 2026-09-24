@@ -1,0 +1,60 @@
+---
+// 전체 시간표. 교시·분·시간은 모두 course.yaml에서 계산한다(ADR-003).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { loadCourse } from '../../lib/course';
+import { activityMinutes, dayGroups, elementNames, lessonHref, lessonTypeLabel } from '../../components/site';
+
+const course = loadCourse();
+const { lesson_minutes: lessonMinutes } = course.constraints;
+const groups = dayGroups(course);
+const totalMinutes = groups.reduce((sum, group) => sum + group.lessons.length * lessonMinutes, 0);
+const allElements = Object.keys(course.elements);
+---
+
+<BaseLayout title="전체 과정">
+  <h1>전체 과정</h1>
+  <p>
+    {groups.length}일 · {groups.reduce((sum, group) => sum + group.lessons.length, 0)}교시 · 총 {totalMinutes / 60}시간
+    <span class="muted">(교시당 {lessonMinutes}분)</span>
+  </p>
+
+  {
+    groups.map((group) => (
+      <section aria-labelledby={`day${group.day}`}>
+        <h2 id={`day${group.day}`}>
+          Day {group.day} <span class="muted">— {group.lessons.length}교시, {group.lessons.length * lessonMinutes}분</span>
+        </h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">교시</th>
+                <th scope="col">제목</th>
+                <th scope="col">유형</th>
+                <th scope="col">6요소</th>
+                <th scope="col">핵심 활동</th>
+              </tr>
+            </thead>
+            <tbody>
+              {group.lessons.map((lesson) => (
+                <tr>
+                  <td>{lesson.number}</td>
+                  <td>
+                    <a href={lessonHref(lesson)}>{lesson.title}</a>
+                  </td>
+                  <td>{lessonTypeLabel(lesson.type)}</td>
+                  <td>
+                    {lesson.overview && lesson.elements.length === 0
+                      ? `${elementNames(course, allElements).join(' ')} (전체 소개)`
+                      : elementNames(course, lesson.elements).join(' ')}
+                  </td>
+                  <td>{activityMinutes(lesson)}분</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ))
+  }
+</BaseLayout>

@@ -1,0 +1,40 @@
+{
+  "name": "harness-class",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "공무원을 위한 하네스 엔지니어링 — 웹 강의자료",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "build:offline": "npm run build && node scripts/build_offline.mjs",
+    "preview": "astro preview",
+    "lint": "eslint . && astro check",
+    "test": "vitest run",
+    "verify": "node scripts/verify.mjs",
+    "test:e2e": "playwright test",
+    "new:lesson": "node scripts/new_content.mjs lesson",
+    "new:module": "node scripts/new_content.mjs module",
+    "new:prompt": "node scripts/new_content.mjs prompt",
+    "new:kit": "node scripts/new_content.mjs kit",
+    "review:approve": "node scripts/new_content.mjs approve"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^8.0.2",
+    "astro": "^7.3.4",
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@playwright/test": "^1.63.0",
+    "eslint": "^10.11.0",
+    "eslint-plugin-astro": "^3.2.1",
+    "fflate": "^0.8.3",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.70.1",
+    "vitest": "^5.0.1"
+  }
+}

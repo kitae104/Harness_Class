@@ -99,26 +99,33 @@ lessons:
     type: concept
     subject: S1
     track: core
-    status: planned
+    status: reviewed
+    reviewed_hash: "sha256:b64a8ea00af2ae395a5be5b044581226335cfe5d9d42af67bbc54992ffe6617a"
     elements: []
     overview: true
     activities:
       - {kind: admin, name: 입과 안내, minutes: 10}
       - {kind: follow, name: 같은 민원 질문 2회 입력 후 짝과 비교(로그인 확인 겸), minutes: 10}
-      - {kind: explain, name: Prompt·Context·Harness 비교와 6요소 지도, minutes: 10}
-      - {kind: practice, name: 임시 채팅에서 기준 질문 5개 답변 기록, minutes: 5}
+      - {kind: explain, name: Prompt·Context·Harness 비교와 6요소 지도, minutes: 8}
+      - {kind: practice, name: 비개인화 임시 채팅에서 기준 질문 5개를 묻고 표 양식에 답 붙여 넣기, minutes: 10}
+      - {kind: check, name: 짝에게 한 문장 설명과 6요소 이름 적고 체크, minutes: 2}
     objectives:
-      - {id: d1-01-o1, text: 같은 질문에도 AI 답이 달라지는 문제를 직접 확인하고 설명한다, outputs: [d1-01-p1]}
-      - {id: d1-01-o2, text: Prompt·Context·Harness의 차이와 6요소의 이름을 말한다, outputs: [d1-01-p1]}
+      - {id: d1-01-o1, text: 같은 질문에도 AI 답이 달라지는 문제를 직접 확인하고 설명한다, outputs: [d1-01-p1], checks: [d1-01-c1, d1-01-c2]}
+      - {id: d1-01-o2, text: Prompt·Context·Harness의 차이를 짝에게 설명하고 6요소의 이름을 적는다, outputs: [d1-01-p2], checks: [d1-01-c2, d1-01-c3]}
     outputs:
       - {id: d1-01-p1, text: 기준 질문 5개와 첫 답변 기록(하네스 대장), used_by: [d1-project]}
+      - {id: d1-01-p2, text: 6요소 한 줄 메모(그림을 보지 않고 적은 6요소 이름), used_by: [d2-project-design]}
     checks:
-      - 하네스 대장에 기준 질문 5개와 답변이 기록되어 있다
+      - {id: d1-01-c1, text: 기준 질문 5개와 답이 하네스 대장(또는 표 양식)에 기록되어 있다}
+      - {id: d1-01-c2, text: 짝에게 같은 질문에 답이 달랐던 이유와 하네스가 필요한 이유를 한 문장으로 말했다}
+      - {id: d1-01-c3, text: 6요소 이름을 그림을 보지 않고 적은 뒤 체크리스트에서 모두 체크했다}
     cards: []
     stuck_points:
       - {id: sp-d1-01-a, text: 어디에 입력하는지 모른다, supports: [7, 9]}
       - {id: sp-d1-01-b, text: 두 답변을 비교할 때 무엇을 봐야 할지 모른다, supports: [3, 9]}
-    skip_if_short: [6요소 사례 설명]
+      - {id: sp-d1-01-c, text: 기준 질문의 답을 기록할 곳이 없다, supports: [3, 9]}
+      - {id: sp-d1-01-d, text: 비개인화 임시 채팅이 무엇인지 모른다, supports: [6, 7]}
+    skip_if_short: [6요소 사례 설명, 답이 다른 예시 보기]
 
   - id: d1-guideline
     day: 1

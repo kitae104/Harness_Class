@@ -21,7 +21,7 @@
     {
       "step": 0,
       "name": "astro-setup",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "package.json",
         "package-lock.json",
@@ -37,35 +37,44 @@
         "src/env.d.ts",
         "src/pages/index.astro",
         "public/favicon.svg"
-      ]
+      ],
+      "started_at": "2026-09-24T09:29:19+0900",
+      "summary": "astro 7.3.4 + @astrojs/mdx 8, Node >=22.12.0(.nvmrc 22.12.0), TS 6.0 strict; package.json·astro/tsconfig/eslint/vitest 설정, scripts/verify.mjs(lint→build→vitest→pytest→validate, --scope만 validator로 전달, python3→python 자동 선택)와 단위 테스트 8개, CI verify.yml, course.title을 읽는 최소 index 페이지",
+      "completed_at": "2026-09-24T10:08:24+0900"
     },
     {
       "step": 1,
       "name": "content-schema",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "src/content.config.ts",
         "src/lib/*",
         "tests/unit/*",
         "tests/fixtures/*"
-      ]
+      ],
+      "started_at": "2026-09-24T10:08:25+0900",
+      "summary": "src/content.config.ts에 컬렉션 3개(lessons: content/day{1,2}/*.mdx·lesson_id만, prompts: content/prompts/*.md·PROMPT_GUIDE 2절 필드(status 없음), modules: content/modules/*.mdx·module_id, 모두 strictObject·빈 폴더 허용); src/lib/course.ts(loadCourse·lessonsInOrder·lessonById·lessonByPosition·neighbors·lessonUrl·cardsForLesson·commonCards), src/lib/registries.ts(loadFeatures·featureById·loadSources·sourceById·loadExternalLinks·linkById·loadGlossary·termLabel), src/lib/types.ts, src/lib/yaml.ts(readYaml, cwd 기준 content/ 경로); @types/node 미설치라 src/lib/node-fs.d.ts에 readFileSync 선언만 둠(추가 시 삭제 가능); 단위 테스트 29개 + tests/fixtures 가짜 yaml 5개",
+      "completed_at": "2026-09-24T10:13:06+0900"
     },
     {
       "step": 2,
       "name": "layout-nav",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "src/layouts/*",
         "src/pages/*",
         "src/components/*",
         "src/styles/*",
         "tests/unit/*"
-      ]
+      ],
+      "started_at": "2026-09-24T10:13:07+0900",
+      "summary": "BaseLayout(머리글 메뉴 8개·시스템 글꼴·global.css import, 스크립트 없음)·LessonLayout(LocationBar+course.yaml 학습목표→본문→결과 확인·산출물→LessonNav, placeholder면 목표·산출물만), components/Sidebar(넓은 화면 nav, 좁은 화면 <details>, 현재 교시 aria-current)·LocationBar(필수/선택은 glossary termLabel)·LessonNav(neighbors, Day 경계 연결)·site.ts 순수 함수(lessonHref 끝 / 절대경로, lessonParams, locationLabel, coreLessons, dayGroups, activityMinutes, elementNames, lessonTypeLabel, showsPlaceholder, 테스트 12개); /course 시간표(분·시간을 constraints·activities에서 계산), /course/[day]/[num] core 14교시(lesson_id 일치 MDX가 있고 planned가 아니면 본문, 아니면 준비 중), index를 2일 지도·6요소로 교체, 나머지 7개 메뉴 페이지는 준비 중(/optional/codex 첫 줄 '몰라도 수료에 지장 없습니다.'); global.css는 UI_GUIDE 색상 변수+다크 모드+64rem 기준 사이드바 전환",
+      "completed_at": "2026-09-24T10:17:05+0900"
     },
     {
       "step": 3,
       "name": "ui-components",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "src/components/*",
         "src/layouts/*",
@@ -73,12 +82,15 @@
         "src/lib/*",
         "tests/unit/*",
         "tests/fixtures/*"
-      ]
+      ],
+      "started_at": "2026-09-24T10:17:05+0900",
+      "summary": "components 9개: PromptCard(course.yaml 메타·없는 id 빌드 실패·카드 파일 없으면 준비 중·기본 단계 먼저+더 많은 도움 <details>·대괄호 <mark>·대괄호 확인 체크·문장별 해설/확인할 것/믿으면 안 되는 부분/다음 행동 <details>), CopyButton(Clipboard API→textarea execCommand 대체, role=status '복사됨'), Feature(unverified '확인 중', unavailable fallback 주의 박스), Source(등록 조문만 허용·시행일), ExternalLink(active+url만 링크, 아니면 fallback), Callout(주의/팁/검토/확인필요), Checklist(localStorage try/catch·진행 초기화), TrackBadge(glossary), PresentationToggle(BaseLayout 머리글, html.presentation+localStorage); 인라인 스크립트는 모두 <script is:inline> IIFE + window.harness* 플래그로 전역 처리기 1회 등록(이벤트 위임); src/lib/prompt-text.ts(splitBrackets·listBrackets·levelLabel(glossary level-N)·whereLabel, 테스트 13개, fixture prompt-sample.md); global.css에 컴포넌트·발표 모드·인쇄(버튼 숨김·details 펼침) 추가",
+      "completed_at": "2026-09-24T10:24:22+0900"
     },
     {
       "step": 4,
       "name": "authoring-tools",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "scripts/content_hash.py",
         "scripts/review_approve.py",
@@ -91,23 +103,29 @@
         "docs/QUALITY_CHECKLIST.md",
         "package.json",
         "tests/unit/*"
-      ]
+      ],
+      "started_at": "2026-09-24T10:24:23+0900",
+      "summary": "scripts/content_hash.py(UTF-8 읽기→CRLF·CR을 LF로 정규화→'sha256:<hex>', target_file: lesson=content/day{d}/{nn}.mdx·card=content/prompts/{id}.md, CRLF·LF 동일 해시 테스트); scripts/review_approve.py(<id> [--root], 콘텐츠 파일 없으면 non-zero, course.yaml은 해당 항목 줄만 텍스트 수정(블록·인라인 {...} 둘 다, 주석·CRLF 보존, reviewed_hash는 따옴표 문자열, 수정 후 yaml 재파싱으로 다른 값 불변 확인), '<id>: <old> → reviewed (sha256:…)' 출력, 테스트 16개); validator V-REV-002(reviewed 교시·카드의 해시 불일치·파일 없음·hash 없음 오류, --scope 적용, V-REV-001 동작 유지, cp949 콘솔에서 출력 문자 replace) + QUALITY_CHECKLIST 구현 표시; scripts/new_content.mjs(checkName·lessonTarget·fillTemplate·planNew·registrationHint·run export, 없는 교시·미등록 카드 오류, 덮어쓰기 금지(wx), 등록부 미수정·module/kit 등록 안내, approve 하위명령이 verify.mjs pickPython으로 review_approve.py 실행) + package.json new:lesson·new:module·new:prompt·new:kit·review:approve; scripts/scaffold 6종(교시 유형별 3종은 CONTENT_GUIDE 1절 섹션 제목+'작성 예정'+가상 자료 문구 자리, prompt.md는 PROMPT_GUIDE 2절 필드·5칸 뼈대(zod 통과), module.mdx, kit.yaml은 PRACTICE_CASES 1절 항목); tests/unit/new-content.test.ts 17개 + node-shims.d.ts(@types/node 없이 테스트용 node 선언)",
+      "completed_at": "2026-09-24T10:35:02+0900"
     },
     {
       "step": 5,
       "name": "d1-01-exemplar",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/day1/01.mdx",
         "content/instructor/day1/01.md",
         "public/images/d1-harness-intro/*",
         "content/course.yaml"
-      ]
+      ],
+      "started_at": "2026-09-24T10:35:03+0900",
+      "summary": "content/day1/01.mdx 개념형 기준 예시: 섹션 순서 이번 시간에 할 일→필수 경로(5단계)→시작하기 전에(입과 안내·실습 자료 규칙 Callout)→체험(같은 질문 2회, Checklist 입력 전 확인·비교 관점 내용/형식/근거, 정답은 <Source law-resident-registration 제16조>로만)→왜 필요한가→핵심 개념(Prompt·Context·Harness 비교표+한계 열, '프롬프트를 길게 쓴다고 하네스가 되지 않습니다' Callout, 그림 A+6요소 목록, 접이식 행정 관행 표·6요소 사례(skip_if_short))→실습(비개인화 <Feature chatgpt-temporary-chat>, 기준 질문 5개 CopyButton, <ExternalLink sheet-harness-ledger>, 접이식 잘 안 될 때)→Harness에서 무엇을 바꿨는가→다음 교시 연결(D1-3 적용 전 답); 그림 public/images/d1-harness-intro/harness-six-elements.svg(<title>·<desc>·실제 <text>, UI_GUIDE 팔레트); content/instructor/day1/01.md(시연 순서·흔한 오류·생략 항목); course.yaml d1-harness-intro status draft",
+      "completed_at": "2026-09-24T10:39:06+0900"
     },
     {
       "step": 6,
       "name": "offline-build",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "scripts/build_offline.mjs",
         "playwright.config.ts",
@@ -117,23 +135,118 @@
         "package-lock.json",
         ".gitignore",
         "docs/QUALITY_CHECKLIST.md"
-      ]
+      ],
+      "started_at": "2026-09-24T10:39:07+0900",
+      "summary": "scripts/build_offline.mjs(dist/→dist-offline/ 복사, HTML의 루트 기준 href·src를 파일 위치 기준 상대경로로·디렉터리 링크는 index.html로(toRelative·rewriteHtml, Windows 구분자 정규화), 외부 script·stylesheet·img 발견 시 실패(findExternalAssets), fflate zipSync로 dist-offline.zip, OS 명령 없음, 단위 테스트 13개) + package.json build:offline·test:e2e(@playwright/test 1.63, fflate devDependency, Chromium만 설치, verify에 미포함); playwright.config.ts(Chromium 1개, webServer npm run preview --port 4322 재사용 안 함); e2e 9개 — site.spec(홈→전체 과정→D1-01, 다음→D1-02 준비 중, 복사됨+클립보드 일치, 375px 가로 스크롤 없음 4쪽, 체크리스트 새로고침 유지·진행 초기화), offline.spec(file://로 index→교시 이동·스타일 적용, 이전/다음, Clipboard API 복사, Clipboard API 제거 시 execCommand 대체 복사, 콘솔 오류 0), 두 파일 모두 localhost·file 외 요청 abort 후 발생 시 실패; .gitignore에 dist-offline.zip·test-results·playwright-report; QUALITY_CHECKLIST V-WEB-003 행 삭제·배포 관문 오프라인·UI 변경 행에 내용 병기",
+      "completed_at": "2026-09-24T10:46:30+0900"
     },
     {
       "step": 7,
       "name": "validator-web",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "scripts/validate_course.py",
         "scripts/test_validate_course.py",
         "docs/QUALITY_CHECKLIST.md"
-      ]
+      ],
+      "started_at": "2026-09-24T10:46:31+0900",
+      "summary": "validate_course.py 규칙 10개 추가(36개): V-LSN-001(같은 위치 lesson_id 일치·없는 교시 파일·draft/reviewed 파일 누락), V-LSN-002(공통 섹션 5개 이번 시간에 할 일/필수 경로/실습/Harness에서 무엇을 바꿨는가/다음 교시 연결 + 실습형 예상 결과·잘못된 결과 예시, 제목 접두·<summary> 인정, 코드 블록 제외), V-LSN-003 경고(목표 이해한다/안다/알아본다, 본문 문장 120자), V-LSN-004 경고(메뉴 경로 >·파일 N개·N MB/GB, 코드·태그·인용 표시 제외), V-PRM-001(카드 파일↔course.yaml 1:1, id·stuck_point·where·default_level 교차 일치, l2_template·l1_full 대괄호↔replace, draft/reviewed 파일 누락 — 타입은 zod 담당), V-PRM-002(level 3에 l2_template), V-PRM-003 경고(tested_at 없음·경과), V-WEB-001(dist/ 루트 링크·이미지 실파일, dist 없으면 info), V-WEB-002(dist·dist-offline 외부 script/stylesheet/@font-face·type=module 금지, 오프라인 링크 상대경로), 두 WEB 규칙은 --docs-only에서 건너뜀; --scope card:<id>와 phase:<dir>(phases/<dir>/index.json review_targets, 없거나 잘못되면 V-CLI-001, --require-reviewed는 대상만 검사) 지원; 테스트 61개 추가(기존 future-rule 예시를 V-KIT-001로 교체); QUALITY_CHECKLIST 해당 행 구현 표시·V-LSN-004 행 추가",
+      "completed_at": "2026-09-24T10:57:05+0900"
     },
     {
       "step": 8,
+      "name": "review-rules-docs",
+      "status": "completed",
+      "allowed_paths": [
+        "docs/LEARNING_OBJECTIVES.md",
+        "docs/CONTENT_GUIDE.md",
+        "docs/PRACTICE_DESIGN.md",
+        "docs/UI_GUIDE.md",
+        "docs/ARCHITECTURE.md",
+        "docs/PRODUCT_FEATURES.md",
+        "docs/QUALITY_CHECKLIST.md",
+        "content/glossary.yaml",
+        "content/external-links.yaml"
+      ],
+      "started_at": "2026-09-24T12:16:13+0900",
+      "summary": "docs 규칙 반영: B1 LEARNING_OBJECTIVES 3절(checks {id,text}·objectives[].checks, 목표마다 결과 확인 1개 이상)·ARCHITECTURE 4절 스키마(문자열 checks는 planned만)·CONTENT_GUIDE 8절(목표별 증거 활동); B2 ARCHITECTURE 2·4·6절(external-links fallback_kind template/download/none·fallback_templates 탭→{title,columns}, <ExternalLink id tab> 표 양식)·CONTENT_GUIDE 5절, external-links sheet-harness-ledger에 fallback 문구 교체·fallback_kind: template·fallback_templates.baseline(기준 질문 기록: 번호/질문/답(붙여 넣기)/근거를 밝혔나(예/아니오)/메모); B3 <Feature show=detail|fallback>(ARCHITECTURE 6절·CONTENT_GUIDE 5절 재서술 금지·UI_GUIDE 표시 형식·PRODUCT_FEATURES 2절); B5 CONTENT_GUIDE 1절·UI_GUIDE 원칙 2(학습목표 자동 표시 뒤 본문 첫 섹션은 이번 시간에 할 일·필수 경로); B6 PRACTICE_DESIGN 9절(AI 질문 1회 2분, 질문 수×2분+정리, 기록은 판단 하나+붙여 넣기); B7 glossary harness-ledger·unpersonalized-chat 추가·CONTENT_GUIDE 4절 첫 등장 풀이; QUALITY_CHECKLIST에 V-LSN-005·V-LNK-001 예정(P1)",
+      "completed_at": "2026-09-24T12:19:33+0900"
+    },
+    {
+      "step": 9,
+      "name": "objective-check-rules",
+      "status": "completed",
+      "allowed_paths": [
+        "scripts/validate_course.py",
+        "scripts/test_validate_course.py",
+        "docs/QUALITY_CHECKLIST.md",
+        "src/lib/*",
+        "src/layouts/LessonLayout.astro",
+        "tests/unit/*",
+        "tests/fixtures/*"
+      ],
+      "started_at": "2026-09-24T12:19:34+0900",
+      "summary": "V-LSN-005(draft·reviewed 교시: checks 전부 {id,text}·목표마다 objectives[].checks 1개 이상·같은 교시 check id만, 어기면 항목별 오류 / planned는 교시당 경고 1개, --scope 적용)·V-LNK-001(교시 MDX의 <ExternalLink id tab>가 active 아닌 링크를 가리키면 fallback_kind template+해당 tab(없으면 템플릿 1개 이상) 또는 download+fallback_file 실파일 필요, 기본 경고·--require-reviewed/--production 오류, 코드 블록 제외) 구현(규칙 38개); V-CRS-001이 checks 두 형식(문자열|{id,text})과 objectives[].checks(ID 목록) 검사, V-CRS-007에 결과 확인 ID 포함, V-REG-004에 fallback_kind(template|download|none)·fallback_templates(탭→{title,columns 문자열 목록}, template이면 필수)·download면 fallback_file(저장소 기준 경로, docs 미기재 신규 필드) 검사; types.ts Check=string|{id,text}·Objective.checks·ExternalLink fallback_kind/fallback_templates/fallback_file, course.ts checkTexts로 LessonLayout이 두 형식 표시(vitest 2개, fixture t1-first 새 형식); pytest 25개 추가, 실제 저장소 테스트는 KNOWN_REAL_ERRORS(D1-01 V-LSN-005)만 허용 — step 12에서 비운다; QUALITY_CHECKLIST 두 규칙 구현 표시; 판정: lint·build·vitest 94·pytest 295(+1 skip) 통과, validate_course.py 오류는 D1-01(d1-harness-intro)의 V-LSN-005 3건뿐(문자열 checks·o1·o2 연결 없음)이라 npm run verify 전체는 의도대로 실패 — step 12가 D1-01을 새 형식으로 바꿔 해소",
+      "completed_at": "2026-09-24T12:26:44+0900"
+    },
+    {
+      "step": 10,
+      "name": "registry-display",
+      "status": "completed",
+      "allowed_paths": [
+        "src/components/Feature.astro",
+        "src/components/ExternalLink.astro",
+        "src/components/CopyButton.astro",
+        "src/lib/*",
+        "src/styles/*",
+        "tests/unit/*",
+        "tests/fixtures/*"
+      ],
+      "started_at": "2026-09-24T12:26:45+0900",
+      "summary": "Feature show(detail: 기능명 뒤 detail 한 문장 / fallback: status 무관 '안 될 때' 주의 박스 '대신 이렇게 합니다:')·ExternalLink tab(준비 전+fallback_kind template이면 준비 중 배지·fallback 문장·열 이름만 있는 빈 표·탭 구분 머리행 복사 CopyButton, 없는 tab은 id·tab 포함 빌드 오류, active면 링크만, download/none과 tab 생략(D1-01 기존 사용처)은 fallback 문장만) — 순수 함수 src/lib/registry-display.ts(featureDisplay·templateToTsv·linkDisplay, 테스트 13개, fixture 링크 2개 추가), CSS는 기존 table-wrap 재사용; 블록 표이므로 step 12에서 문단 밖 단독 줄에 둘 것; 판정: lint·build·vitest 107·pytest 296 통과, dist 모듈 스크립트 0, validator 오류는 D1-01 V-LSN-005 3건뿐",
+      "completed_at": "2026-09-24T12:30:53+0900"
+    },
+    {
+      "step": 11,
+      "name": "instructor-notes",
+      "status": "completed",
+      "allowed_paths": [
+        "src/content.config.ts",
+        "src/layouts/LessonLayout.astro",
+        "src/pages/course/*",
+        "src/components/InstructorNotes.astro",
+        "src/styles/*",
+        "tests/unit/*",
+        "tests/e2e/*"
+      ],
+      "started_at": "2026-09-24T12:30:53+0900",
+      "summary": "content.config.ts에 instructor 컬렉션(glob content/instructor day*/*.md, 빈 객체 스키마, ID day{d}/{nn})·components/InstructorNotes.astro(lessonParams로 같은 위치 안내를 getEntry, 없으면 미표시, rendered.html의 제목을 한 단계씩 낮춰 <details class=instructor-notes><summary>강사 안내</summary> 기본 접힘)·LessonLayout에서 준비 중이 아닐 때만 LessonNav 바로 앞에 표시, global.css 강사 안내 박스 스타일과 인쇄 시 details.instructor-notes 숨김(발표 모드는 접힘 유지, 스크립트 없음); vitest 1개(안내 ID 매핑)·e2e 2개(D1-01 접힘·LessonNav 앞·D1-02 없음, 인쇄 숨김·발표 모드 접힘); 판정: lint·build·vitest 108·pytest 296·build:offline·e2e 11 통과, validator 오류는 D1-01 V-LSN-005 3건뿐. 참고: 사용자의 npm run preview(4321)가 Astro 단일 preview 잠금을 잡고 있어 e2e는 dist/를 python http.server 4322로 띄우는 임시 설정(실행 후 삭제)으로 돌림",
+      "completed_at": "2026-09-24T12:35:44+0900"
+    },
+    {
+      "step": 12,
+      "name": "d1-01-revise",
+      "status": "completed",
+      "allowed_paths": [
+        "content/day1/01.mdx",
+        "content/instructor/day1/01.md",
+        "public/images/d1-harness-intro/*",
+        "content/course.yaml"
+      ],
+      "started_at": "2026-09-24T12:35:45+0900",
+      "completed_at": "2026-09-24T12:41:54+0900",
+      "summary": "A1 체험 근거를 <Source> 제16조+제40조로(판정은 D1-4, 기한·금액 미기재); A2 잘 안 될 때 대안 문구 삭제→<Feature chatgpt-temporary-chat show=fallback>; A3 정리 섹션(짝에게 빈칸 틀로 한 문장 설명, 그림 없이 6요소 이름 적고 Checklist d1-01-elements 체크); A4 하네스 대장·비개인화 임시 채팅을 첫 등장에 glossary 뜻으로 풀이+<Feature show=detail>; A5 접이식 '답이 다른 예시 보기'(교육용 가상, 법령 단정 없음); A6 <ExternalLink sheet-harness-ledger tab=baseline> 표 양식+기록은 답 붙여 넣기·근거 예/아니오, 기록 예시 접이식; course.yaml d1-harness-intro만: checks {id,text} c1~c3, o1→[c1,c2]·o2→[c2,c3](o2 문장 '설명하고…적는다'), 산출물 d1-01-p2(6요소 한 줄 메모, used_by d2-project-design, o2 연결), activities 10/10/8/practice 10/check 2=40, 막힘 지점 sp-d1-01-c(기록할 곳, 3·9)·d(비개인화, 6·7) 추가, skip_if_short에 '답이 다른 예시 보기'; 강사 안내에 짝 설명·표 양식 기록·생략 항목 반영; 루브릭 자가점검: 목표 달성(목표마다 증거 활동·결과 확인), 초보자 지원(막힘 4곳 지원), 하네스 관점(도구 절차마다 이유), 정확성(등록부 컴포넌트만); 판정: verify(scope·전체) 통과(vitest 108·pytest 295), build:offline·e2e 11 통과(사용자 preview 4321 잠금으로 임시 http.server 설정 사용 후 삭제), --scope phase --require-reviewed 오류는 V-REV-001(draft)뿐. 참고: scripts/test_validate_course.py의 KNOWN_REAL_ERRORS는 수정 허용 경로 밖이라 비우지 않음(현재 해당 오류 없음)"
+    },
+    {
+      "step": 13,
       "name": "human-review",
-      "status": "pending",
-      "allowed_paths": []
+      "status": "completed",
+      "allowed_paths": [],
+      "started_at": "2026-09-24T12:41:55+0900",
+      "summary": "D1-01 기준 예시 사람 승인 확인(reviewed_hash 일치)",
+      "completed_at": "2026-09-24T12:53:24+0900"
     }
-  ]
+  ],
+  "created_at": "2026-09-24T09:16:28+0900",
+  "completed_at": "2026-09-24T12:53:25+0900"
 }

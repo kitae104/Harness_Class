@@ -1,0 +1,116 @@
+---
+// AI에게 도움받기 카드(UI_GUIDE 컴포넌트 도식, PROMPT_GUIDE 2절).
+// 카드 메타(단계·붙여넣을 곳·제목)와 상태는 course.yaml에서만 읽는다(ADR-011). 카드 파일은 본문만 제공한다.
+// 기본 단계를 먼저 보여 주고, 더 많은 도움(바꿔 쓰기 → 따라 쓰기)은 <details>로 펼친다(JS 없음).
+import { getCollection } from 'astro:content';
+import CopyButton from './CopyButton.astro';
+import { loadCourse } from '../lib/course';
+import { levelLabel, splitBrackets, whereLabel } from '../lib/prompt-text';
+import { termLabel } from '../lib/registries';
+import type { CardLevel } from '../lib/types';
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+const course = loadCourse();
+const meta = course.cards.find((card) => card.id === id);
+if (!meta) throw new Error(`PromptCard: course.yaml cards에 없는 id "${id}"`);
+
+const entry = (await getCollection('prompts')).find((item) => item.data.id === id);
+const card = entry?.data;
+const heading = termLabel('prompt-card') ?? 'AI에게 도움받기';
+const level: CardLevel = meta.level;
+const titleId = `prompt-${id}`;
+
+const textFor = (value: CardLevel): string =>
+  card ? (value === 1 ? card.l1_full : value === 2 ? card.l2_template : card.l3_structure) : '';
+// 기본 단계보다 도움이 많은 단계만 펼침으로 둔다: 3 → [2, 1], 2 → [1], 1 → []
+const moreHelp = ([2, 1] as CardLevel[]).filter((value) => value < level);
+const moreLabel = (value: CardLevel) =>
+  value === 2 ? `힌트 보기(${levelLabel(2)})` : `전체 보기(${levelLabel(1)})`;
+const elementLabel = (element: string) => course.elements[element] ?? element;
+---
+
+<section class="prompt-card" aria-labelledby={titleId}>
+  <div class="prompt-card-head">
+    <h3 id={titleId}>
+      {heading}{' '}
+      <span class="prompt-card-name">· {meta.title}</span>
+    </h3>
+    <span class="badge badge-where">붙여넣을 곳: {whereLabel(meta.where)}</span>
+  </div>
+
+  {
+    !card ? (
+      <p class="notice">이 카드는 준비 중입니다.</p>
+    ) : (
+      <>
+        <dl class="prompt-card-meta">
+          <dt>언제</dt>
+          <dd>{card.when}</dd>
+          <dt>무엇을 넣나</dt>
+          <dd>{card.input}</dd>
+        </dl>
+
+        <p class="prompt-level">{levelLabel(level)}</p>
+        {level === 3 ? (
+          <pre class="prompt-text prompt-structure">{card.l3_structure}</pre>
+        ) : (
+          <pre class="prompt-text">{splitBrackets(textFor(level)).map((part) => (part.bracket ? <mark class="bracket">{part.text}</mark> : part.text))}</pre>
+        )}
+        <CopyButton text={textFor(level)} label="프롬프트 복사" />
+
+        {moreHelp.map((value) => (
+          <details class="prompt-more">
+            <summary>{moreLabel(value)}</summary>
+            <pre class="prompt-text">{splitBrackets(textFor(value)).map((part) => (part.bracket ? <mark class="bracket">{part.text}</mark> : part.text))}</pre>
+            <CopyButton text={textFor(value)} label="프롬프트 복사" />
+          </details>
+        ))}
+
+        {card.replace.length > 0 && (
+          <p class="prompt-confirm">
+            <label>
+              <input type="checkbox" /> 대괄호를 모두 바꿨나요?
+            </label>
+          </p>
+        )}
+
+        <details class="prompt-more">
+          <summary>문장별 해설</summary>
+          <ol class="line-notes">
+            {card.line_notes.map((note) => (
+              <li>
+                <span class="badge badge-element">{elementLabel(note.element)}</span>
+                <span class="line-note-line">{note.line}</span>
+                <span class="line-note-why">{note.why}</span>
+              </li>
+            ))}
+          </ol>
+        </details>
+        <details class="prompt-more">
+          <summary>확인할 것</summary>
+          <ul>
+            {card.check.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </details>
+        <details class="prompt-more">
+          <summary>그대로 믿으면 안 되는 부분</summary>
+          <ul>
+            {card.do_not_trust.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </details>
+        <details class="prompt-more">
+          <summary>다음 행동</summary>
+          <p>{card.next}</p>
+        </details>
+      </>
+    )
+  }
+</section>

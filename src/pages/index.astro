@@ -1,0 +1,36 @@
+---
+// 과정 소개, 2일 지도, 6요소 한 장. 수치·구조는 course.yaml에서 읽는다(ADR-003).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadCourse } from '../lib/course';
+import { dayGroups, lessonHref } from '../components/site';
+
+const course = loadCourse();
+const groups = dayGroups(course);
+---
+
+<BaseLayout>
+  <h1>{course.course.title}</h1>
+  <p class="muted">대상: {course.course.audience}</p>
+
+  <h2>2일 지도</h2>
+  {
+    groups.map((group) => (
+      <section aria-labelledby={`map-day${group.day}`}>
+        <h3 id={`map-day${group.day}`}>Day {group.day}</h3>
+        <ol>
+          {group.lessons.map((lesson) => (
+            <li>
+              <a href={lessonHref(lesson)}>{lesson.title}</a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))
+  }
+  <p><a href="/course/">전체 과정 시간표 보기</a></p>
+
+  <h2>하네스 6요소</h2>
+  <ul>
+    {Object.values(course.elements).map((name) => <li>{name}</li>)}
+  </ul>
+</BaseLayout>

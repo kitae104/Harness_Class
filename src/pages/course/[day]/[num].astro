@@ -1,0 +1,29 @@
+---
+// 정규 교시 페이지. course.yaml의 core 교시마다 경로를 만들고,
+// lesson_id가 일치하는 MDX가 있고 planned가 아니면 본문을, 아니면 "준비 중"을 보여 준다.
+import { getCollection, render } from 'astro:content';
+import LessonLayout from '../../../layouts/LessonLayout.astro';
+import { loadCourse } from '../../../lib/course';
+import type { Lesson } from '../../../lib/types';
+import { coreLessons, lessonParams, showsPlaceholder } from '../../../components/site';
+
+export function getStaticPaths() {
+  return coreLessons(loadCourse()).map((lesson) => ({
+    params: lessonParams(lesson),
+    props: { lesson },
+  }));
+}
+
+interface Props {
+  lesson: Lesson;
+}
+
+const { lesson } = Astro.props;
+const entry = (await getCollection('lessons')).find((item) => item.data.lesson_id === lesson.id);
+const placeholder = showsPlaceholder(lesson, entry !== undefined);
+const Content = entry && !placeholder ? (await render(entry)).Content : undefined;
+---
+
+<LessonLayout lesson={lesson} placeholder={placeholder}>
+  {Content && <Content />}
+</LessonLayout>

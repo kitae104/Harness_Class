@@ -1,0 +1,28 @@
+---
+// 교시 하단 접이식 "강사 안내"(ARCHITECTURE 8절). 기본은 접힘, 인쇄에서는 빠진다(global.css).
+// 같은 위치(day, number)의 content/instructor/day{d}/{nn}.md가 없으면 아무것도 표시하지 않는다.
+import { getEntry } from 'astro:content';
+import { lessonParams } from './site';
+import type { Lesson } from '../lib/types';
+
+interface Props {
+  lesson: Pick<Lesson, 'day' | 'number'>;
+}
+
+const { day, num } = lessonParams(Astro.props.lesson);
+const entry = await getEntry('instructor', `${day}/${num}`);
+// 안내 파일의 제목(h1)부터 한 단계씩 낮춰 교시 페이지의 제목 순서를 지킨다.
+const html = (entry?.rendered?.html ?? '').replace(
+  /<(\/?)h([1-5])(?=[\s>])/g,
+  (_, slash: string, level: string) => `<${slash}h${Number(level) + 1}`,
+);
+---
+
+{
+  entry && (
+    <details class="instructor-notes">
+      <summary>강사 안내</summary>
+      <div class="instructor-notes-body" set:html={html} />
+    </details>
+  )
+}

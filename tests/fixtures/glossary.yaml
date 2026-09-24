@@ -1,0 +1,4 @@
+# 테스트용 가짜 용어집
+terms:
+  - {id: evals, term: 검증, en: Evals, definition: 정의, student_label: 평가}
+  - {id: harness, term: 하네스, en: Harness, definition: 정의}

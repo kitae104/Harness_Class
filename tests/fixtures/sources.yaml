@@ -1,0 +1,18 @@
+# 테스트용 가짜 출처 등록부
+sources:
+  - id: law-test
+    type: law
+    title: 테스트법
+    url: https://example.com/law
+    version: "법률 제1호"
+    effective_date: 2026-01-01
+    articles: [제1조(목적), 제2조(정의)]
+    accessed_at: 2026-09-01
+    license: 법령
+  - id: fictional-test
+    type: fictional
+    title: 가상 자료
+    url: null
+    note: 가상
+    accessed_at: 2026-09-01
+    license: 교육용

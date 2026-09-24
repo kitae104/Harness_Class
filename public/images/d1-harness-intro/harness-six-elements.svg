@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" width="720" height="440" role="img" aria-labelledby="fig-title fig-desc" font-family="'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif">
+  <title id="fig-title">그림 A. 하네스 6요소 개념도</title>
+  <desc id="fig-desc">가운데 하네스, 즉 AI가 반복해서 일하는 업무 환경이 있고, 그 둘레를 여섯 요소가 둘러쌉니다. 위쪽은 ① 지침(역할·범위·금지사항·출력 형식·모를 때 행동), ② 근거(규정·편람·FAQ·출처), ③ 도구(폼으로 모으고 시트에 쌓고 여러 건을 처리). 아래쪽은 ④ 검증(평가 질문·채점 기준·점수·재평가), ⑤ 안전장치(개인정보 보호·초안 표시·사람의 최종 검토), ⑥ 기록(질문·답변·근거·수정·버전).</desc>
+
+  <rect x="0" y="0" width="720" height="440" fill="#ffffff"/>
+
+  <!-- 연결선 -->
+  <g stroke="#57606a" stroke-width="2" fill="none">
+    <line x1="120" y1="140" x2="280" y2="180"/>
+    <line x1="360" y1="140" x2="360" y2="180"/>
+    <line x1="600" y1="140" x2="440" y2="180"/>
+    <line x1="120" y1="300" x2="280" y2="260"/>
+    <line x1="360" y1="300" x2="360" y2="260"/>
+    <line x1="600" y1="300" x2="440" y2="260"/>
+  </g>
+
+  <!-- 가운데: 하네스 -->
+  <rect x="220" y="180" width="280" height="80" rx="4" fill="#ffffff" stroke="#0b5cad" stroke-width="3"/>
+  <text x="360" y="212" text-anchor="middle" font-size="20" font-weight="700" fill="#0b5cad">하네스 Harness</text>
+  <text x="360" y="240" text-anchor="middle" font-size="14" fill="#1f2328">AI가 반복해서 일하는 업무 환경</text>
+
+  <!-- 위쪽 3요소 -->
+  <g font-size="14" fill="#1f2328">
+    <rect x="10" y="20" width="220" height="120" rx="4" fill="#f5f6f7" stroke="#57606a"/>
+    <text x="120" y="52" text-anchor="middle" font-size="17" font-weight="700">① 지침 Instructions</text>
+    <text x="120" y="82" text-anchor="middle">역할·범위·금지사항</text>
+    <text x="120" y="104" text-anchor="middle">출력 형식·모를 때 행동</text>
+
+    <rect x="250" y="20" width="220" height="120" rx="4" fill="#f5f6f7" stroke="#57606a"/>
+    <text x="360" y="52" text-anchor="middle" font-size="17" font-weight="700">② 근거 Context</text>
+    <text x="360" y="82" text-anchor="middle">규정·편람·FAQ</text>
+    <text x="360" y="104" text-anchor="middle">답의 출처(조문)</text>
+
+    <rect x="490" y="20" width="220" height="120" rx="4" fill="#f5f6f7" stroke="#57606a"/>
+    <text x="600" y="52" text-anchor="middle" font-size="17" font-weight="700">③ 도구 Tools</text>
+    <text x="600" y="82" text-anchor="middle">폼으로 모으고 시트에 쌓고</text>
+    <text x="600" y="104" text-anchor="middle">여러 건을 한 번에 처리</text>
+  </g>
+
+  <!-- 아래쪽 3요소 -->
+  <g font-size="14" fill="#1f2328">
+    <rect x="10" y="300" width="220" height="120" rx="4" fill="#f5f6f7" stroke="#57606a"/>
+    <text x="120" y="332" text-anchor="middle" font-size="17" font-weight="700">④ 검증 Evals</text>
+    <text x="120" y="362" text-anchor="middle">평가 질문·채점 기준</text>
+    <text x="120" y="384" text-anchor="middle">점수·실패 원인·재평가</text>
+
+    <rect x="250" y="300" width="220" height="120" rx="4" fill="#fff8c5" stroke="#9a6700"/>
+    <text x="360" y="332" text-anchor="middle" font-size="17" font-weight="700">⑤ 안전장치 Guardrails</text>
+    <text x="360" y="362" text-anchor="middle">개인정보 보호·초안 표시</text>
+    <text x="360" y="384" text-anchor="middle">사람의 최종 검토</text>
+
+    <rect x="490" y="300" width="220" height="120" rx="4" fill="#f5f6f7" stroke="#57606a"/>
+    <text x="600" y="332" text-anchor="middle" font-size="17" font-weight="700">⑥ 기록 Observability</text>
+    <text x="600" y="362" text-anchor="middle">질문·답변·근거</text>
+    <text x="600" y="384" text-anchor="middle">수정 내용·버전</text>
+  </g>
+</svg>

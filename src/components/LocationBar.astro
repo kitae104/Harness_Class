@@ -1,0 +1,18 @@
+---
+// 현재 위치 "Day d · n교시 — 제목"과 필수/선택 텍스트 배지.
+import { termLabel } from '../lib/registries';
+import type { Lesson } from '../lib/types';
+import { locationLabel } from './site';
+
+interface Props {
+  lesson: Lesson;
+}
+
+const { lesson } = Astro.props;
+const trackLabel = termLabel(lesson.track) ?? lesson.track;
+---
+
+<p class="location-bar">
+  <span>{locationLabel(lesson)}</span>
+  <span class:list={['badge', `badge-${lesson.track}`]}>{trackLabel}</span>
+</p>

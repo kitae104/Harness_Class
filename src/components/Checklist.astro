@@ -1,0 +1,90 @@
+---
+// 진행 체크리스트. 체크 상태는 이 브라우저의 localStorage에만 저장한다(ADR-002).
+// localStorage가 막힌 환경(file://, 개인정보 보호 모드)에서도 체크 자체는 동작한다.
+interface Props {
+  /** 저장 키. 사이트 전체에서 고유해야 한다 */
+  id: string;
+  items: string[];
+}
+
+const { id, items } = Astro.props;
+if (items.length === 0) throw new Error(`Checklist ${id}: 항목이 없습니다.`);
+---
+
+<div class="checklist" data-checklist={id}>
+  <ul>
+    {
+      items.map((item, index) => (
+        <li>
+          <label>
+            <input type="checkbox" data-index={index} /> {item}
+          </label>
+        </li>
+      ))
+    }
+  </ul>
+  <button type="button" class="checklist-reset">진행 초기화</button>
+</div>
+<script is:inline>
+  (function () {
+    let api = window.harnessChecklist;
+    if (!api) {
+      const key = function (list) {
+        return 'harness-checklist:' + list.getAttribute('data-checklist');
+      };
+      const boxes = function (list) {
+        return list.querySelectorAll('input[type="checkbox"][data-index]');
+      };
+      const read = function (list) {
+        try {
+          return JSON.parse(window.localStorage.getItem(key(list)) || '[]');
+        } catch {
+          return [];
+        }
+      };
+      const save = function (list) {
+        const state = Array.prototype.map.call(boxes(list), function (box) {
+          return box.checked;
+        });
+        try {
+          window.localStorage.setItem(key(list), JSON.stringify(state));
+        } catch {
+          /* 저장이 막혀도 화면의 체크는 유지한다 */
+        }
+      };
+      const reset = function (list) {
+        Array.prototype.forEach.call(boxes(list), function (box) {
+          box.checked = false;
+        });
+        try {
+          window.localStorage.removeItem(key(list));
+        } catch {
+          /* 저장이 막힌 환경 */
+        }
+      };
+      api = {
+        init: function (list) {
+          if (list.getAttribute('data-ready')) return;
+          list.setAttribute('data-ready', 'true');
+          const state = read(list);
+          Array.prototype.forEach.call(boxes(list), function (box) {
+            box.checked = state[Number(box.getAttribute('data-index'))] === true;
+          });
+        },
+      };
+      document.addEventListener('change', function (event) {
+        const target = event.target;
+        const list = target && target.closest ? target.closest('[data-checklist]') : null;
+        if (list) save(list);
+      });
+      document.addEventListener('click', function (event) {
+        const target = event.target;
+        const button = target && target.closest ? target.closest('.checklist-reset') : null;
+        const list = button ? button.closest('[data-checklist]') : null;
+        if (list) reset(list);
+      });
+      window.harnessChecklist = api;
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('[data-checklist]'), api.init);
+  })();
+</script>

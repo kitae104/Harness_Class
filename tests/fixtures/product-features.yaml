@@ -1,0 +1,25 @@
+# 테스트용 가짜 제품 정보 등록부
+features:
+  - id: feat-available
+    product: ChatGPT
+    plan: Plus
+    name: 사용 가능 기능
+    status: available
+    detail: 설명
+    verified_at: 2026-09-01
+    verified_by: web
+    source: https://example.com/a
+    ui_path: 메뉴 > 항목
+    fallback: 대체 방법 A
+    used_in: [t2-second]
+  - id: feat-unverified
+    product: ChatGPT
+    plan: Plus
+    name: 미확인 기능
+    status: unverified
+    verified_at: null
+    verified_by: null
+    source: null
+    fallback: 대체 방법 B
+    used_in: []
+    tbd: "[TBD: OQ-01]"
