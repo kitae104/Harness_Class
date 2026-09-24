@@ -26,6 +26,9 @@ links:
       eval:
         title: 평가
         columns: [번호, 질문, 답변 요약, 정확, 출처, 금지, 점수, 틀린 이유]
+      revisions:
+        title: 개정 기록
+        columns: [날짜, 바꾼 곳(지침·근거), 바꾼 내용, 이유(원인·문항 번호), 점수 전, 점수 후]
     status: planned
   - id: form-shared-civil-intake
     title: 강사 공용 민원 접수 폼(역할카드 응답용)
