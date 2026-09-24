@@ -15,7 +15,7 @@
 | 붙여넣을 곳 | 무엇을 넣나 | 오래 남나 |
 |---|---|---|
 | **Project 지침란** | 지침서 5항목, 지침 조각 카드 | 그 Project의 모든 대화에 적용 |
-| **Project 파일** | 근거 자료(법령 발췌, 교육용 FAQ) | Project에 계속 남음 [AS-OF: chatgpt-project-file-limit] |
+| **Project 파일** | 근거 자료(교육용 가상 규정·법령 발췌, 교육용 FAQ) | Project에 계속 남음 [AS-OF: chatgpt-project-file-limit] |
 | **채팅 입력창 / 첨부** | 이번에 처리할 입력 데이터(CSV), 요청 카드 | 그 대화에만 (첨부가 Project 파일이 되는지는 확인 전 [TBD: OQ-05]) |
 
 입력 데이터(민원 CSV)는 Project 파일이 아니라 채팅 첨부로 넣는다(CD-07). 근거와 입력을 섞으면 ② 근거가 오염된다.

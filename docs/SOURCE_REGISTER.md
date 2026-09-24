@@ -10,7 +10,7 @@
 | `official-doc` | OpenAI·GitHub·Vercel 공식 문서 | url |
 | `proposal` | 과정 제안서 PDF | 비공개 원본 표시(url 없음) |
 | `user-decision` | 사용자 결정 CD-01~ | ADR 위치 |
-| `fictional` | 가상 민원, 역할카드, 교육용 FAQ | "가상" 표기 방법 |
+| `fictional` | 가상 민원, 역할카드, 교육용 FAQ, 교육용 가상 규정(CD-21) | "가상" 표기 방법. 가상 규정은 `articles`(가상 조문 목록) |
 모든 항목에 `accessed_at`(접근일)과 `license`(이용조건)가 필요하다(V-REG-002).
 
 ## 2. 법령 인용 규칙 (CD-04)
