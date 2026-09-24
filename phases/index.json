@@ -9,11 +9,13 @@
     },
     {
       "dir": "1-web-foundation",
-      "status": "blocked",
+      "status": "completed",
       "depends_on": [
         "0-foundation"
       ],
-      "blocked_at": "2026-09-24T12:43:03+0900"
+      "blocked_at": "2026-09-24T12:43:03+0900",
+      "completed_at": "2026-09-24T12:53:25+0900",
+      "summary": "astro 7.3.4 + @astrojs/mdx 8, Node >=22.12.0(.nvmrc 22.12.0), TS 6.0 strict; package.json·astro/tsconfig/eslint/vitest 설정, scripts/verify.mjs(lint→build→vitest→pytest→validate, --scope만 validator로 전달, python3→python 자동 선택)와 단위 테스트 8개, CI verify.yml, course.title을 읽는 최소 index 페이지 / src/content.config.ts에 컬렉션 3개(lessons: content/day{1,2}/*.mdx·lesson_id만, prompts: content/prompts/*.md·PROMPT_GUIDE 2절 필드(status 없음), modules: content/modules/*.mdx·module_id, 모두 strictObject·빈 폴더 허용); src/lib/course…"
     },
     {
       "dir": "1b-repo-connect",
