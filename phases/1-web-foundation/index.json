@@ -39,7 +39,8 @@
         "public/favicon.svg"
       ],
       "started_at": "2026-09-24T09:29:19+0900",
-      "summary": "astro 7.3.4 + @astrojs/mdx 8, Node >=22.12.0(.nvmrc 22.12.0), TS 6.0 strict; package.json·astro/tsconfig/eslint/vitest 설정, scripts/verify.mjs(lint→build→vitest→pytest→validate, --scope만 validator로 전달, python3→python 자동 선택)와 단위 테스트 8개, CI verify.yml, course.title을 읽는 최소 index 페이지"
+      "summary": "astro 7.3.4 + @astrojs/mdx 8, Node >=22.12.0(.nvmrc 22.12.0), TS 6.0 strict; package.json·astro/tsconfig/eslint/vitest 설정, scripts/verify.mjs(lint→build→vitest→pytest→validate, --scope만 validator로 전달, python3→python 자동 선택)와 단위 테스트 8개, CI verify.yml, course.title을 읽는 최소 index 페이지",
+      "completed_at": "2026-09-24T10:08:24+0900"
     },
     {
       "step": 1,
