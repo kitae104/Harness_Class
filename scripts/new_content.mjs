@@ -47,7 +47,7 @@ export function registrationHint(kind, name) {
     case 'module':
       return `course.yaml modules에 다음 한 줄을 직접 추가하세요:\n  - {id: ${name}, title: 작성 예정, track: optional, status: planned, path: /practice/${name}}`;
     case 'kit':
-      return `등록부 변경은 없습니다. kit.yaml의 sources에는 content/sources.yaml에 등록된 ID만 적으세요.`;
+      return `course.yaml kits에 다음 한 줄을 직접 추가하세요:\n  - {id: ${name}, title: 작성 예정, status: planned}\n자료 파일을 폴더에 두고 kit.yaml files에 모두 적으세요. sources에는 content/sources.yaml에 등록된 ID만 적습니다.`;
     case 'lesson':
       return `작성 후 course.yaml에서 교시 ${name}의 status만 draft로 바꾸고 npm run verify -- --scope lesson:${name}로 검사하세요.`;
     case 'prompt':
