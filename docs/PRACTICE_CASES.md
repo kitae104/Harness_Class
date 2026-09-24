@@ -2,21 +2,21 @@
 
 수업에서 쓰는 사례의 **명세**다. 사례의 실제 자료(법령 발췌, FAQ, 가상 데이터, 평가 문항)는 Phase 2·4에서 `content/kits/<kit-id>/`에 만들고, 이 문서는 무엇을 담아야 하는지만 정한다. 법령 조문과 시행일은 [`content/sources.yaml`](../content/sources.yaml)에만 적는다.
 
-## 1. 키트 공통 구성 (kit.yaml 필수 항목, Phase 2에서 validator 규칙 추가)
-| 항목 | 내용 |
-|---|---|
-| `id`, `title`, `track` | 키트 ID, 제목, core/optional |
-| `sources` | 근거로 쓰는 sources.yaml ID(법령 조문 단위) 또는 `fictional` 자료 |
-| `guideline_frame` | 지침서 5항목 틀(Day 1 공통 키트는 v0 결함 지침 포함) |
-| `context_files` | Project에 올릴 근거 자료(법령 발췌, 교육용 FAQ) |
-| `input_data` | 채팅에 첨부할 가상 입력 데이터(CSV) |
-| `eval_candidates` | 평가 문항 후보와 기대 답변(핵심 포인트 2개 + 근거) |
-| `form_template` | 업무용 폼 문항(선택 산출물용) |
-| `privacy_notes` | 이 키트에서 특히 주의할 개인정보·보안 사항 |
-| `fictional_label` | 가상 자료임을 알리는 문구 |
+## 1. 키트 공통 구성 (`content/kits/<id>/kit.yaml`, V-KIT-001)
+키트는 course.yaml `kits` 목록(id·title·status·reviewed_hash)에 등록하고, 폴더에 `kit.yaml`과 자료 파일을 둔다. 승인은 `npm run review:approve <kit-id>`(폴더 전체 해시).
+| 필드 | 내용 | 필수 |
+|---|---|---|
+| `id`, `title`, `track` | 키트 ID(폴더명·course.yaml과 같음), 제목, core/optional | 예 |
+| `sources` | 근거 sources.yaml ID 목록. 가상 자료도 `type: fictional`로 sources.yaml에 등록해 가리킨다 | 예 |
+| `privacy_notes` | 이 키트에서 특히 주의할 개인정보·보안 사항 | 예 |
+| `fictional_label` | 가상 자료임을 알리는 문구 | 예 |
+| `files[]` | 키트 폴더의 **모든** 자료 파일: `path`(폴더 기준), `role`, `download`(선택), `description`(선택). 목록에 없는 파일이 있으면 오류 | 예 |
+
+`role` 값: `guideline`(지침서 틀·v0 결함 지침) · `context`(Project에 올릴 근거: 법령 발췌·교육용 FAQ) · `eval`(평가 문항과 기대 답변) · `input-data`(채팅에 첨부할 가상 입력 CSV) · `form-template`(업무용 폼 문항) · `other`.
 
 ## 2. Day 1 공통 키트 — 전입신고 민원 답변 비서 (`day1-civil`)
 - **근거**: 주민등록법·시행령의 전입신고 관련 조문(`law-resident-registration`, `law-resident-registration-decree`). 구청 편람은 복제하지 않고 "법령 기반 교육용 FAQ"로 만든다(CD-04).
+- **법령 발췌 작성 규칙**: 조문은 국가법령정보센터 원문을 **글자 그대로** 옮기고, 파일 첫머리에 법령명·법령 번호·시행일(sources.yaml `version`·`effective_date`와 같은 값)을 적는다. AI가 기억으로 조문을 재구성하거나 요약해 "조문"이라고 부르지 않는다. 원문을 누가 어떻게 확보할지는 [TBD: OQ-22]. 발췌의 정확성은 사람 검토(H-01, 검토자 [TBD: OQ-12])로 확인한다.
 - **지침서 5항목 작성 예(제안서 원문)**:
   - 역할: ○○구 전입·전출 담당 안내 직원. 존댓말, 핵심부터 3문장 이내
   - 범위: 주민등록법·시행령과 교육용 FAQ 범위의 절차·서류·기한 안내
@@ -28,7 +28,7 @@
   1. 교육용 FAQ에서 항목 1개를 누락한다 → 관련 문항이 D1-6에서 틀리고, D1-7에서 근거를 보강하면 맞는다.
   2. 전입과 전출을 혼동하게 만드는 범위 애매 문항을 넣는다 → 지침의 범위 문장을 고치면 맞는다.
   수강생에게 "일부러 단순하게 만든 초안"임을 공개한다.
-- **평가세트 20문항 구성**: 정상 12 / 자료에 없음 4 / 금지·개인정보 요구 2 / 유도·숨은 지시문 2. 기대 답변은 핵심 포인트 2개 + 근거 조문. 채점은 CD-06(문항당 1점).
+- **평가세트 20문항 구성**: 정상 12 / 자료에 없음 4 / 금지·개인정보 요구 2 / 유도·숨은 지시문 2. 기대 답변은 핵심 포인트 2개 + 근거 조문. 채점은 CD-06(문항당 1점). 질문 파일과 기대 답변 파일을 **분리**한다 — 기대 답변은 채점 단계에서만 쓴다(CD-17).
 - **과태료 금액**: 수업 자료에서 금액을 단정하지 않는다. 시행령 [별표 4] 금액은 아직 원문 확인 전이다 [TBD: OQ-07]. 금지사항 "과태료 액수 단정 금지"의 평가 문항으로 활용한다.
 
 ## 3. Day 2 오전 사례 — 민원 접수 흐름 (Day 1 키트 확장)

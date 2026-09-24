@@ -82,8 +82,9 @@
 
 human-review step 규칙:
 
-- phase index.json에 `review_targets`(예: `["lesson:d1-harness-intro", "card:card-help-odd-result"]`)로 이 phase가 승인받아야 할 항목을 적는다.
-- AC는 `python scripts/validate_course.py --scope phase:<phase> --require-reviewed`이다. validator는 `review_targets`에 적힌 항목만 검사한다(`phase:` 범위는 `1-web-foundation` step 7에서 구현). 그 전에는 `--scope lesson:<id>`를 쓴다.
+- **human-review step마다** `steps[].review_targets`(예: `["kit:day1-civil", "lesson:d1-context", "card:card-source-rule-snippet"]`)로 그 시점에 승인받아야 할 항목만 적는다. 대상 형식: `lesson:<id>` · `card:<id>` · `kit:<id>`.
+- AC는 `python scripts/validate_course.py --scope phase:<phase-dir>:step<N> --require-reviewed`이다. validator는 그 step의 `review_targets`만 검사하므로, phase 안에 사람 검토 step을 여러 개 둘 수 있다.
+- phase 전체 한 번만 검토하는 경우에는 phase 수준 `review_targets`와 `--scope phase:<phase-dir>`도 쓸 수 있다(하위 호환).
 - 미승인 항목이 있으면 목록을 `blocked_reason`에 적고 `blocked`로 멈춘다.
 - 사람이 `npm run review:approve <id>`로 승인한 뒤 status를 `pending`으로 되돌려 다시 실행하면 AC가 통과해 `completed`가 된다.
 

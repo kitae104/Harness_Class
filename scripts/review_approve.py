@@ -2,7 +2,7 @@
 """
 사람 승인 명령 (ADR-005, ADR-011, ARCHITECTURE 10절).
 
-사람이 검토를 마친 교시·카드의 콘텐츠 파일 해시를 course.yaml의 reviewed_hash에 기록하고
+사람이 검토를 마친 교시·카드의 콘텐츠 파일(키트는 폴더) 해시를 course.yaml의 reviewed_hash에 기록하고
 status를 reviewed로 바꾼다. 콘텐츠 파일은 수정하지 않는다.
 course.yaml은 통째로 다시 쓰지 않고 해당 항목의 줄만 텍스트로 고친다(주석·키 순서·인라인 형식 보존).
 
@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from content_hash import content_hash, target_file  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
-SECTIONS = {"lessons": "lesson", "cards": "card"}
+SECTIONS = {"lessons": "lesson", "cards": "card", "kits": "kit"}
 
 
 class ApproveError(Exception):
@@ -141,7 +141,7 @@ def find_item(course: dict, item_id: str):
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="사람 검토 승인: course.yaml에 status reviewed와 reviewed_hash를 기록")
-    parser.add_argument("id", help="교시 ID 또는 카드 ID")
+    parser.add_argument("id", help="교시·카드·키트 ID")
     parser.add_argument("--root", default=str(ROOT), help="저장소 루트(기본: 이 스크립트의 상위 폴더)")
     args = parser.parse_args(argv)
     for stream in (sys.stdout, sys.stderr):  # cp949 콘솔에서 '—'·'→' 출력 때문에 죽지 않게
@@ -156,11 +156,11 @@ def main(argv=None) -> int:
         text = course_path.read_bytes().decode("utf-8")
         found = find_item(yaml.safe_load(text) or {}, args.id)
         if found is None:
-            raise ApproveError(f"course.yaml의 교시·카드에 없는 ID: {args.id}")
+            raise ApproveError(f"course.yaml의 교시·카드·키트에 없는 ID: {args.id}")
         section, kind, item = found
         path = target_file(root, kind, item)
-        if not path.is_file():
-            raise ApproveError(f"{args.id}: 콘텐츠 파일이 없다 — {path.relative_to(root).as_posix()}")
+        if not (path.is_dir() if kind == "kit" else path.is_file()):
+            raise ApproveError(f"{args.id}: 콘텐츠 {'폴더' if kind == 'kit' else '파일'}가 없다 — {path.relative_to(root).as_posix()}")
         digest = content_hash(path)
         new_text = approve_text(text, section, args.id, digest)
     except (ApproveError, ValueError, UnicodeDecodeError) as e:

@@ -16,7 +16,7 @@ content/
   day1/ day2/             # 교시 본문 MDX            (Phase 3·5)
   modules/                # 교시가 아닌 추가 실습     (확장용)
   prompts/                # AI에게 도움받기 카드, 평평한 폴더 (Phase 3·5)
-  kits/<kit-id>/          # 실습 키트 원본(kit.yaml + 자료) (Phase 2·4)
+  kits/<kit-id>/          # 실습 키트 원본(kit.yaml + 자료). course.yaml kits에 등록(V-KIT-001)
   templates/ project/ resources/ optional/codex/
   instructor/             # 공개 가능한 진행 안내만 (CD-02)
 public/                   # 이미지, 가상 데이터. downloads는 빌드 산출물
@@ -36,7 +36,7 @@ content/prompts/*.md ─> 교시 본문 <PromptCard id> ─> /prompts 자동 목
 product-features.yaml ─> <Feature id show> (확인일 자동 표시, unavailable이면 fallback 표시, show로 detail·fallback 본문 표시)
 sources.yaml ─────────> <Source id article> (시행일·조문 표시)
 external-links.yaml ──> <ExternalLink id tab> (준비 전이면 fallback_kind에 따라 표 양식 또는 다운로드)
-content/kits/ ────────> 빌드 시 zip·xlsx 다운로드 생성 (public/downloads에 직접 커밋 금지)
+content/kits/ ────────> 빌드 시 zip·xlsx 다운로드 생성 (public/downloads에 직접 커밋 금지) [생성과 <KitDownload>는 2-day1-content 첫 step에서 구현]
 ```
 원칙: 한 정보는 한 곳에만 있다. 목록 페이지(/prompts, /practice)는 수작업으로 만들지 않고 원천에서 생성한다.
 
@@ -59,6 +59,7 @@ content/kits/ ────────> 빌드 시 zip·xlsx 다운로드 생성
 | `cards[]` | id, lesson(교시 ID 또는 common), title, category(A~I), level(1~3), where, track, **status, reviewed_hash** |
 | `lessons[]` | id(의미형 고정), day, number, title, type(concept/practice/project), subject, track, **status, reviewed_hash**, elements, activities[kind,name,minutes], objectives[id,text,outputs,checks], outputs[id,text,used_by], checks[id,text], cards, stuck_points[id,text,supports,card], skip_if_short |
 | `modules[]` | 교시가 아닌 추가 콘텐츠(시간 합계 제외): id, title, track, status, path |
+| `kits[]` | 실습 키트: id, title, **status, reviewed_hash**. 자료는 `content/kits/<id>/`(kit.yaml 필드는 PRACTICE_CASES 1절). 해시는 폴더 전체(파일 경로 순, LF 정규화) |
 
 - `objectives[].checks`는 그 목표를 확인하는 `lessons[].checks[].id` 목록이다. 학습목표마다 1개 이상(V-LSN-005, [LEARNING_OBJECTIVES.md](LEARNING_OBJECTIVES.md) 3절).
 - `checks`를 문자열 목록으로 쓰는 기존 형식은 과거 형식이며 planned 교시에서만 허용된다. draft로 올리는 교시는 `{id, text}` 형식으로 바꾼다.
@@ -127,7 +128,7 @@ external-links.yaml의 대안 필드:
 | 새 실습(모듈) | `npm run new:module <slug>` → `content/modules/<slug>.mdx` 작성 → course.yaml `modules`에 1줄 추가 | `npm run verify -- --scope module:<slug>` |
 | 교시 교체 | course.yaml 해당 교시 항목 교체(ID는 새로 부여) → 기존 ID를 참조하던 카드·산출물의 used_by를 validator 보고대로 수정 | `validate_course.py` 오류 0 |
 | 카드 추가 | 막힘 지점을 course.yaml `stuck_points`에 먼저 추가 → `cards`에 등록 → `npm run new:prompt <id>` | V-CRS-008 통과 |
-| 키트 추가 | `npm run new:kit <id>` → kit.yaml 필수 구성요소 채움 | 키트 규칙 통과(Phase 2) |
+| 키트 추가 | course.yaml `kits`에 등록 → `npm run new:kit <id>` → kit.yaml 필드와 files 목록 채움 | V-KIT-001 통과 |
 | 제품 기능·출처 추가 | 등록부에 항목 추가(확인일·출처 필수) → 본문에서 ID로 참조 | V-REG-001~004 |
 | 개설 차수 갱신 | `validate_course.py --pre-launch` → 만료된 제품 정보·법령 재확인 → 바뀐 콘텐츠를 draft로 되돌려 재검토 → `edition` 갱신·git 태그·CHANGELOG | `--production` 통과 |
 

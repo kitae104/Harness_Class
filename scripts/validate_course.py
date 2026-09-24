@@ -56,6 +56,8 @@ LINK_KINDS = ("sheet-template", "form-template", "shared-form", "doc")
 LINK_STATUS = ("planned", "active", "retired")
 LINK_FALLBACK_KINDS = ("template", "download", "none")
 PRACTICE_KINDS = ("practice", "follow")
+KIT_ROLES = ("guideline", "context", "eval", "input-data", "form-template", "other")
+KIT_REQUIRED = ("id", "title", "track", "sources", "privacy_notes", "fictional_label", "files")
 OPTIONAL_WORDS = re.compile(r"codex", re.I)
 
 TAG_RE = re.compile(r"\[(PROVISIONAL|TBD|AS-OF)(?::\s*([^\]]*))?\]")
@@ -107,6 +109,8 @@ RULES = {
     "V-REV-001": "--require-reviewed: 범위 안 항목이 모두 reviewed",
     "V-REV-002": "reviewed 항목의 콘텐츠 파일 해시(LF 정규화)가 course.yaml의 reviewed_hash와 일치",
     "V-CLI-001": "--scope 대상이 존재",
+    "V-INS-001": "draft·reviewed 교시의 강사 안내 파일(content/instructor/day{d}/{nn}.md) 존재",
+    "V-KIT-001": "course.yaml kits와 content/kits/<id>/kit.yaml이 1:1, 필수 필드·출처 ID·파일 목록 일치",
     "V-LSN-001": "교시 MDX의 lesson_id가 같은 위치의 course.yaml 교시와 일치, draft·reviewed 교시는 파일 존재",
     "V-LSN-002": "교시 MDX에 공통 필수 섹션과 유형별 필수 섹션(실습형: 예상 결과·잘못된 결과 예시) 존재",
     "V-LSN-003": "학습목표 동사(이해한다·안다·알아본다)와 본문 문장 길이 (경고)",
@@ -603,12 +607,14 @@ def check_quality_link(root, out):
             out.append(Finding("V-QUA-001", "error", f"QUALITY_CHECKLIST에서 '구현'인 규칙 {rid}가 구현되지 않았다"))
 
 
-def check_reviewed(course, out, scope_lessons, scope_cards=None):
+def check_reviewed(course, out, scope_lessons, scope_cards=None, scope_kits=None):
     if course is None:
         return
     items = [("lesson", les) for les in course.get("lessons") or []]
     items += [("card", c) for c in course.get("cards") or []
               if scope_lessons is None or c.get("id") in (scope_cards or ())]
+    items += [("kit", k) for k in course.get("kits") or []
+              if scope_lessons is None or k.get("id") in (scope_kits or ())]
     for kind, it in items:
         if kind == "lesson" and scope_lessons is not None and it.get("id") not in scope_lessons:
             continue
@@ -624,14 +630,16 @@ def _card_in_scope(card, scope_lessons, scope_cards):
             or card.get("id") in (scope_cards or ()))
 
 
-def check_review_hashes(root, course, out, scope_lessons, scope_cards=None):
-    """V-REV-002: reviewed 교시·카드의 콘텐츠 파일이 승인 이후 바뀌지 않았는지 해시로 대조한다."""
+def check_review_hashes(root, course, out, scope_lessons, scope_cards=None, scope_kits=None):
+    """V-REV-002: reviewed 교시·카드·키트의 콘텐츠가 승인 이후 바뀌지 않았는지 해시로 대조한다."""
     if course is None:
         return
     items = [("lesson", les) for les in course.get("lessons") or []
              if scope_lessons is None or les.get("id") in scope_lessons]
     items += [("card", c) for c in course.get("cards") or []
               if _card_in_scope(c, scope_lessons, scope_cards)]
+    items += [("kit", k) for k in course.get("kits") or []
+              if scope_lessons is None or k.get("id") in (scope_kits or ())]
     for kind, it in items:
         if it.get("status") != "reviewed":
             continue
@@ -644,7 +652,7 @@ def check_review_hashes(root, course, out, scope_lessons, scope_cards=None):
         expected = it.get("reviewed_hash")
         if not expected:
             out.append(Finding("V-REV-002", "error", f"{kind} {iid}는 reviewed인데 reviewed_hash가 없다 — npm run review:approve {iid}", where))
-        elif not path.is_file():
+        elif not (path.is_dir() if kind == "kit" else path.is_file()):
             out.append(Finding("V-REV-002", "error", f"{kind} {iid}는 reviewed인데 콘텐츠 파일이 없다", where))
         else:
             try:
@@ -653,6 +661,99 @@ def check_review_hashes(root, course, out, scope_lessons, scope_cards=None):
                 actual = None
             if actual != expected:
                 out.append(Finding("V-REV-002", "error", f"{kind} {iid}: 승인 후 수정됨 — 다시 검토 필요(npm run review:approve {iid})", where))
+
+
+# ---------------------------------------------------------------------------
+# 규칙: 강사 안내 (V-INS-001)
+# ---------------------------------------------------------------------------
+
+def check_instructor_notes(root, course, out, scope_lessons):
+    """draft·reviewed 교시는 강사 안내 파일이 있어야 한다. 내용의 적절성은 사람 검토(H-02)."""
+    for les in (course or {}).get("lessons") or []:
+        if les.get("status") not in ("draft", "reviewed"):
+            continue
+        if scope_lessons is not None and les.get("id") not in scope_lessons:
+            continue
+        try:
+            rel = f"content/instructor/day{int(les['day'])}/{int(les['number']):02d}.md"
+        except (KeyError, TypeError, ValueError):
+            continue  # 필드 누락은 V-CRS-001이 보고한다
+        if not (root / rel).is_file():
+            out.append(Finding("V-INS-001", "error", f"{les.get('status')} 교시에 강사 안내가 없다: {rel}",
+                               f"lesson {les.get('id')}"))
+
+
+# ---------------------------------------------------------------------------
+# 규칙: 키트 (V-KIT-001)
+# ---------------------------------------------------------------------------
+
+def check_kits(root, course, out, source_ids):
+    """course.yaml kits ↔ content/kits/<id>/kit.yaml 구조 검사. 법령 해석·결함 설계는 사람 검토(H-01)."""
+    entries = (course or {}).get("kits") or []
+    kits_dir = root / "content" / "kits"
+    seen = set()
+    for k in entries:
+        kid = k.get("id")
+        w = f"kit {kid}"
+        if not kid or not k.get("title"):
+            out.append(Finding("V-KIT-001", "error", "course.yaml kits 항목에 id·title이 필요하다", w))
+            continue
+        if kid in seen:
+            out.append(Finding("V-KIT-001", "error", f"키트 ID 중복: {kid}", w))
+            continue
+        seen.add(kid)
+        if k.get("status", "planned") not in STATUSES:
+            out.append(Finding("V-KIT-001", "error", f"status '{k.get('status')}'은 허용값 {list(STATUSES)}이 아니다", w))
+        kit_file = kits_dir / str(kid) / "kit.yaml"
+        if not kit_file.is_file():
+            out.append(Finding("V-KIT-001", "error", f"키트 폴더에 kit.yaml이 없다: content/kits/{kid}/kit.yaml", w))
+            continue
+        _check_kit_file(root, kit_file, kid, source_ids, out)
+    if kits_dir.is_dir():
+        for d in sorted(q for q in kits_dir.iterdir() if q.is_dir()):
+            if d.name not in seen:
+                out.append(Finding("V-KIT-001", "error",
+                                   f"course.yaml kits에 등록되지 않은 키트 폴더: content/kits/{d.name}", f"kit {d.name}"))
+
+
+def _check_kit_file(root, kit_file, kid, source_ids, out):
+    w = _rel(root, kit_file)
+    try:
+        data = _load_yaml(kit_file)
+    except yaml.YAMLError as e:
+        out.append(Finding("V-KIT-001", "error", f"kit.yaml을 읽을 수 없다: {e}", w))
+        return
+    for key in KIT_REQUIRED:
+        if key not in data or data[key] in (None, "", []):
+            out.append(Finding("V-KIT-001", "error", f"필수 필드 누락: {key}", w))
+    if data.get("id") not in (None, kid):
+        out.append(Finding("V-KIT-001", "error", f"kit.yaml id '{data.get('id')}'가 폴더·course.yaml ID '{kid}'와 다르다", w))
+    if data.get("track") not in (None, *TRACKS):
+        out.append(Finding("V-KIT-001", "error", f"track '{data.get('track')}'이 허용값이 아니다", w))
+    for sid in data.get("sources") or []:
+        if sid not in source_ids:
+            out.append(Finding("V-KIT-001", "error", f"sources.yaml에 없는 출처 ID: {sid}", w))
+    base = kit_file.parent.resolve()
+    listed = set()
+    for f in data.get("files") or []:
+        rel = str((f or {}).get("path") or "")
+        if (f or {}).get("role") not in KIT_ROLES:
+            out.append(Finding("V-KIT-001", "error", f"파일 {rel}의 role '{(f or {}).get('role')}'은 허용값 {list(KIT_ROLES)}이 아니다", w))
+        target = (base / rel).resolve()
+        if not rel or rel == "kit.yaml" or base not in target.parents:
+            out.append(Finding("V-KIT-001", "error", f"파일 경로 '{rel}'가 키트 폴더 안의 파일이 아니다", w))
+            continue
+        listed.add(target.relative_to(base).as_posix())
+        if not target.is_file():
+            out.append(Finding("V-KIT-001", "error", f"files에 적힌 파일이 없다: {rel}", w))
+    for q in sorted(base.rglob("*")):
+        if q.is_file() and q.name != "kit.yaml" and q.relative_to(base).as_posix() not in listed:
+            out.append(Finding("V-KIT-001", "error", f"kit.yaml files에 없는 파일: {q.relative_to(base).as_posix()}", w))
+
+
+def source_ids(root):
+    path = root / "content" / "sources.yaml"
+    return {s.get("id") for s in (_load_yaml(path).get("sources") or [])} if path.exists() else set()
 
 
 # ---------------------------------------------------------------------------
@@ -1045,61 +1146,81 @@ def check_web(root, out):
 # 실행
 # ---------------------------------------------------------------------------
 
+STEP_TOKEN_RE = re.compile(r"step(\d+)")
+
+
 def _resolve_scope(root, scope):
-    """scope 문자열 → (교시 ID 집합, 카드 ID 집합, 오류 메시지). 전체 범위는 (None, None, None)."""
+    """scope 문자열 → (교시 ID 집합, 카드 ID 집합, 키트 ID 집합, 오류 메시지). 전체 범위는 (None, None, None, None)."""
     if not scope or scope == "all":
-        return None, None, None
+        return None, None, None, None
     kind, _, target = scope.partition(":")
     course_path = root / "content" / "course.yaml"
     course = _load_yaml(course_path) if course_path.exists() else {}
-    lesson_ids = {les.get("id") for les in course.get("lessons") or []}
-    card_ids = {c.get("id") for c in course.get("cards") or []}
-    if kind == "lesson":
-        if target not in lesson_ids:
-            return set(), set(), f"없는 교시: {target}"
-        return {target}, set(), None
-    if kind == "card":
-        if target not in card_ids:
-            return set(), set(), f"없는 카드: {target}"
-        return set(), {target}, None
+    ids = {
+        "lesson": {les.get("id") for les in course.get("lessons") or []},
+        "card": {c.get("id") for c in course.get("cards") or []},
+        "kit": {k.get("id") for k in course.get("kits") or []},
+    }
+    if kind in ("lesson", "card", "kit"):
+        if target not in ids[kind]:
+            return set(), set(), set(), f"없는 {kind}: {target}"
+        return ({target} if kind == "lesson" else set(), {target} if kind == "card" else set(),
+                {target} if kind == "kit" else set(), None)
     if kind == "day":
         found = {les.get("id") for les in course.get("lessons") or [] if str(les.get("day")) == target}
-        return (found, set(), None) if found else (set(), set(), f"없는 Day: {target}")
+        return (found, set(), set(), None) if found else (set(), set(), set(), f"없는 Day: {target}")
     if kind == "phase":
-        return _phase_scope(root, target, lesson_ids, card_ids)
-    return set(), set(), f"알 수 없는 scope 형식: {scope} (lesson:<id> | card:<id> | day:<n> | phase:<dir> | all)"
+        return _phase_scope(root, target, ids)
+    return set(), set(), set(), (f"알 수 없는 scope 형식: {scope} "
+                                 "(lesson:<id> | card:<id> | kit:<id> | day:<n> | phase:<dir>[:step<N>] | all)")
 
 
-def _phase_scope(root, name, lesson_ids, card_ids):
-    """phases/<name>/index.json의 review_targets(lesson:<id>, card:<id>)만 범위로 삼는다."""
+def _phase_scope(root, target, ids):
+    """phases/<dir>/index.json의 review_targets만 범위로 삼는다.
+
+    phase:<dir>은 phase의 review_targets, phase:<dir>:step<N>은 그 step의 review_targets를 쓴다.
+    phase 안에 사람 검토 step을 여러 개 둘 수 있게 하기 위해서다.
+    """
+    name, _, step_token = target.partition(":")
+    fail = lambda msg: (set(), set(), set(), msg)  # noqa: E731
     index = root / "phases" / name / "index.json"
     if not name or not index.is_file():
-        return set(), set(), f"없는 phase: {name} (phases/{name}/index.json)"
+        return fail(f"없는 phase: {name} (phases/{name}/index.json)")
     try:
-        targets = json.loads(index.read_text(encoding="utf-8")).get("review_targets")
-    except (ValueError, AttributeError):
-        return set(), set(), f"phases/{name}/index.json을 읽을 수 없다"
+        data = json.loads(index.read_text(encoding="utf-8"))
+    except ValueError:
+        return fail(f"phases/{name}/index.json을 읽을 수 없다")
+    where = f"phases/{name}/index.json"
+    if step_token:
+        m = STEP_TOKEN_RE.fullmatch(step_token)
+        if not m:
+            return fail(f"step 지정은 step<N> 형식이어야 한다: {step_token}")
+        step = next((s for s in data.get("steps") or [] if s.get("step") == int(m.group(1))), None)
+        if step is None:
+            return fail(f"{where}에 step {m.group(1)}이 없다")
+        targets, where = step.get("review_targets"), f"{where} step {m.group(1)}"
+    else:
+        targets = data.get("review_targets")
     if not targets or not isinstance(targets, list):
-        return set(), set(), f"phases/{name}/index.json에 review_targets가 없다"
-    lessons, cards, errors = set(), set(), []
+        return fail(f"{where}에 review_targets가 없다")
+    found = {"lesson": set(), "card": set(), "kit": set()}
+    errors = []
     for t in targets:
-        kind, _, target = str(t).partition(":")
-        if kind == "lesson" and target in lesson_ids:
-            lessons.add(target)
-        elif kind == "card" and target in card_ids:
-            cards.add(target)
+        kind, _, tid = str(t).partition(":")
+        if kind in found and tid in ids[kind]:
+            found[kind].add(tid)
         else:
             errors.append(str(t))
     if errors:
-        return set(), set(), f"phase {name}의 review_targets에 없는 대상: {', '.join(errors)} (lesson:<id> | card:<id>)"
-    return lessons, cards, None
+        return fail(f"{where}의 review_targets에 없는 대상: {', '.join(errors)} (lesson:<id> | card:<id> | kit:<id>)")
+    return found["lesson"], found["card"], found["kit"], None
 
 
 def validate(root: Path, *, docs_only=False, scope=None, require_reviewed=False,
              today=None, check_git=True):
     out = []
     today = _parse_date(today) or dt.date.today()
-    scope_lessons, scope_cards, scope_err = _resolve_scope(root, scope)
+    scope_lessons, scope_cards, scope_kits, scope_err = _resolve_scope(root, scope)
     if scope_err:
         out.append(Finding("V-CLI-001", "error", scope_err))
         return out
@@ -1112,15 +1233,17 @@ def validate(root: Path, *, docs_only=False, scope=None, require_reviewed=False,
     check_quality_link(root, out)
     if check_git:
         check_git_tracking(root, out)
-    check_review_hashes(root, course, out, scope_lessons, scope_cards)
+    check_kits(root, course, out, source_ids(root))
+    check_review_hashes(root, course, out, scope_lessons, scope_cards, scope_kits)
     check_lesson_files(root, course, out, scope_lessons)
+    check_instructor_notes(root, course, out, scope_lessons)
     check_objective_checks(course, out, scope_lessons)
     check_lesson_links(root, course, out, scope_lessons, strict=require_reviewed)
     check_prompt_files(root, course, out, today, freshness, scope_lessons, scope_cards)
     if not docs_only:  # 빌드 결과 검사는 docs_only(Phase 1 이전 AC·Stop 훅)에서 건너뛴다
         check_web(root, out)
     if require_reviewed:
-        check_reviewed(course, out, scope_lessons, scope_cards)
+        check_reviewed(course, out, scope_lessons, scope_cards, scope_kits)
     return out
 
 
@@ -1135,7 +1258,8 @@ def _safe_console():
 def main(argv=None):
     parser = argparse.ArgumentParser(description="교육자료 Harness 검증기")
     parser.add_argument("--docs-only", action="store_true", help="docs·yaml 수준 규칙만 검사 (Phase 1 이전 AC)")
-    parser.add_argument("--scope", default=None, help="lesson:<id> | card:<id> | day:<n> | phase:<dir> | all")
+    parser.add_argument("--scope", default=None,
+                        help="lesson:<id> | card:<id> | kit:<id> | day:<n> | phase:<dir>[:step<N>] | all")
     parser.add_argument("--require-reviewed", action="store_true", help="범위 안 항목이 모두 reviewed인지 검사")
     parser.add_argument("--production", action="store_true", help="Production 관문: --require-reviewed 포함")
     parser.add_argument("--pre-launch", action="store_true", help="개설 전 점검: 확인일 경과 경고를 오류로 격상")

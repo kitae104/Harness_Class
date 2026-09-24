@@ -458,7 +458,7 @@ class TestQualityLink:
     def test_checklist_future_rule_is_fine(self, tmp_path):
         write_project(tmp_path)
         q = tmp_path / "docs" / "QUALITY_CHECKLIST.md"
-        q.write_text(q.read_text(encoding="utf-8") + "| V-KIT-001 | AUTO-오류 | 키트 | 예정(P2) |\n", encoding="utf-8")
+        q.write_text(q.read_text(encoding="utf-8") + "| V-PRP-001 | AUTO-오류 | 제안서 개정본 | 예정(P9) |\n", encoding="utf-8")
         assert "V-QUA-001" not in ids(run(tmp_path))
 
 
@@ -587,10 +587,14 @@ def lesson_mdx(lesson_id="l1", sections=PRACTICE_SECTIONS, body="짧은 문장�
     return "\n".join(parts)
 
 
-def write_lesson(root, rel="day1/01.mdx", text=None):
+def write_lesson(root, rel="day1/01.mdx", text=None, instructor=True):
     p = root / "content" / rel
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(text if text is not None else lesson_mdx(), encoding="utf-8")
+    if instructor:  # V-INS-001: draft·reviewed 교시는 강사 안내가 있어야 한다
+        note = root / "content" / "instructor" / Path(rel).with_suffix(".md")
+        note.parent.mkdir(parents=True, exist_ok=True)
+        note.write_text("# 강사 안내\n", encoding="utf-8")
     return p
 
 
