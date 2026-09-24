@@ -1,0 +1,18 @@
+# 테스트용 가짜 외부 링크 등록부
+links:
+  - id: sheet-test
+    title: 테스트 시트
+    kind: sheet-template
+    owner: 강사
+    url: https://example.com/sheet
+    verified_at: 2026-09-01
+    fallback: xlsx 다운로드
+    status: active
+  - id: form-planned
+    title: 준비 중 폼
+    kind: shared-form
+    owner: "[TBD: OQ-06]"
+    url: null
+    verified_at: null
+    fallback: CSV
+    status: planned

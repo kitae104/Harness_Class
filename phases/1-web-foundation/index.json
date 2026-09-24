@@ -45,13 +45,15 @@
     {
       "step": 1,
       "name": "content-schema",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "src/content.config.ts",
         "src/lib/*",
         "tests/unit/*",
         "tests/fixtures/*"
-      ]
+      ],
+      "started_at": "2026-09-24T10:08:25+0900",
+      "summary": "src/content.config.ts에 컬렉션 3개(lessons: content/day{1,2}/*.mdx·lesson_id만, prompts: content/prompts/*.md·PROMPT_GUIDE 2절 필드(status 없음), modules: content/modules/*.mdx·module_id, 모두 strictObject·빈 폴더 허용); src/lib/course.ts(loadCourse·lessonsInOrder·lessonById·lessonByPosition·neighbors·lessonUrl·cardsForLesson·commonCards), src/lib/registries.ts(loadFeatures·featureById·loadSources·sourceById·loadExternalLinks·linkById·loadGlossary·termLabel), src/lib/types.ts, src/lib/yaml.ts(readYaml, cwd 기준 content/ 경로); @types/node 미설치라 src/lib/node-fs.d.ts에 readFileSync 선언만 둠(추가 시 삭제 가능); 단위 테스트 29개 + tests/fixtures 가짜 yaml 5개"
     },
     {
       "step": 2,

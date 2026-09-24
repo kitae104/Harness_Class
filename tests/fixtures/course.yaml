@@ -1,0 +1,113 @@
+# 테스트용 가짜 course.yaml — 2일 × 2교시. 실제 과정 구조가 아니다.
+course:
+  title: 테스트 과정
+  edition: test
+  level: 초급
+  audience: 테스트
+
+constraints:
+  total_hours: 4
+  days: 2
+  lessons_per_day: 2
+  lesson_minutes: 50
+  max_core_minutes: 40
+  min_element_coverage: 1
+  max_cards_per_lesson: 2
+  max_core_cards: 5
+  freshness_days: 90
+
+elements:
+  instructions: ① 지침
+subjects:
+  S1: 테스트 교과목
+supports:
+  1: 복붙 Prompt Card
+activity_kinds: [explain, practice]
+
+completion:
+  required_outputs: [산출물]
+  optional_outputs: []
+  participation: []
+  self_check: [문항]
+
+cards:
+  - {id: card-a, lesson: t2-second, title: 카드 A, category: C, level: 1, where: new-chat, track: core, status: planned}
+  - {id: card-b, lesson: t2-second, title: 카드 B, category: E, level: 2, where: project-chat, track: core, status: draft}
+  - {id: card-c, lesson: t3-third, title: 카드 C, category: B, level: 3, where: instructions, track: core, status: planned}
+  - {id: card-common, lesson: common, title: 공통 카드, category: A, level: 1, where: project-chat, track: core, status: reviewed, reviewed_hash: abc123}
+
+# 파일 순서를 일부러 섞어 정렬을 확인한다.
+lessons:
+  - id: t3-third
+    day: 2
+    number: 1
+    title: 셋째
+    type: practice
+    subject: S1
+    track: core
+    status: planned
+    elements: [instructions]
+    activities: [{kind: practice, name: 실습, minutes: 30}]
+    objectives: [{id: t3-o1, text: 작성한다, outputs: [t3-p1]}]
+    outputs: [{id: t3-p1, text: 산출물, used_by: []}]
+    checks: [확인]
+    cards: [card-c]
+    stuck_points: [{id: sp-t3-a, text: 막힘, supports: [1], card: card-c}]
+    skip_if_short: []
+
+  - id: t1-first
+    day: 1
+    number: 1
+    title: 첫째
+    type: concept
+    subject: S1
+    track: core
+    status: planned
+    elements: []
+    overview: true
+    activities: [{kind: explain, name: 설명, minutes: 10}]
+    objectives: [{id: t1-o1, text: 설명한다, outputs: [t1-p1]}]
+    outputs: [{id: t1-p1, text: 산출물, used_by: [t2-second]}]
+    checks: [확인]
+    cards: []
+    stuck_points: []
+    skip_if_short: []
+
+  - id: t4-fourth
+    day: 2
+    number: 2
+    title: 넷째
+    type: project
+    subject: S1
+    track: core
+    status: planned
+    elements: [instructions]
+    activities: [{kind: practice, name: 실습, minutes: 30}]
+    objectives: [{id: t4-o1, text: 작성한다, outputs: [t4-p1]}]
+    outputs: [{id: t4-p1, text: 산출물, used_by: []}]
+    checks: [확인]
+    cards: []
+    stuck_points: []
+    skip_if_short: []
+
+  - id: t2-second
+    day: 1
+    number: 2
+    title: 둘째
+    type: practice
+    subject: S1
+    track: core
+    status: draft
+    elements: [instructions]
+    activities: [{kind: practice, name: 실습, minutes: 30}]
+    objectives: [{id: t2-o1, text: 작성한다, outputs: [t2-p1]}]
+    outputs: [{id: t2-p1, text: 산출물, used_by: [t3-third]}]
+    checks: [확인]
+    cards: [card-a, card-b]
+    stuck_points:
+      - {id: sp-t2-a, text: 막힘 A, supports: [1], card: card-a}
+      - {id: sp-t2-b, text: 막힘 B, supports: [1], card: card-b}
+    skip_if_short: []
+
+modules:
+  - {id: optional-test, title: 선택 모듈, track: optional, status: planned, path: /optional/test}
