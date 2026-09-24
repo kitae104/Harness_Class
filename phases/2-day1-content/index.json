@@ -1,0 +1,197 @@
+{
+  "project": "공무원을 위한 하네스 엔지니어링",
+  "phase": "day1-content",
+  "guardrail_docs": [
+    "COURSE_MAP.md",
+    "LEARNING_OBJECTIVES.md",
+    "HARNESS_ELEMENTS.md",
+    "PRACTICE_CASES.md",
+    "PRACTICE_DESIGN.md",
+    "PROMPT_GUIDE.md",
+    "QUALITY_CHECKLIST.md",
+    "SOURCE_REGISTER.md",
+    "TOOL_GUIDE.md",
+    "OPEN_QUESTIONS.md",
+    "UI_GUIDE.md"
+  ],
+  "steps": [
+    {
+      "step": 0,
+      "name": "kit-download",
+      "status": "pending",
+      "allowed_paths": [
+        "src/lib/kits.ts",
+        "src/lib/types.ts",
+        "src/pages/downloads/*",
+        "src/components/KitDownload.astro",
+        "tests/unit/kits*.test.ts",
+        "tests/fixtures/kits/*",
+        "scripts/build_offline.mjs",
+        "tests/unit/build-offline.test.ts",
+        "package.json",
+        "package-lock.json",
+        "docs/ARCHITECTURE.md"
+      ]
+    },
+    {
+      "step": 1,
+      "name": "kit-civil-context",
+      "status": "pending",
+      "allowed_paths": [
+        "content/kits/day1-civil/*",
+        "content/sources.yaml",
+        "content/course.yaml"
+      ]
+    },
+    {
+      "step": 2,
+      "name": "kit-civil-evalset",
+      "status": "pending",
+      "allowed_paths": [
+        "content/kits/day1-civil/*"
+      ]
+    },
+    {
+      "step": 3,
+      "name": "d1-04-exemplar",
+      "status": "pending",
+      "allowed_paths": [
+        "content/day1/04.mdx",
+        "content/instructor/day1/04.md",
+        "content/prompts/card-source-rule-snippet.md",
+        "content/course.yaml",
+        "content/external-links.yaml",
+        "content/glossary.yaml",
+        "public/images/d1-context/*"
+      ]
+    },
+    {
+      "step": 4,
+      "name": "human-review-exemplar",
+      "status": "pending",
+      "allowed_paths": [],
+      "review_targets": [
+        "kit:day1-civil",
+        "lesson:d1-context",
+        "card:card-source-rule-snippet"
+      ]
+    },
+    {
+      "step": 5,
+      "name": "d1-02-guideline",
+      "status": "pending",
+      "allowed_paths": [
+        "content/day1/02.mdx",
+        "content/instructor/day1/02.md",
+        "content/prompts/card-guideline-critique.md",
+        "content/course.yaml",
+        "content/external-links.yaml",
+        "public/images/d1-guideline/*"
+      ]
+    },
+    {
+      "step": 6,
+      "name": "d1-03-project",
+      "status": "pending",
+      "allowed_paths": [
+        "content/day1/03.mdx",
+        "content/instructor/day1/03.md",
+        "content/course.yaml",
+        "content/external-links.yaml",
+        "public/images/d1-project/*"
+      ]
+    },
+    {
+      "step": 7,
+      "name": "d1-05-evalset",
+      "status": "pending",
+      "allowed_paths": [
+        "content/day1/05.mdx",
+        "content/instructor/day1/05.md",
+        "content/prompts/card-eval-question-critique.md",
+        "content/course.yaml",
+        "content/external-links.yaml",
+        "public/images/d1-evalset/*"
+      ]
+    },
+    {
+      "step": 8,
+      "name": "d1-07-improve",
+      "status": "pending",
+      "allowed_paths": [
+        "content/day1/07.mdx",
+        "content/instructor/day1/07.md",
+        "content/prompts/card-failure-cause.md",
+        "content/course.yaml",
+        "content/external-links.yaml",
+        "public/images/d1-improve/*"
+      ]
+    },
+    {
+      "step": 9,
+      "name": "day1-flow-check",
+      "status": "pending",
+      "allowed_paths": [
+        "content/day1/02.mdx",
+        "content/day1/03.mdx",
+        "content/day1/05.mdx",
+        "content/day1/07.mdx",
+        "content/instructor/day1/02.md",
+        "content/instructor/day1/03.md",
+        "content/instructor/day1/05.md",
+        "content/instructor/day1/07.md"
+      ]
+    },
+    {
+      "step": 10,
+      "name": "human-review-lessons",
+      "status": "pending",
+      "allowed_paths": [],
+      "review_targets": [
+        "lesson:d1-guideline",
+        "lesson:d1-project",
+        "lesson:d1-evalset",
+        "lesson:d1-improve",
+        "card:card-guideline-critique",
+        "card:card-eval-question-critique",
+        "card:card-failure-cause"
+      ]
+    },
+    {
+      "step": 11,
+      "name": "d1-06-eval-run",
+      "status": "pending",
+      "allowed_paths": [
+        "content/day1/06.mdx",
+        "content/instructor/day1/06.md",
+        "content/prompts/card-batch-grading.md",
+        "content/prompts/card-help-long-output.md",
+        "content/course.yaml",
+        "content/external-links.yaml",
+        "public/images/d1-eval-run/*"
+      ]
+    },
+    {
+      "step": 12,
+      "name": "human-review-final",
+      "status": "pending",
+      "allowed_paths": [],
+      "review_targets": [
+        "lesson:d1-harness-intro",
+        "lesson:d1-guideline",
+        "lesson:d1-project",
+        "lesson:d1-context",
+        "lesson:d1-evalset",
+        "lesson:d1-eval-run",
+        "lesson:d1-improve",
+        "card:card-guideline-critique",
+        "card:card-source-rule-snippet",
+        "card:card-eval-question-critique",
+        "card:card-batch-grading",
+        "card:card-failure-cause",
+        "card:card-help-long-output",
+        "kit:day1-civil"
+      ]
+    }
+  ]
+}
