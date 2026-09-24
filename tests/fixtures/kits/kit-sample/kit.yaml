@@ -1,0 +1,18 @@
+id: kit-sample
+title: 샘플 키트
+track: core
+sources: [fictional-sample]
+privacy_notes: 실제 개인정보를 넣지 마세요.
+fictional_label: 이 자료는 교육용 가상 자료이며 실제 인물·기관과 무관합니다.
+files:
+  - path: rules.md
+    role: context
+    download: true
+    description: 교육용 가상 규정
+  - path: data/faq.md
+    role: context
+    download: true
+    description: 교육용 FAQ
+  - path: answers.md
+    role: eval
+    description: 기대 답변(채점 단계에서만)

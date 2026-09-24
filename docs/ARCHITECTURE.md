@@ -36,7 +36,7 @@ content/prompts/*.md ─> 교시 본문 <PromptCard id> ─> /prompts 자동 목
 product-features.yaml ─> <Feature id show> (확인일 자동 표시, unavailable이면 fallback 표시, show로 detail·fallback 본문 표시)
 sources.yaml ─────────> <Source id article> (시행일·조문 표시)
 external-links.yaml ──> <ExternalLink id tab> (준비 전이면 fallback_kind에 따라 표 양식 또는 다운로드)
-content/kits/ ────────> 빌드 시 zip·xlsx 다운로드 생성 (public/downloads에 직접 커밋 금지) [생성과 <KitDownload>는 2-day1-content 첫 step에서 구현]
+content/kits/ ────────> 빌드 시 키트별 zip 다운로드 `/downloads/<id>.zip` 생성 ─> 교시 본문 <KitDownload id> (public/downloads에 직접 커밋 금지) [구현: 2-day1-content step 0]
 ```
 원칙: 한 정보는 한 곳에만 있다. 목록 페이지(/prompts, /practice)는 수작업으로 만들지 않고 원천에서 생성한다.
 
@@ -97,6 +97,7 @@ external-links.yaml의 대안 필드:
 | `Checklist` | 항목 | 진행 체크(localStorage), 진행 초기화 버튼 |
 | `TrackBadge` | `track` | 필수/선택 배지 |
 | `LessonNav` | 교시 ID | 이전/다음, 현재 Day·교시 |
+| `KitDownload` | `id`(course.yaml `kits[].id`) | 키트 제목, 교육용 가상 자료 표시(`fictional_label`), zip 링크, 파일 목록(`download: true` 파일만). 내려받을 파일이 없으면 링크 대신 안내 문구. 없는 ID는 빌드 오류, 스크립트 없음 |
 
 ## 7. 빌드 두 가지와 오프라인 제약
 - `npm run verify` → lint(eslint + astro check) + build + vitest + pytest + validate. `--scope` 인자는 validator에만 전달한다. Windows·Linux 모두에서 python 실행 파일을 자동으로 고른다.

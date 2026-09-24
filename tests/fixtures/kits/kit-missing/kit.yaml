@@ -1,0 +1,10 @@
+id: kit-missing
+title: 파일 없는 키트
+track: core
+sources: [fictional-sample]
+privacy_notes: 없음
+fictional_label: 교육용 가상 자료
+files:
+  - path: nothing.md
+    role: context
+    download: true

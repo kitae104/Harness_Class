@@ -85,6 +85,14 @@ export interface Module {
   reviewed_hash?: string;
 }
 
+/** course.yaml kits[] 항목. 자료는 content/kits/<id>/kit.yaml(PRACTICE_CASES 1절). */
+export interface CourseKit {
+  id: string;
+  title: string;
+  status: Status;
+  reviewed_hash?: string;
+}
+
 export interface Constraints {
   total_hours: number;
   days: number;
@@ -120,6 +128,7 @@ export interface Course {
   cards: Card[];
   lessons: Lesson[];
   modules: Module[];
+  kits?: CourseKit[];
 }
 
 export interface Feature {
