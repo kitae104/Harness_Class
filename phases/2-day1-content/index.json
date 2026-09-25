@@ -211,7 +211,7 @@
     {
       "step": 12,
       "name": "human-review-final",
-      "status": "blocked",
+      "status": "pending",
       "allowed_paths": [],
       "review_targets": [
         "lesson:d1-harness-intro",
@@ -229,9 +229,7 @@
         "card:card-help-long-output",
         "kit:day1-civil"
       ],
-      "started_at": "2026-09-25T09:40:18+0900",
-      "blocked_reason": "사람 검토 필요: V-REV-001 미승인 3개 — lesson:d1-eval-run, card:card-batch-grading, card:card-help-long-output (draft). 이미 승인된 11개는 해시 일치(V-REV-002 오류 없음). 확인: npm run build && npm run preview → Day 1 일곱 교시를 순서대로 보기, npm run build:offline에서 키트 zip이 열리는지, (선택) npm run test:e2e. 검토 초점: D1-06이 CD-17(답변은 Project 안 질문만, 채점은 Project 밖 임시 채팅, 사람 표본 3문항)과 OQ-03 보수 절차(CD-22)를 따르는지, D1-07과 이어지는지, Day 1 전체 누적 흐름, 카드 실제 테스트(tested_at·tested_by, 6장 모두 비어 있음 — OQ-23으로 추적), QUALITY_CHECKLIST 루브릭. 수정이 필요하면 해당 파일을 고친 뒤 다시 검토(이미 승인된 항목을 고쳤다면 그 항목도 다시 승인). 승인: npm run review:approve d1-eval-run / card-batch-grading / card-help-long-output. 이후 이 step의 status를 pending으로 되돌리고 blocked_reason을 지운 뒤 python scripts/execute.py 2-day1-content 재실행.",
-      "blocked_at": "2026-09-25T09:40:58+0900"
+      "started_at": "2026-09-25T09:40:18+0900"
     }
   ],
   "created_at": "2026-09-24T21:40:08+0900"

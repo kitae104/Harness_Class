@@ -78,7 +78,7 @@ cards:
   - {id: card-guideline-critique, lesson: d1-guideline, title: 내 지침에서 애매한 곳 찾기, category: C, level: 1, where: new-chat, track: core, status: reviewed, reviewed_hash: "sha256:5aa5f8c28de982b1715193b8e59861afa61e4503b98610a0b4b85c4ec715a7a1"}
   - {id: card-source-rule-snippet, lesson: d1-context, title: 출처 규칙 지침 문장, category: D, level: 2, where: instructions, track: core, status: reviewed, reviewed_hash: "sha256:c7e812fe0fa55a6d07868d8e1fc6956c22576344b25fcdae03252c5f082857b4"}
   - {id: card-eval-question-critique, lesson: d1-evalset, title: 내가 쓴 평가 문항 비판받기, category: E, level: 2, where: new-chat, track: core, status: reviewed, reviewed_hash: "sha256:42cb88f9945d85072ea67ade2fad7285a323907fc67480b0bbd6bf0778dbbb7a"}
-  - {id: card-batch-grading, lesson: d1-eval-run, title: 받은 답 채점(Project 밖), category: E, level: 1, where: temporary-chat, track: core, status: draft}
+  - {id: card-batch-grading, lesson: d1-eval-run, title: 받은 답 채점(Project 밖), category: E, level: 1, where: temporary-chat, track: core, status: reviewed, reviewed_hash: "sha256:82591920cdf1c99e96e9cf1d04dc96182d10208febf16ddbd28fbd9191218e66"}
   - {id: card-failure-cause, lesson: d1-improve, title: 오답 원인 분석, category: E, level: 2, where: project-chat, track: core, status: reviewed, reviewed_hash: "sha256:6c7ce5e8821e13f9f5e0320d4567fce3b8fc6d0687e7ec0c8916ec25c066a377"}
   - {id: card-classify-attachment, lesson: d2-batch-classify, title: 첨부한 접수 표 분류·요약, category: B, level: 2, where: project-chat, track: core, status: planned}
   - {id: card-draft-replies, lesson: d2-drafts, title: 건별 답변 초안과 보고 요약, category: B, level: 2, where: project-chat, track: core, status: planned}
@@ -87,7 +87,7 @@ cards:
   - {id: card-design-to-guideline, lesson: d2-project-build, title: 설계서를 지침으로 옮기기, category: H, level: 3, where: new-chat, track: core, status: planned}
   - {id: card-improvement-finder, lesson: d2-wrapup, title: 내 하네스 개선점 찾기, category: H, level: 3, where: project-chat, track: core, status: planned}
   - {id: card-help-odd-result, lesson: common, title: 결과가 이상할 때 원인 찾기, category: A, level: 1, where: project-chat, track: core, status: planned}
-  - {id: card-help-long-output, lesson: common, title: 출력이 끊기거나 너무 길 때, category: A, level: 1, where: project-chat, track: core, status: draft}
+  - {id: card-help-long-output, lesson: common, title: 출력이 끊기거나 너무 길 때, category: A, level: 1, where: project-chat, track: core, status: reviewed, reviewed_hash: "sha256:5000876c25373cb624c25e52a5b4370b6989232314634d37d8444036caeaba90"}
   - {id: card-help-broken-table, lesson: common, title: 표가 깨질 때, category: A, level: 1, where: project-chat, track: core, status: planned}
 
 # 실습 키트 — 자료는 content/kits/<id>/(kit.yaml 필드는 docs/PRACTICE_CASES.md 1절).
@@ -269,7 +269,8 @@ lessons:
     type: practice
     subject: S4
     track: core
-    status: draft
+    status: reviewed
+    reviewed_hash: "sha256:c125fada9100f73cfb64d586524467ac9fd7e904294c76980e9876fd33099dbe"
     elements: [evals, observability]
     activities:
       - {kind: demo, name: 평가 실행 절차 시연, minutes: 5}
