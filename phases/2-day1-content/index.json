@@ -176,7 +176,7 @@
     {
       "step": 10,
       "name": "human-review-lessons",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [],
       "review_targets": [
         "lesson:d1-guideline",
@@ -187,7 +187,8 @@
         "card:card-eval-question-critique",
         "card:card-failure-cause"
       ],
-      "started_at": "2026-09-24T23:08:38+0900"
+      "started_at": "2026-09-24T23:08:38+0900",
+      "summary": "D1-02·03·05·07과 카드 3장 사람 승인 확인(reviewed_hash 일치)"
     },
     {
       "step": 11,
