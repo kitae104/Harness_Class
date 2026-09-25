@@ -29,12 +29,14 @@
     },
     {
       "dir": "2-day1-content",
-      "status": "blocked",
+      "status": "completed",
       "depends_on": [
         "1-web-foundation",
         "1b-repo-connect"
       ],
-      "blocked_at": "2026-09-25T09:40:58+0900"
+      "blocked_at": "2026-09-25T09:40:58+0900",
+      "completed_at": "2026-09-25T09:54:06+0900",
+      "summary": "src/lib/kits.ts(loadKit·listKits·downloadFiles·downloadableKits·kitReadme·buildKitZip·kitDownloadHref, 폴더 밖 경로·없는 파일은 빌드 예외, zip mtime 고정), 정적 엔드포인트 src/pages/downloads/[kit].zip.ts → /downloads/<id>.zip(download: true 파일이 있는 키트만, README.txt 맨 앞), 컴포넌트 <KitDownload id=\"<kit-id>\"/>(제목·교육용 가상 자료 표시·zip 링크·파일 목록, 없는 ID 빌드 오류, 스크립트 없음), types.ts CourseKit, 테스트 17개(tests/unit/kits.test.ts, 픽스처 tests/fixtures/kits/), ARCHITECTURE 2·6절 갱신; 키트 0개에서 npm run verify 통과, 임시 키트로 build:offline 상대 링크(download…"
     }
   ]
 }
