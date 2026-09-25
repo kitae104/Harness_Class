@@ -1,8 +1,176 @@
 ---
+// 자료: 용어집(glossary.yaml), 출처(sources.yaml), 제품 정보(product-features.yaml), 알려진 문제와 플랜 B(src/lib/resources.ts).
+// 등록부 값은 옮겨 적지 않고 여기서 읽어 표시한다.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Feature from '../components/Feature.astro';
+import { lessonById, loadCourse } from '../lib/course';
+import { loadFeatures, loadGlossary, loadSources } from '../lib/registries';
+import { KNOWN_ISSUES, featureStatusLabel, sourceGroups } from '../lib/resources';
+import { lessonHref } from '../components/site';
+
+const course = loadCourse();
+const terms = loadGlossary();
+const groups = sourceGroups(loadSources());
+const features = loadFeatures();
+const cardTitle = (id: string) => course.cards.find((card) => card.id === id)?.title ?? id;
+const issues = KNOWN_ISSUES.map((issue) => ({
+  ...issue,
+  lessonLinks: (issue.lessons ?? [])
+    .map((id) => lessonById(course, id))
+    .filter((lesson) => lesson !== undefined),
+}));
 ---
 
 <BaseLayout title="자료">
   <h1>자료</h1>
-  <p>준비 중입니다.</p>
+  <p>
+    수업에서 쓰는 말, 근거로 삼은 출처, 제품 정보의 확인일, 잘 안 될 때의 대안을 모았습니다. 제품 기능은 바뀔 수 있으므로
+    확인일을 함께 봅니다.
+  </p>
+  <nav aria-label="이 페이지 목차">
+    <ul>
+      <li><a href="#glossary">용어집</a></li>
+      <li><a href="#sources">출처</a></li>
+      <li><a href="#features">제품 정보</a></li>
+      <li><a href="#known-issues">알려진 문제와 플랜 B</a></li>
+    </ul>
+  </nav>
+
+  <h2 id="glossary">용어집</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">용어</th>
+          <th scope="col">영문</th>
+          <th scope="col">뜻</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          terms.map((term) => (
+            <tr>
+              <th scope="row">
+                {term.term}
+                {term.student_label && term.student_label !== term.term && (
+                  <small class="muted"> (화면 표기: {term.student_label})</small>
+                )}
+              </th>
+              <td>{term.en}</td>
+              <td>{term.definition}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="sources">출처</h2>
+  <p>
+    실습의 규정은 실제 법령의 구조와 취지를 참고해 만든 <strong>교육용 가상 규정</strong>입니다. 실제 법령 원문이 아니며
+    법적 효력이 없습니다. 실제 업무에서는 아래 법령 원문을 확인합니다.
+  </p>
+  {
+    groups.map((group) => (
+      <section aria-labelledby={`sources-${group.type}`}>
+        <h3 id={`sources-${group.type}`}>{group.label}</h3>
+        <ul class="resource-list">
+          {group.sources.map((source) => (
+            <li>
+              {source.url ? <a href={source.url}>{source.title}</a> : <span>{source.title}</span>}
+              {source.version && <small class="muted"> · {source.version}</small>}
+              {source.effective_date && <small class="muted"> · 시행 {source.effective_date}</small>}
+              {source.published && <small class="muted"> · 발행 {source.published}</small>}
+              <small class="muted"> · 확인일 {source.accessed_at}</small>
+              {source.articles && source.articles.length > 0 && (
+                <details>
+                  <summary>조문 {source.articles.length}개</summary>
+                  <ul>
+                    {source.articles.map((article) => (
+                      <li>{article}</li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+
+  <h2 id="features">제품 정보</h2>
+  <p>ChatGPT·Codex 등 제품 기능은 자주 바뀝니다. 기능 이름 옆의 확인일 이후 달라졌을 수 있습니다.</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">제품</th>
+          <th scope="col">기능과 확인일</th>
+          <th scope="col">상태</th>
+          <th scope="col">안 될 때</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          features.map((feature) => (
+            <tr>
+              <td>
+                {feature.product}
+                {feature.plan && <small class="muted"> ({feature.plan})</small>}
+              </td>
+              <td>
+                <Feature id={feature.id} show={feature.detail ? 'detail' : undefined} />
+              </td>
+              <td>{featureStatusLabel(feature.status)}</td>
+              <td>{feature.fallback}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="known-issues">알려진 문제와 플랜 B</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">상황</th>
+          <th scope="col">플랜 B</th>
+          <th scope="col">관련</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          issues.map((issue) => (
+            <tr>
+              <th scope="row">{issue.situation}</th>
+              <td>{issue.planB}</td>
+              <td>
+                {issue.card && <span>공통 카드 「{cardTitle(issue.card)}」</span>}
+                {issue.feature && <Feature id={issue.feature} />}
+                {issue.lessonLinks.map((lesson) => (
+                  <span class="resource-lesson">
+                    <a href={lessonHref(lesson)}>
+                      Day {lesson.day} {lesson.number}교시
+                    </a>
+                  </span>
+                ))}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
 </BaseLayout>
+
+<style>
+  .resource-list > li {
+    margin-bottom: 0.5rem;
+  }
+  .resource-lesson + .resource-lesson::before {
+    content: ', ';
+  }
+</style>

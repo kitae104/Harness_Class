@@ -1,9 +1,78 @@
 ---
+// 선택 심화: Codex(CD-14). 정규 교시와 무관한 읽기 자료. 제품 정보는 <Feature id="codex-availability">로만 쓴다.
+// 내용 근거: docs/CODEX_GUIDE.md 1~3절.
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Callout from '../../components/Callout.astro';
+import Feature from '../../components/Feature.astro';
+import TrackBadge from '../../components/TrackBadge.astro';
+import { loadCourse } from '../../lib/course';
+
+const course = loadCourse();
+const codexModule = course.modules.find((item) => item.id === 'optional-codex');
+if (!codexModule) throw new Error('optional/codex: course.yaml modules에 optional-codex가 없습니다');
+const elements = course.elements;
 ---
 
 <BaseLayout title="선택 심화: Codex">
-  <h1>선택 심화: Codex</h1>
-  <p>몰라도 수료에 지장 없습니다.</p>
-  <p>준비 중입니다.</p>
+  <h1>{codexModule.title} <TrackBadge track={codexModule.track} /></h1>
+  <p class="codex-lead"><strong>몰라도 수료에 지장 없습니다.</strong></p>
+  <p>
+    Codex는 이 과정의 <strong>선택 심화 도구</strong>입니다. 정규 교시에는 Codex 활동이 없고, 과정의 모든 목표와 산출물은
+    ChatGPT와 구글 폼·시트만으로 달성합니다. 수업이 끝난 뒤 반복 작업을 더 자동화하고 싶은 분을 위한 읽기 자료입니다.
+  </p>
+
+  <h2>Codex란</h2>
+  <p><Feature id="codex-availability" show="detail" /></p>
+  <p>이 과정에서는 Codex를 <strong>반복되는 파일 작업과 검사를 맡기는 도구</strong>로만 소개합니다.</p>
+
+  <h2>쓰면 좋은 일과 쓰지 않을 일</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Codex를 써 볼 만한 일</th>
+          <th scope="col">ChatGPT로 충분한 일</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>반복적인 파일 정리, 여러 문서 일괄 처리</td><td>일반적인 문서 요약</td></tr>
+        <tr><td>평가 결과 표 파일(CSV) 정리·집계</td><td>간단한 보고서 초안</td></tr>
+        <tr><td>간단한 데이터 변환</td><td>단순 분류</td></tr>
+        <tr><td>평가세트 반복 실행·채점 자동화</td><td>ChatGPT만으로 끝나는 작업</td></tr>
+        <tr><td>간단한 내부 업무 도구</td><td>코딩 때문에 난이도만 올라가는 작업</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>시작 전에 확인할 것</h2>
+  <ul>
+    <li>
+      <strong>설치</strong>: 쓰는 방식에 따라 프로그램 설치가 필요할 수 있습니다. 쓰는 방식은 위 기능 안내에서 확인합니다.
+    </li>
+    <li><strong>기관 PC</strong>: 프로그램 설치와 외부 서비스 연결은 기관의 설치·보안 승인을 먼저 받습니다.</li>
+    <li><strong>사용량 한도</strong>: 위 기능 안내에서 확인합니다. 한도에 닿으면 시간이 지난 뒤 이어서 합니다.</li>
+  </ul>
+  <p><Feature id="codex-availability" show="fallback" /></p>
+
+  <h2>Codex에도 하네스가 필요합니다</h2>
+  <p>수업에서 만든 6요소는 Codex에도 그대로 적용됩니다. 틀이 없으면 Codex도 결과가 들쭉날쭉합니다.</p>
+  <ul>
+    <li><strong>{elements.instructions}</strong>: 작업 폴더에 지침 파일(예: <code>AGENTS.md</code>)을 두고 역할·범위·금지사항을 적습니다.</li>
+    <li><strong>{elements.evals}</strong>: 결과를 확인하는 검사(테스트)를 먼저 정하고, 검사를 통과해야 완료로 봅니다.</li>
+    <li><strong>{elements.guardrails}</strong>: 지울 수 있는 파일과 바꿀 수 있는 폴더를 제한하고, 결과는 사람이 확인합니다.</li>
+    <li><strong>{elements.observability}</strong>: 무엇을 바꿨는지 변경 기록을 남깁니다.</li>
+  </ul>
+
+  <Callout kind="주의" title="실습은 가상 자료로만">
+    <p>
+      연습할 때는 이 과정의 교육용 가상 자료만 담은 새 폴더에서 하고, 실제 업무 파일이나 개인정보가 든 자료는 쓰지
+      않습니다.
+    </p>
+  </Callout>
 </BaseLayout>
+
+<style>
+  .codex-lead {
+    font-size: 1.15rem;
+  }
+</style>

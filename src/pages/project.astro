@@ -1,8 +1,80 @@
 ---
+// 내 업무 프로젝트: 예시 5종(CD-10)과 실습 키트. 키트는 course.yaml kits 순서로 읽어 등록되는 대로 자동 표시한다.
+// 업무 설명은 src/lib/examples.ts, 키트 제목·파일은 kit.yaml에서만 읽는다.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Callout from '../components/Callout.astro';
+import KitDownload from '../components/KitDownload.astro';
+import { listKits } from '../lib/kits';
+import { splitKits } from '../lib/examples';
+import { loadCourse } from '../lib/course';
+import { coreLessons, lessonHref } from '../components/site';
+
+const course = loadCourse();
+const { examples, others } = splitKits(listKits());
+const projectLessons = coreLessons(course).filter((lesson) => lesson.type === 'project');
 ---
 
-<BaseLayout title="프로젝트">
-  <h1>프로젝트</h1>
-  <p>준비 중입니다.</p>
+<BaseLayout title="내 업무 프로젝트">
+  <h1>내 업무 프로젝트</h1>
+  <p>
+    Day 2 오후에는 예시 5종 가운데 내 업무와 가장 비슷한 것 하나를 골라, Day 1·2 오전에 민원 비서로 익힌 6요소를 그대로
+    옮겨 나만의 하네스를 만듭니다. 실제 기관 문서 대신 예시마다 준비된 <strong>교육용 가상 자료</strong> 키트를 씁니다.
+  </p>
+  {
+    projectLessons.length > 0 && (
+      <p>
+        이 페이지를 쓰는 교시:{' '}
+        {projectLessons.map((lesson, index) => (
+          <>
+            {index > 0 && ', '}
+            <a href={lessonHref(lesson)}>
+              Day {lesson.day} {lesson.number}교시 {lesson.title}
+            </a>
+          </>
+        ))}
+      </p>
+    )
+  }
+
+  <h2>예시 고르는 기준</h2>
+  <ol>
+    <li><strong>가장 비슷한 업무</strong>를 고릅니다. 아래 "이런 업무라면"을 보고 내 업무와 흐름이 닮은 것을 찾습니다.</li>
+    <li><strong>반복되는 업무</strong>일수록 좋습니다. 같은 일을 여러 번 해야 하네스를 만든 보람이 있습니다.</li>
+    <li><strong>근거 자료가 분명한 업무</strong>가 쉽습니다. 규정·양식이 있으면 출처 규칙과 평가 문항을 만들기 쉽습니다.</li>
+    <li><strong>개인정보가 적은 업무</strong>부터 시작합니다. 나중에 실제 업무로 옮길 때도 안전장치가 단순해집니다.</li>
+    <li>잘 모르겠으면 <strong>민원 답변 초안 비서</strong>를 고릅니다. Day 1에서 해 본 흐름과 가장 가깝습니다.</li>
+  </ol>
+  <Callout kind="주의" title="실제 업무 자료는 넣지 않습니다">
+    <p>
+      내 업무를 떠올리며 설계하되, ChatGPT에는 키트의 가상 자료만 넣습니다. 실제 업무 적용은 수료 후 기관 보안 규정을
+      확인한 뒤에 합니다.
+    </p>
+  </Callout>
+
+  <h2>예시 5종</h2>
+  {
+    examples.map((item) => (
+      <section aria-labelledby={`example-${item.id}`}>
+        <h3 id={`example-${item.id}`}>{item.work}</h3>
+        <ul>
+          <li>이런 업무라면: {item.fits}</li>
+          <li>근거 자료: {item.basis}</li>
+          <li>알아 둘 점: {item.note}</li>
+        </ul>
+        {item.kit ? <KitDownload id={item.kit.id} /> : <p class="muted">실습 키트는 준비 중입니다.</p>}
+      </section>
+    ))
+  }
+
+  {
+    others.length > 0 && (
+      <>
+        <h2>과정 공통 키트</h2>
+        <p>Day 1과 Day 2 오전의 민원 비서 실습 키트입니다. 교시 본문에서도 같은 키트를 내려받을 수 있습니다.</p>
+        {others.map((kit) => (
+          <KitDownload id={kit.id} />
+        ))}
+      </>
+    )
+  }
 </BaseLayout>

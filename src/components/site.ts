@@ -1,6 +1,6 @@
 // 레이아웃·페이지가 쓰는 표시용 순수 함수. 값은 모두 course.yaml에서 읽는다(ADR-003).
 import { lessonsInOrder, lessonUrl } from '../lib/course';
-import type { Course, Lesson, LessonType } from '../lib/types';
+import type { Course, Lesson, LessonType, Module } from '../lib/types';
 
 /** 사이트 루트 기준 절대경로, 끝에 /를 붙인다. 오프라인 상대경로 변환은 build:offline이 한다. */
 export function lessonHref(lesson: Pick<Lesson, 'day' | 'number'>): string {
@@ -36,6 +36,16 @@ export function activityMinutes(lesson: Pick<Lesson, 'activities'>): number {
 
 export function elementNames(course: Course, keys: string[]): string[] {
   return keys.map((key) => course.elements[key] ?? key);
+}
+
+/** /practice 자동 목록: core 실습형·프로젝트형 교시(번호형 URL이 있는 교시만), Day·교시 순. */
+export function practiceLessons(course: Course): Lesson[] {
+  return coreLessons(course).filter((lesson) => lesson.type === 'practice' || lesson.type === 'project');
+}
+
+/** course.yaml modules[].path를 끝에 /를 붙인 사이트 경로로. */
+export function moduleHref(module: Pick<Module, 'path'>): string {
+  return module.path.endsWith('/') ? module.path : `${module.path}/`;
 }
 
 const TYPE_LABELS: Record<LessonType, string> = {
