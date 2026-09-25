@@ -188,7 +188,8 @@
         "card:card-failure-cause"
       ],
       "started_at": "2026-09-24T23:08:38+0900",
-      "summary": "D1-02·03·05·07과 카드 3장 사람 승인 확인(reviewed_hash 일치)"
+      "summary": "D1-02·03·05·07과 카드 3장 사람 승인 확인(reviewed_hash 일치)",
+      "completed_at": "2026-09-25T09:30:45+0900"
     },
     {
       "step": 11,
