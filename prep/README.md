@@ -13,6 +13,8 @@ Day 1 교시 본문은 이미 승인(reviewed)되어 본문에 표시를 넣지 
 
 전체 목록 보기: `npm run prep:list`
 
+**하나씩 체크하며 진행하려면 [CHECKLIST.md](CHECKLIST.md)를 쓰세요.** 아래 순서를 체크 상자로 풀어 둔 문서입니다.
+
 ## 권장 순서
 1. **결정할 것**: 구글 계정(OQ-06) — [google-sheets-forms.md](google-sheets-forms.md) 0절.
 2. **외부 자원 만들기**: 하네스 대장 템플릿, 강사 공용 폼, 상호평가 폼, 업무용 폼 사본, 수료 설문 — [google-sheets-forms.md](google-sheets-forms.md).
