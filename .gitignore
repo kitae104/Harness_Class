@@ -23,3 +23,6 @@ coverage/
 dist-offline.zip
 test-results/
 playwright-report/
+
+# 결과 보고 작성 예시(개인 참고용, 실제 테스트 기록으로 오해되지 않게 커밋하지 않음)
+examples/
