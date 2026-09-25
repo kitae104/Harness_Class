@@ -146,3 +146,71 @@ sources:
     note: "CD-21 교육용 가상 규정. 원문은 content/kits/day1-civil/rule-move-in.md(규정 기반 교육용 FAQ는 faq-move-in.md). 가상 도시 누리시를 쓰고, 제목과 파일 첫머리에 '교육용 가상 규정 — 실제 법령 원문이 아니며 법적 효력이 없는 실습용 합성 자료'라고 표기한다. 과태료 금액은 정하지 않는다."
     accessed_at: 2026-09-24
     license: 프로젝트 자체 제작(가상)
+
+  - id: fictional-rule-qa-service-rule
+    type: fictional
+    title: 누리시 공무원 복무 규정(교육용 가상)
+    url: null
+    articles:
+      - 제1조(목적)
+      - 제2조(적용 범위)
+      - 제3조(근무시간)
+      - 제4조(시간외근무)
+      - 제5조(연가 일수)
+      - 제6조(연가 신청과 승인)
+      - 제7조(병가)
+      - 제8조(건강정보와 개인정보 보호)
+      - 제9조(안내의 범위)
+    note: "CD-23 교육용 가상 규정. 원문은 content/kits/rule-qa/rule-service.md. 근무시간·연가·병가 중심, 국가직·지방직을 나누지 않는다(CD-12). 소속 기관별 세부는 '소속 기관 규정 확인 필요'. 제목과 파일 첫머리에 교육용 가상 규정(실제 법령 원문이 아니며 법적 효력 없음)이라고 표기한다. 수당 금액은 정하지 않는다."
+    accessed_at: 2026-09-25
+    license: 프로젝트 자체 제작(가상)
+
+  - id: fictional-civil-draft-bulky-waste-rule
+    type: fictional
+    title: 누리시 대형 생활폐기물 배출 안내 규정(교육용 가상)
+    url: null
+    articles:
+      - 제1조(목적)
+      - 제2조(용어의 뜻)
+      - 제3조(배출 신고)
+      - 제4조(신고필증)
+      - 제5조(수수료)
+      - 제6조(배출 장소와 시간)
+      - 제7조(신고의 변경과 취소)
+      - 제8조(신고 없이 내놓은 경우)
+      - 제9조(개인정보 보호와 안내의 범위)
+    note: "CD-23 교육용 가상 규정. 원문은 content/kits/civil-draft/rule-bulky-waste.md(규정 기반 교육용 FAQ는 faq-bulky-waste.md). Day 1 전입신고와 다른 민원 유형. 수수료는 '별도 안내', 과태료 금액은 정하지 않는다."
+    accessed_at: 2026-09-25
+    license: 프로젝트 자체 제작(가상)
+
+  - id: fictional-field-inspection-rule
+    type: fictional
+    title: 누리시 시설 안전점검 규정(교육용 가상)
+    url: null
+    articles:
+      - 제1조(목적)
+      - 제2조(점검 항목)
+      - 제3조(등급 판정 기준)
+      - 제4조(긴급 보고)
+      - 제5조(점검 보고서)
+      - 제6조(사진 촬영과 개인정보 보호)
+      - 제7조(안내의 범위)
+    note: "CD-23 교육용 가상 규정. 원문은 content/kits/field-inspection/rule-inspection.md(폼 틀 form-template.md, 가상 점검 결과 inspection-responses.csv). 시설명과 점검 결과는 모두 가상."
+    accessed_at: 2026-09-25
+    license: 프로젝트 자체 제작(가상)
+
+  - id: fictional-demand-survey-form
+    type: fictional
+    title: 누리시 직원 교육 수요조사 양식·결과 보고서 양식(교육용 가상)
+    url: null
+    note: "CD-23 교육용 가상 양식(법령 근거 없음, 기관 내부 기준 역할). 원문은 content/kits/demand-survey/survey-form.md와 report-format.md. 가상 응답은 survey-responses.csv."
+    accessed_at: 2026-09-25
+    license: 프로젝트 자체 제작(가상)
+
+  - id: fictional-meeting-minutes-form
+    type: fictional
+    title: 누리시 회의록 양식(교육용 가상)
+    url: null
+    note: "CD-23 교육용 가상 양식(법령 근거 없음, 기관 내부 기준 역할). 원문은 content/kits/meeting-minutes/minutes-format.md. 가상 회의 메모는 meeting-transcript.md. 참석자는 가상 역할만 쓴다."
+    accessed_at: 2026-09-25
+    license: 프로젝트 자체 제작(가상)

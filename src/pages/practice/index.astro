@@ -1,8 +1,82 @@
 ---
+// 실습 목록. 수작업 목록 없이 course.yaml lessons(실습형·프로젝트형)와 modules에서 만든다(ARCHITECTURE 2절).
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import TrackBadge from '../../components/TrackBadge.astro';
+import { loadCourse } from '../../lib/course';
+import { lessonHref, lessonTypeLabel, moduleHref, practiceLessons } from '../../components/site';
+
+const course = loadCourse();
+const lessons = practiceLessons(course);
+const days = [...new Set(lessons.map((lesson) => lesson.day))];
 ---
 
 <BaseLayout title="실습">
   <h1>실습</h1>
-  <p>준비 중입니다.</p>
+  <p>
+    직접 만들어 보는 교시를 모았습니다. 교시마다 끝나면 남는 산출물이 있고, 다음 교시가 그 산출물을 이어서 씁니다. 교시
+    제목을 누르면 실습 안내로 갑니다.
+  </p>
+
+  {
+    days.map((day) => (
+      <section aria-labelledby={`practice-day${day}`}>
+        <h2 id={`practice-day${day}`}>Day {day}</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">교시</th>
+                <th scope="col">실습</th>
+                <th scope="col">유형</th>
+                <th scope="col">산출물</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lessons
+                .filter((lesson) => lesson.day === day)
+                .map((lesson) => (
+                  <tr>
+                    <td>{lesson.number}</td>
+                    <td>
+                      <a href={lessonHref(lesson)}>{lesson.title}</a>
+                    </td>
+                    <td>{lessonTypeLabel(lesson.type)}</td>
+                    <td>
+                      <ul class="practice-outputs">
+                        {lesson.outputs.map((output) => (
+                          <li>{output.text}</li>
+                        ))}
+                      </ul>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ))
+  }
+
+  {
+    course.modules.length > 0 && (
+      <section aria-labelledby="practice-modules">
+        <h2 id="practice-modules">교시 밖 추가 자료</h2>
+        <p>정규 교시 시간에 포함되지 않는 자료입니다. 필요한 사람만 봅니다.</p>
+        <ul>
+          {course.modules.map((item) => (
+            <li>
+              <a href={moduleHref(item)}>{item.title}</a> <TrackBadge track={item.track} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
 </BaseLayout>
+
+<style>
+  .practice-outputs {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+</style>

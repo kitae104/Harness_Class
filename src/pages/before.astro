@@ -1,8 +1,79 @@
 ---
+// 사전 준비: 계정·접속 확인, 두 창 나란히 쓰기, 실습 자료 규칙, 예시 5종 미리보기(ARCHITECTURE 5절).
+// 제품 정보는 <Feature>로만, 예시 목록은 src/lib/examples.ts와 course.yaml kits에서 읽는다.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Callout from '../components/Callout.astro';
+import Checklist from '../components/Checklist.astro';
+import Feature from '../components/Feature.astro';
+import PrepNote from '../components/PrepNote.astro';
+import { EXAMPLE_CASES } from '../lib/examples';
+
+const accessItems = [
+  '개인 ChatGPT Plus 계정으로 chatgpt.com에 로그인했다',
+  '아래 "수업에서 쓰는 기능"이 내 계정에서 보인다',
+  '구글 계정으로 로그인해 구글 시트와 구글 폼을 열 수 있다',
+  '교육장 PC(교육망)에서 chatgpt.com과 구글 시트가 열린다',
+  '이 강의 사이트가 열린다(주소를 즐겨찾기에 넣었다)',
+];
 ---
 
 <BaseLayout title="사전 준비">
   <h1>사전 준비</h1>
-  <p>준비 중입니다.</p>
+  <p>
+    첫 교시 전에 아래를 확인합니다. 모두 체크하면 수업 첫 10분을 로그인 대신 실습에 쓸 수 있습니다. 체크 상태는 이
+    브라우저에만 저장됩니다.
+  </p>
+
+  <h2>1. 계정·접속 확인</h2>
+  <Checklist id="before-access" items={accessItems} />
+  <h3>수업에서 쓰는 기능</h3>
+  <p>이 과정은 개인 ChatGPT Plus 계정을 기준으로 합니다. 미리 설정할 것은 없고, 내 계정에서 보이는지만 확인합니다.</p>
+  <ul>
+    <li><Feature id="chatgpt-projects" show="detail" /></li>
+    <li><Feature id="chatgpt-temporary-chat" /> — Day 1 첫 교시에 씁니다.</li>
+  </ul>
+  <Callout kind="팁" title="기관 계정이 막힐 때">
+    <p>기관 계정이나 기관 메일로 만든 계정은 교육망에서 막힐 수 있습니다. 개인 계정으로 로그인하는 것을 권장합니다.</p>
+  </Callout>
+  <PrepNote title="교육장 PC 접속 테스트">
+    강의실 PC에서 로그인, 파일 업로드, 폼 작성, 강의 사이트 접속을 직접 확인합니다. 막히는 도메인은 교육망 예외
+    요청 목록에 넣습니다(TOOL_GUIDE 7절).
+  </PrepNote>
+
+  <h2>2. 두 창 나란히 쓰기</h2>
+  <p>수업 내내 한쪽에는 이 사이트, 다른 쪽에는 ChatGPT를 띄워 둡니다. 사이트에서 복사하고 ChatGPT에 붙여 넣는 일이 많습니다.</p>
+  <ol>
+    <li>브라우저 창을 두 개 엽니다. 하나는 이 사이트, 하나는 chatgpt.com.</li>
+    <li>이 사이트 창을 누른 채 <kbd>Windows 키</kbd> + <kbd>←</kbd>를 눌러 화면 왼쪽 절반에 붙입니다.</li>
+    <li>오른쪽에 나오는 창 목록에서 ChatGPT 창을 고르면 오른쪽 절반에 붙습니다.</li>
+    <li>구글 시트가 필요할 때는 ChatGPT 창에서 새 탭으로 엽니다.</li>
+  </ol>
+  <p class="muted">창 폭이 절반이어도 이 사이트는 읽을 수 있게 만들었습니다. 글씨가 작으면 <kbd>Ctrl</kbd> + <kbd>+</kbd>로 키웁니다.</p>
+
+  <h2>3. 실습 자료 규칙</h2>
+  <Callout kind="주의" title="가상 자료만 씁니다">
+    <ul>
+      <li>실습에는 과정이 나눠 주는 <strong>교육용 가상 자료</strong>만 씁니다. 실제 인물·기관과 무관합니다.</li>
+      <li>실제 이름, 주민등록번호, 주소, 전화번호 같은 개인정보를 ChatGPT에 넣지 않습니다.</li>
+      <li>전화번호가 필요하면 <code>010-0000-XXXX</code> 형식의 가상 번호만 씁니다.</li>
+      <li>실제 기관 문서, 내부 자료, 실제 민원은 넣지 않습니다. 내 업무 실습도 예시 키트로 합니다.</li>
+      <li>화면을 캡처해 공유할 때는 이름·이메일·프로필 사진을 가립니다.</li>
+    </ul>
+  </Callout>
+
+  <h2>4. 예시 5종 미리보기</h2>
+  <p>
+    Day 2 오후에는 내 업무와 가장 비슷한 예시 하나를 골라 나만의 하네스를 만듭니다. 미리 어떤 것을 고를지 생각해 오면
+    시간을 아낄 수 있습니다.
+  </p>
+  <ul>
+    {
+      EXAMPLE_CASES.map((item) => (
+        <li>
+          <strong>{item.work}</strong> — {item.fits}
+        </li>
+      ))
+    }
+  </ul>
+  <p><a href="/project/">예시와 실습 키트 자세히 보기</a></p>
 </BaseLayout>

@@ -1,0 +1,30 @@
+# Day 2 예시 키트 — 규정 Q&A 비서(인사·복무) (docs/PRACTICE_CASES.md 1·4절, CD-10·CD-12·CD-23)
+# status·reviewed_hash는 content/course.yaml kits에만 둔다(ADR-011).
+# 평가 질문과 기대 답변은 파일을 나눈다(CD-17).
+id: rule-qa
+title: 규정 Q&A 비서(인사·복무) 키트
+track: core
+sources: [fictional-rule-qa-service-rule]
+privacy_notes: 다른 직원의 이름·병가 사유·건강정보·연락처를 AI에 넣지 마세요. 연락처는 010-0000-XXXX 형식의 가상 번호만 씁니다. 실제 소속 기관의 복무 규정은 올리지 않고, 실제 업무에서는 소속 기관에 적용되는 실제 법령과 규정을 확인하세요.
+fictional_label: 이 자료는 교육용 가상 자료이며 실제 인물·기관과 무관합니다. 누리시 복무 규정은 실제 법령 원문이 아니며 법적 효력이 없는 실습용 합성 자료입니다.
+files:
+  - path: rule-service.md
+    role: context
+    download: true
+    description: 누리시 공무원 복무 규정(교육용 가상 규정, 제1조~제9조, 근무시간·연가·병가). Project 파일로 올립니다.
+  - path: guideline-frame.md
+    role: guideline
+    download: true
+    description: 규정 Q&A 비서 지침서 5항목 틀(역할·모를 때 행동만 힌트로 채움). D2-5·D2-6에서 완성합니다.
+  - path: eval-questions.md
+    role: eval
+    download: true
+    description: 평가 질문 10문항 후보(질문만). D2-5에서 고쳐 쓰고 D2-6에서 5문항을 Project 새 대화에 붙여 답을 받습니다.
+  - path: eval-expected.md
+    role: eval
+    download: true
+    description: 평가 기대 답변 10문항(핵심 포인트 2개 + 근거 조문, 자료에 없음 문항은 확인 필요). 채점 단계에서만 씁니다.
+  - path: instructor-notes.md
+    role: other
+    download: false
+    description: 강사용 설명(키트 쓰임, 문항별 확인 내용, 사람 검토 항목, 강의 준비)

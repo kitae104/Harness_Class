@@ -1,8 +1,199 @@
 ---
+// 템플릿: 하네스 대장 등 외부 자원 표 양식(external-links.yaml), 하네스 설계서 1장, 점검표 12항목.
+// 요소 이름은 course.yaml elements, 표 양식은 external-links.yaml, 설계서·점검표 칸은 src/lib/templates.ts에서 읽는다.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CopyButton from '../components/CopyButton.astro';
+import ExternalLink from '../components/ExternalLink.astro';
+import PrepNote from '../components/PrepNote.astro';
+import { loadCourse } from '../lib/course';
+import { loadExternalLinks } from '../lib/registries';
+import {
+  DESIGN_SHEET_HEADER,
+  checklistItems,
+  designSheetRows,
+  designSheetText,
+  linkTemplateTabs,
+  rowsToTsv,
+} from '../lib/templates';
+
+const course = loadCourse();
+const links = loadExternalLinks();
+const tabs = linkTemplateTabs(links);
+const templateLinkIds = [...new Set(tabs.map((tab) => tab.linkId))];
+const PEER_REVIEW_FORM = 'form-peer-review-12';
+const otherLinks = links.filter((link) => !templateLinkIds.includes(link.id) && link.id !== PEER_REVIEW_FORM);
+
+const sheetRows = designSheetRows(course.elements);
+const sheetText = designSheetText(sheetRows);
+const checklist = checklistItems(course.elements);
+const checklistTsv = rowsToTsv([
+  ['번호', '요소', '점검 항목', '있다(예/아니오)', '메모'],
+  ...checklist.map((item) => [String(item.number), item.element, item.text, '', '']),
+]);
 ---
 
 <BaseLayout title="템플릿">
   <h1>템플릿</h1>
-  <p>준비 중입니다.</p>
+  <p>
+    수업에서 쓰는 양식을 모았습니다. 표 양식은 <strong>[표 머리행 복사]</strong>를 누른 뒤 구글 시트 첫 칸(A1)에 붙여
+    넣으면 열이 나뉩니다. 칸에는 교육용 가상 자료만 적습니다.
+  </p>
+
+  <h2>1. 기록용 표 양식</h2>
+  {
+    templateLinkIds.map((id) => (
+      <section>
+        <h3>{links.find((link) => link.id === id)?.title}</h3>
+        <p>
+          <ExternalLink id={id} />
+        </p>
+        {tabs
+          .filter((tab) => tab.linkId === id)
+          .map((tab) => (
+            <div class="external-link-template">
+              <div class="template-head">
+                <h4 class="template-title">{tab.tableTitle}</h4>
+                <CopyButton text={tab.tsv} label="표 머리행 복사" />
+              </div>
+              <div class="table-wrap">
+                <table class="template-table">
+                  <thead>
+                    <tr>
+                      {tab.columns.map((column) => (
+                        <th scope="col">{column}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      {tab.columns.map(() => (
+                        <td />
+                      ))}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+      </section>
+    ))
+  }
+  <PrepNote title="하네스 대장 템플릿 시트 만들기" guide="prep/google-sheets-forms.md">
+    위 탭 양식대로 구글 시트 템플릿을 만들고, 사본 만들기 링크를 external-links.yaml의 sheet-harness-ledger url에
+    넣습니다(status: active).
+  </PrepNote>
+
+  <h2>2. 하네스 설계서 1장</h2>
+  <p>Day 2 오후에 내 업무 하네스를 설계할 때 씁니다. 6요소마다 한 칸씩, A4 한 장에 맞춰 적습니다.</p>
+  <div class="template-head">
+    <strong class="template-title">빈 설계서(텍스트)</strong>
+    <CopyButton text={sheetText} label="설계서 양식 복사" />
+  </div>
+  <div class="table-wrap">
+    <table class="template-table print-sheet">
+      <caption class="muted">머리 칸</caption>
+      <tbody>
+        {
+          DESIGN_SHEET_HEADER.map((field) => (
+            <tr>
+              <th scope="row">{field}</th>
+              <td />
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="table-wrap">
+    <table class="template-table print-sheet">
+      <caption class="muted">6요소 칸</caption>
+      <thead>
+        <tr>
+          <th scope="col">요소</th>
+          <th scope="col">적을 것</th>
+          <th scope="col">담는 곳</th>
+          <th scope="col">내 업무</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          sheetRows.map((row) => (
+            <tr>
+              <th scope="row">{row.name}</th>
+              <td>{row.fill}</td>
+              <td>{row.container}</td>
+              <td />
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <h2>3. 점검표 12항목</h2>
+  <p>설계서와 완성한 하네스를 점검하고, 마지막 교시의 짝 상호평가에서도 같은 기준을 씁니다.</p>
+  <p><ExternalLink id={PEER_REVIEW_FORM} /></p>
+  <div class="template-head">
+    <strong class="template-title">점검표</strong>
+    <CopyButton text={checklistTsv} label="점검표 복사" />
+  </div>
+  <div class="table-wrap">
+    <table class="template-table print-sheet">
+      <thead>
+        <tr>
+          <th scope="col">번호</th>
+          <th scope="col">요소</th>
+          <th scope="col">점검 항목</th>
+          <th scope="col">있다(예/아니오)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          checklist.map((item) => (
+            <tr>
+              <td>{item.number}</td>
+              <td>{item.element}</td>
+              <td>{item.text}</td>
+              <td />
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <PrepNote title="점검표 12항목 상호평가 폼 만들기" guide="prep/google-sheets-forms.md">
+    위 12항목으로 구글 폼 템플릿을 만들고 링크를 external-links.yaml의 form-peer-review-12 url에 넣습니다.
+  </PrepNote>
+
+  {
+    otherLinks.length > 0 && (
+      <>
+        <h2>4. 강사가 준비하는 자원</h2>
+        <ul>
+          {otherLinks.map((link) => (
+            <li>
+              <ExternalLink id={link.id} />
+            </li>
+          ))}
+        </ul>
+      </>
+    )
+  }
+  <PrepNote title="강사 공용 민원 접수 폼 만들기" guide="prep/google-sheets-forms.md">
+    역할카드 응답용 공용 폼을 만들고 링크를 external-links.yaml의 form-shared-civil-intake url에 넣습니다.
+  </PrepNote>
 </BaseLayout>
+
+<style>
+  .template-head h4 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  .print-sheet caption {
+    text-align: left;
+    caption-side: top;
+  }
+  .print-sheet td:empty {
+    min-width: 6rem;
+  }
+</style>
