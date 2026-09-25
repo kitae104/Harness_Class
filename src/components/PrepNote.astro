@@ -1,0 +1,18 @@
+---
+// 강의 준비 표시(CD-25). 강사가 준비 중에 확인·설정할 곳을 본문에 남긴다.
+// 개설 전 `npm run prep:strip`으로 모두 지운다(`prep:list --check` 0건이 관문). 수강생 설명을 여기에 쓰지 않는다.
+interface Props {
+  /** 한 줄 제목(무엇을 해야 하나) */
+  title?: string;
+  /** 설명이 긴 작업의 안내 파일(저장소 루트 기준, 예: prep/google-forms.md). 사이트 밖 파일이라 링크하지 않는다. */
+  guide?: string;
+}
+
+const { title = '강의 준비', guide } = Astro.props;
+---
+
+<aside class="prep-note" role="note">
+  <p class="prep-note-title">강의 준비 · {title} <span class="prep-note-tag">개설 전 삭제</span></p>
+  <slot />
+  {guide && <p class="prep-note-guide">자세한 방법: <code>{guide}</code></p>}
+</aside>

@@ -364,6 +364,36 @@ input:focus-visible {
   border-left-color: var(--color-done);
 }
 
+/* ── 강의 준비 표시(CD-25, 개설 전 삭제) ──── */
+.prep-note {
+  display: block;
+  border: 2px dashed var(--color-danger);
+  background: var(--color-danger-bg);
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+}
+
+.prep-note-title {
+  font-weight: 700;
+  margin: 0;
+}
+
+.prep-note-tag,
+.prep-note-guide {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.prep-note-guide {
+  margin: 0.25rem 0 0;
+}
+
+@media print {
+  .prep-note {
+    display: none;
+  }
+}
+
 /* ── 제품 정보·출처·외부 링크 ─────────────── */
 .feature-name {
   font-weight: 700;
