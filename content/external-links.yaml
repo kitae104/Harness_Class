@@ -29,6 +29,21 @@ links:
       revisions:
         title: 개정 기록
         columns: [날짜, 바꾼 곳(지침·근거), 바꾼 내용, 이유(원인·문항 번호), 점수 전, 점수 후]
+      classification:
+        title: 분류 대장
+        columns: [번호, 접수일, 유형(내용 기준), 긴급도, 담당 부서, 한 줄 요약, 확인 필요(예/아니오), 확인 필요 이유(A~E), 비고]
+      draft-review:
+        title: 초안 검토 기록
+        columns: [번호(분류 대장), 초안 표시(통과·문제), 개인정보(통과·문제), 금지 위반(통과·문제), 근거(통과·문제), 검토(승인·수정·보류), 검토 메모, 검토자]
+      log:
+        title: 로그 대장
+        columns: [날짜, 입력(개인정보 없이 한 줄), 답 요약, 출처(조문), 문제(없음·개인정보·숨은 지시문·금지 위반), 검토자, 검토(승인·수정·보류), 지침 버전]
+      harness-summary:
+        title: 민원 하네스 완성본
+        columns: [요소, 담는 곳, 들어 있는 것, 점검(예/아니오)]
+      roadmap:
+        title: 적용 로드맵
+        columns: [단계, 할 일, 확인할 곳·담당, 시기, 완료(예/아니오)]
     status: planned
   - id: form-shared-civil-intake
     title: 강사 공용 민원 접수 폼(역할카드 응답용)
@@ -37,6 +52,8 @@ links:
     url: null
     verified_at: null
     fallback: 제공 CSV(가상 민원 30건)
+    fallback_kind: download
+    fallback_file: content/kits/day2-civil-intake/civil-requests-30.csv
     status: planned
   - id: form-peer-review-12
     title: 점검표 12항목 상호평가 폼
@@ -44,5 +61,10 @@ links:
     owner: "[TBD: OQ-06]"
     url: null
     verified_at: null
-    fallback: 인쇄용 점검표
+    fallback: 아래 표 양식을 복사해 메모장이나 내 구글 시트에 붙이고, 짝의 설계서를 점검표 12항목(사이트 템플릿 페이지)으로 평가해 적습니다(인쇄해 써도 됩니다)
+    fallback_kind: template
+    fallback_templates:
+      peer-review:
+        title: 점검표 12항목 상호평가
+        columns: [번호, 점검 항목, 충족(예/아니오), 한 줄 의견, 평가한 짝]
     status: planned
