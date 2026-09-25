@@ -26,3 +26,10 @@ playwright-report/
 
 # 결과 보고 작성 예시(개인 참고용, 실제 테스트 기록으로 오해되지 않게 커밋하지 않음)
 examples/
+
+# 강의 준비표 진행 기록(강사 개인 기록, prep:checklist가 씀)
+prep/checklist-progress.json
+prep/checklist-progress.json.tmp
+
+# Playwright MCP 도구 출력
+.playwright-mcp/

@@ -15,6 +15,10 @@ Day 1 교시 본문은 이미 승인(reviewed)되어 본문에 표시를 넣지 
 
 **하나씩 체크하며 진행하려면 [CHECKLIST.md](CHECKLIST.md)를 쓰세요.** 아래 순서를 체크 상자로 풀어 둔 문서입니다.
 
+**대화형 준비표(로컬)**: 같은 내용을 브라우저에서 체크합니다.
+- `npm run prep:checklist` → http://127.0.0.1:4380 — 체크·메모가 `prep/checklist-progress.json`에 저장됩니다(커밋되지 않음). AI가 이 파일을 읽어 진행 상황을 알 수 있습니다.
+- 서버 없이 `prep/checklist.html`을 브라우저로 직접 열어도 됩니다. 이때는 브라우저 로컬 스토리지에 저장되고, "파일로 내보내기·가져오기"로 옮깁니다.
+
 ## 권장 순서
 1. **결정할 것**: 구글 계정(OQ-06) — [google-sheets-forms.md](google-sheets-forms.md) 0절.
 2. **외부 자원 만들기**: 하네스 대장 템플릿, 강사 공용 폼, 상호평가 폼, 업무용 폼 사본, 수료 설문 — [google-sheets-forms.md](google-sheets-forms.md).
@@ -43,7 +47,7 @@ npm run prep:list -- --check       # 0건이면 통과
 - `prep/` 폴더
 - `src/components/PrepNote.astro`
 - `scripts/prep_notes.mjs`, `tests/unit/prep-notes.test.ts`
-- `package.json`의 `prep:list`, `prep:strip` 두 줄
+- `package.json`의 `prep:list`, `prep:strip`, `prep:checklist` 세 줄과 `tests/unit/prep-checklist-server.test.ts`(준비표 서버 테스트)
 - `src/styles/global.css`의 "강의 준비 표시(CD-25, 개설 전 삭제)" 블록
 - `docs/CONTENT_GUIDE.md` 7-1절과 `docs/QUALITY_CHECKLIST.md` 개설 전 관문의 `prep:list` 조건(원하면 남겨 둬도 됩니다)
 

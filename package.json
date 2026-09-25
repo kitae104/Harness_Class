@@ -23,7 +23,8 @@
     "review:approve": "node scripts/new_content.mjs approve",
     "postinstall": "node scripts/ensure_astro_wasi.mjs",
     "prep:list": "node scripts/prep_notes.mjs list",
-    "prep:strip": "node scripts/prep_notes.mjs strip"
+    "prep:strip": "node scripts/prep_notes.mjs strip",
+    "prep:checklist": "node prep/checklist-server.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.2",

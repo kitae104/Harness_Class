@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>하네스 과정 준비표</title>
+<link rel="icon" href="data:,">
+<!-- 강의 준비표(개설 전 삭제, CD-25). 원본: prep/CHECKLIST.md. 열기: npm run prep:checklist (파일 저장) 또는 이 파일을 브라우저로 직접 열기(로컬 스토리지). -->
+<style>
+:root {
+  --bg: #f3f5f8;
+  --surface: #ffffff;
+  --surface-2: #e9edf3;
+  --ink: #18212d;
+  --muted: #5a6574;
+  --line: #d3dae4;
+  --accent: #1f4fb8;
+  --accent-soft: #e2eafb;
+  --stamp: #c3352b;
+  --stamp-soft: #fbe7e5;
+  --send: #7a4b00;
+  --send-soft: #fdf1d8;
+  --done-ink: #8a94a3;
+  --focus: #1f4fb8;
+  --font-body: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font-display: 'Batang', '바탕', 'AppleMyungjo', 'Noto Serif KR', serif;
+  --font-mono: Consolas, 'D2Coding', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #11161d;
+    --surface: #18202a;
+    --surface-2: #212b37;
+    --ink: #e6ebf2;
+    --muted: #9aa5b4;
+    --line: #2d3947;
+    --accent: #7ea6ff;
+    --accent-soft: #1c2c4d;
+    --stamp: #ff7a6e;
+    --stamp-soft: #3a1e1c;
+    --send: #f2c46b;
+    --send-soft: #33280f;
+    --done-ink: #6b7686;
+    --focus: #7ea6ff;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #11161d;
+  --surface: #18202a;
+  --surface-2: #212b37;
+  --ink: #e6ebf2;
+  --muted: #9aa5b4;
+  --line: #2d3947;
+  --accent: #7ea6ff;
+  --accent-soft: #1c2c4d;
+  --stamp: #ff7a6e;
+  --stamp-soft: #3a1e1c;
+  --send: #f2c46b;
+  --send-soft: #33280f;
+  --done-ink: #6b7686;
+  --focus: #7ea6ff;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-inline: 20px;
+  padding-block: 28px 64px;
+}
+a { color: var(--accent); }
+button, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* ── 머리 ─────────────────────────────── */
+.head {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.eyebrow {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+h1 {
+  margin: 4px 0 6px;
+  font-family: var(--font-display);
+  font-size: clamp(26px, 4vw, 34px);
+  line-height: 1.25;
+  text-wrap: balance;
+}
+.lede { margin: 0; color: var(--muted); max-width: 62ch; }
+.lede code { font-family: var(--font-mono); font-size: 13px; }
+.summary {
+  display: grid;
+  justify-items: end;
+  gap: 6px;
+  min-width: 190px;
+}
+.count {
+  font-variant-numeric: tabular-nums;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+}
+.count small { font-size: 15px; font-weight: 500; color: var(--muted); }
+.bar {
+  width: 190px;
+  height: 8px;
+  background: var(--surface-2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.bar > span { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+/* ── 다음 할 일, 도구 ───────────────────── */
+.next {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-radius: 6px;
+}
+.next strong { font-size: 13px; color: var(--accent); letter-spacing: 0.04em; }
+.next .next-text { flex: 1 1 320px; }
+.next button { flex: none; }
+.tools {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.btn {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.btn.danger { color: var(--stamp); }
+.toggle { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); cursor: pointer; margin-left: auto; }
+.status { font-size: 13px; color: var(--muted); min-height: 1.2em; }
+.confirm {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  padding: 8px 12px; border: 1px solid var(--stamp); border-radius: 5px;
+  background: var(--stamp-soft); font-size: 13px;
+}
+
+/* ── 본문 배치 ────────────────────────── */
+.layout {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+nav.stages {
+  position: sticky;
+  top: calc(env(safe-area-inset-top, 0px) + 16px);
+  display: grid;
+  gap: 2px;
+}
+nav.stages a {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 5px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 13.5px;
+}
+nav.stages a:hover { background: var(--surface-2); }
+nav.stages .no { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 12px; }
+nav.stages .frac { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 12px; }
+nav.stages a.complete .frac { color: var(--stamp); font-weight: 600; }
+nav.stages a.complete .label { color: var(--done-ink); }
+
+main { display: grid; gap: 18px; min-width: 0; }
+section.stage {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px 16px;
+  position: relative;
+  scroll-margin-top: 16px;
+}
+.stage-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: start;
+}
+.stage-no {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--muted);
+  padding-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.stage h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+.stage .when { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+.stage .intro { margin: 10px 0 0; font-size: 14px; color: var(--muted); max-width: 70ch; }
+.stage .warn {
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  border-left: 3px solid var(--stamp);
+  background: var(--stamp-soft);
+  font-size: 13.5px;
+}
+
+/* 결재 도장: 단계의 항목을 모두 끝내면 찍힌다 */
+.seal {
+  width: 58px; height: 58px;
+  border: 2.5px solid var(--stamp);
+  border-radius: 50%;
+  color: var(--stamp);
+  display: grid;
+  place-content: center;
+  text-align: center;
+  font-family: var(--font-display);
+  line-height: 1.05;
+  transform: rotate(-12deg);
+  opacity: 0;
+  transition: opacity .2s ease;
+  user-select: none;
+}
+.seal b { font-size: 15px; letter-spacing: 0.05em; }
+.seal i { font-style: normal; font-family: var(--font-mono); font-size: 9px; }
+.stage.complete .seal { opacity: 1; }
+
+.group-title { margin: 14px 0 4px; font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: 0.02em; }
+ul.items { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 2px; }
+ul.items ul.items { margin: 2px 0 0 28px; }
+li.item { display: grid; gap: 4px; }
+label.row {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 6px 6px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+label.row:hover { background: var(--surface-2); }
+label.row input { margin: 4px 0 0; width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
+.text { min-width: 0; }
+li.item.checked > label.row .text { color: var(--done-ink); text-decoration: line-through; text-decoration-thickness: 1px; }
+.text code, .cmd code { font-family: var(--font-mono); font-size: 12.5px; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
+.chip {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 7px;
+  border-radius: 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  vertical-align: 1px;
+  white-space: nowrap;
+}
+.chip.send { background: var(--send-soft); color: var(--send); }
+.chip.self { background: var(--stamp-soft); color: var(--stamp); }
+.cmd {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 4px 36px;
+  flex-wrap: wrap;
+}
+.cmd code { overflow-wrap: anywhere; }
+.copy { border: 1px solid var(--line); background: var(--surface); border-radius: 4px; font-size: 12px; padding: 1px 8px; cursor: pointer; }
+
+details.note { margin-top: 10px; }
+details.note summary { cursor: pointer; font-size: 13px; color: var(--muted); }
+details.note textarea {
+  margin-top: 6px;
+  width: 100%;
+  min-height: 70px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--bg);
+  padding: 8px 10px;
+  resize: vertical;
+}
+body.hide-done li.item.checked { display: none; }
+body.hide-done section.stage.complete { display: none; }
+
+.foot { margin-top: 28px; font-size: 13px; color: var(--muted); max-width: 70ch; }
+
+@media (max-width: 860px) {
+  .head { grid-template-columns: 1fr; }
+  .summary { justify-items: start; }
+  .layout { grid-template-columns: 1fr; }
+  nav.stages { position: static; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  nav.stages a { grid-template-columns: 24px 1fr auto; }
+  .toggle { margin-left: 0; }
+}
+@media (max-width: 480px) {
+  .wrap { padding-inline: 16px; }
+  section.stage { padding: 14px 14px 12px; }
+  .seal { width: 46px; height: 46px; }
+  .seal b { font-size: 12px; }
+  .cmd { margin-left: 30px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+.where {
+  margin-top: 14px;
+  display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center;
+  font-size: 13px; color: var(--muted);
+}
+.where b { color: var(--ink); }
+.where .mode { padding: 1px 8px; border-radius: 10px; font-weight: 600; font-size: 12px; }
+.where .mode.file { background: var(--accent-soft); color: var(--accent); }
+.where .mode.local { background: var(--send-soft); color: var(--send); }
+.where .saved { font-variant-numeric: tabular-nums; }
+.where .err { color: var(--stamp); font-weight: 600; }
+input[type=file].hidden-input { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="head">
+    <div>
+      <p class="eyebrow">공무원을 위한 하네스 엔지니어링 · 강사용 · 개설 전 삭제</p>
+      <h1>하네스 과정 준비표</h1>
+      <p class="lede">강의 자료는 모두 draft로 준비되었습니다. 남은 일은 사람이 확인하고 설정하는 일입니다. 위에서부터 차례로 체크하세요. 체크 상태와 메모는 아래 "기록 위치"에 저장됩니다. 원본 문서는 <code>prep/CHECKLIST.md</code>입니다.</p>
+    </div>
+    <div class="summary" aria-live="polite">
+      <div class="count" id="count">0 <small>/ 0</small></div>
+      <div class="bar" aria-hidden="true"><span id="bar"></span></div>
+      <div class="status" id="stagesDone"></div>
+    </div>
+  </header>
+
+  <div class="next" id="next">
+    <strong>다음 할 일</strong>
+    <span class="next-text" id="nextText"></span>
+    <button class="btn" type="button" id="nextGo">바로 가기</button>
+  </div>
+
+  <div class="where" id="where"><span>기록 위치</span><span class="mode" id="modeTag"></span><span id="modeText"></span><span class="saved" id="savedAt"></span></div>
+
+  <div class="tools">
+    <button class="btn primary" type="button" id="copyProgress">진행 상황 복사</button>
+    <button class="btn" type="button" id="exportJson">파일로 내보내기</button>
+    <button class="btn" type="button" id="importJson">파일에서 가져오기</button>
+    <input class="hidden-input" type="file" id="importFile" accept="application/json,.json">
+    <button class="btn danger" type="button" id="resetAsk">처음부터 다시</button>
+    <span class="status" id="toolStatus" role="status"></span>
+    <label class="toggle"><input type="checkbox" id="hideDone"> 끝낸 항목 숨기기</label>
+  </div>
+  <div class="confirm" id="resetConfirm" hidden>
+    모든 체크와 메모를 지웁니다. 되돌릴 수 없습니다.
+    <button class="btn danger" type="button" id="resetYes">지우기</button>
+    <button class="btn" type="button" id="resetNo">취소</button>
+  </div>
+
+  <div class="layout">
+    <nav class="stages" id="nav" aria-label="단계"></nav>
+    <main id="stages"></main>
+  </div>
+
+  <p class="foot"><span class="chip send">결과 보내기</span> 표시가 붙은 항목은 결과를 Claude 세션에 붙여 주세요. 등록, 수정, 기록은 AI가 합니다. 보내는 형식은 <code>examples/</code> 폴더에 있습니다. <span class="chip self">직접 실행</span> 표시가 붙은 승인 명령은 AI가 대신할 수 없습니다. 명령은 저장소 폴더(<code>D:\Githubs\Harness_WS\Harness_Class</code>)의 PowerShell에서 실행합니다. "진행 상황 복사"를 누르면 남은 항목과 메모가 텍스트로 복사됩니다. <code>npm run prep:checklist</code>로 열면 기록이 <code>prep/checklist-progress.json</code>에 저장되어 AI가 직접 읽을 수 있습니다.</p>
+</div>
+
+<script>
+const PREVIEW = 'https://harness-class-git-feat-course-complete-aqua0405-2866s-projects.vercel.app';
+
+// 단계와 항목. id는 저장 키이므로 바꾸지 않는다(prep/CHECKLIST.md와 같은 순서).
+const STAGES = [
+  { id: 's0', title: '시작 전 확인', when: '5분', items: [
+    { id: 's0-1', t: '`git status`가 깨끗하고 브랜치가 `feat-course-complete`인지 확인' },
+    { id: 's0-2', t: '`npm run verify`가 "통과"로 끝나는지 확인', cmd: 'npm run verify' },
+    { id: 's0-3', t: '검토용 Preview가 열리는지 확인', link: PREVIEW },
+    { id: 's0-4', t: '강의 준비 표시 목록(35건)을 한 번 훑어보기', cmd: 'npm run prep:list' },
+  ]},
+  { id: 's1', title: '결정하기', when: '10분', items: [
+    { id: 's1-1', t: '구글 자원을 소유할 계정 정하기(OQ-06). 강의 전용 계정 권장. 이메일 주소 대신 역할명만 보냅니다', send: true },
+    { id: 's1-2', t: '(선택) D2-3 "공문 PDF 요약"을 생략 목록에서 뺄지, 가상 공문 PDF를 키트에 넣을지', send: true },
+    { id: 's1-3', t: '(선택) Day 2 새 Project의 지침 버전 기록에 "어느 Project인지" 열을 더할지', send: true },
+  ]},
+  { id: 's2', title: '구글 시트·폼 만들기', when: '1~2시간', intro: '링크를 만들 때마다 "항목 이름 + 링크"를 보내 주세요. 등록하고 본문의 준비 표시를 실제 링크로 바꾸는 일은 AI가 합니다. 자세한 방법: prep/google-sheets-forms.md', items: [
+    { id: 's2-1', t: '하네스 대장 템플릿 시트: /templates의 탭 11개를 같은 이름·같은 열로 만들고, 보기 공유 + /copy 링크 준비', send: true },
+    { id: 's2-2', t: '강사 공용 민원 접수 폼(키트 day2-civil-intake/form-questions.md). 이메일 수집 끔, 응답 시트는 강사만', send: true },
+    { id: 's2-3', t: '점검표 12항목 상호평가 폼(/templates의 점검표). 이메일 수집 끔, 사본 링크', send: true },
+    { id: 's2-4', t: '업무용 폼 사본 ① 현장 점검(field-inspection/form-template.md). 사진 문항은 선택', send: true },
+    { id: 's2-5', t: '업무용 폼 사본 ② 수요조사(demand-survey/survey-form.md). 문항 3은 "최대 2개"', send: true },
+    { id: 's2-6', t: '수료 설문 링크 준비(기관 설문이 없으면 구글 폼)', send: true },
+    { id: 's2-7', t: '구글 폼 파일 업로드 문항: 응답자 로그인 필요 여부와 드라이브 저장을 공식 도움말로 확인(OQ-24)', send: true },
+  ]},
+  { id: 's3', title: '카드 14장 실사용 테스트', when: '2~3시간', intro: '교육용 Plus 계정에 테스트 전용 Project "카드 테스트(가상)"를 만들고 prep/card-tests.md의 준비대로 채웁니다. 카드마다 check를 모두 만족하는지, do_not_trust의 문제가 나타나는지 보고 한 줄 기록합니다. 다 끝나면 14줄 표를 보냅니다(형식: examples/01-card-test-log.md).', groups: [
+    { title: 'Day 1 카드 6장 (승인됨 — 테스트 뒤 다시 승인)', items: [
+      { id: 's3-a1', t: '`card-source-rule-snippet` · Project 지침란 · D1-04 질문 5개' },
+      { id: 's3-a2', t: '`card-guideline-critique` · Project 밖 새 채팅 · "단어만 바꾼 v1"' },
+      { id: 's3-a3', t: '`card-eval-question-critique` · 새 채팅 · D1-05의 잘못된 문항 2 + 좋은 문항 1' },
+      { id: 's3-a4', t: '`card-batch-grading` · 비개인화 임시 채팅 · 7번 답에 "보통 5만 원 안팎입니다."를 넣었을 때 0점으로 잡는지' },
+      { id: 's3-a5', t: '`card-failure-cause` · Project 새 대화 · 12번 질문과 받은 답만 넣어 "원인: 근거"가 나오는지' },
+      { id: 's3-a6', t: '`card-help-long-output` · 답이 끊긴 그 대화 · 재현이 안 되면 "모의"로 기록' },
+    ]},
+    { title: 'Day 2 카드 8장 (draft)', items: [
+      { id: 's3-b1', t: '`card-classify-attachment` · Project 채팅 + CSV 첨부 · 확인 필요 6건(5·7·12·15·22·27), 개인정보를 옮기지 않는지' },
+      { id: 's3-b2', t: '`card-help-broken-table` · Project 채팅 · 탭으로 나뉜 표가 구글 시트에 칸별로 붙는지' },
+      { id: 's3-b3', t: '`card-draft-replies` · Project 채팅 · 5건 모두 "초안·검토 필요", 5번 금액 단정·24번 개인정보 옮김이 없는지' },
+      { id: 's3-b4', t: '`card-risk-finder` · 새 채팅 · 위험 4가지를 짚되 규칙을 대신 쓰지 않는지' },
+      { id: 's3-b5', t: '`card-work-analysis` · 새 채팅 · 6요소로 비판만 하고 설계서를 대신 쓰지 않는지' },
+      { id: 's3-b6', t: '`card-design-to-guideline` · 새 채팅 · 지침 초안에 넣은 "사실"을 짚는지' },
+      { id: 's3-b7', t: '`card-improvement-finder` · Project 채팅 · 3분류로 고칠 곳 하나만 고르는지' },
+      { id: 's3-b8', t: '`card-help-odd-result` · Project 채팅 · 지침·근거·입력 가운데 원인을 진단만 하는지' },
+    ]},
+    { title: '양식 키트 채점', items: [
+      { id: 's3-c1', t: '수요조사 또는 회의록 키트로 채점 카드를 한 번 돌려, D2-6의 "출처 = 양식 항목" 한 줄이 먹히는지' },
+      { id: 's3-c2', t: '14줄 기록 표를 Claude 세션에 보내기', send: true },
+    ]},
+  ]},
+  { id: 's4', title: 'OQ-03 테스트', when: '약 20분', intro: '카드 테스트와 다른 Project "OQ-03 테스트(가상)"에서 합니다. 자세한 방법: prep/oq03-test.md', items: [
+    { id: 's4-0', t: '만들 때 보이는 메모리 설정 값 메모' },
+    { id: 's4-1', t: 'T1 새 대화에서 12번(가족 대리 서류) 질문 → "확인 필요"가 정상' },
+    { id: 's4-2', t: 'T2 다른 대화에 "위임장, 대리인 신분증, 신고인 신분증이 필요합니다. 기억해 두세요." 입력' },
+    { id: 's4-3', t: 'T3 또 다른 새 대화에서 12번 다시 질문 → 위임장이 나오면 "영향 있음"' },
+    { id: 's4-4', t: 'T4 (영향이 있을 때) T2 대화를 지우고 다시 질문' },
+    { id: 's4-5', t: 'T5 (그래도 남을 때) 메모리 설정을 바꾸거나 새 Project에서 다시 질문' },
+    { id: 's4-6', t: 'T6 애매하면 T2~T3 한 번 더' },
+    { id: 's4-7', t: '결과 한 줄 보내기: A 영향 없음 / B 삭제로 막힘 / C 삭제로도 남음(형식: examples/02-oq03-result.md)', send: true },
+  ]},
+  { id: 's5', title: '제품 기능 실사용 확인', when: '20분 · 가능한 것만', items: [
+    { id: 's5-1', t: '프로젝트 복제 메뉴가 있는지(OQ-02)' },
+    { id: 's5-2', t: '프로젝트 안에서 임시 채팅을 시작할 수 있는지(OQ-04)' },
+    { id: 's5-3', t: 'Project 채팅에 첨부한 CSV가 Project 파일 목록에 들어가는지, xlsx도 첨부되는지(OQ-05)' },
+    { id: 's5-4', t: '데이터 제어(모델 개선 끄기) 메뉴의 위치와 이름이 등록부와 같은지' },
+    { id: 's5-5', t: '항목마다 "있음·없음·다름 + 한 줄" 보내기', send: true },
+  ]},
+  { id: 's6', title: '교육장 PC 점검', when: '개설 4주 전 권장', items: [
+    { id: 's6-1', t: 'chatgpt.com, 이 사이트, 구글 시트·폼 접속' },
+    { id: 's6-2', t: '키트 zip 내려받기와 압축 풀기' },
+    { id: 's6-3', t: 'Project 파일 업로드(막히면 "본문 붙여 넣기" 대안 확인)' },
+    { id: 's6-4', t: 'CSV 첨부, CSV를 열었을 때 한글이 깨지지 않는지' },
+    { id: 's6-5', t: '구글 로그인(폼 응답)' },
+    { id: 's6-6', t: '사이트가 막히면 오프라인 번들을 쓸 수 있는지', cmd: 'npm run build:offline' },
+    { id: 's6-7', t: '막힌 것만 보내기', send: true },
+  ]},
+  { id: 's7', title: '강의 자료 재검토 (OQ-23)', when: '교시당 10~15분', intro: 'Preview에서 수강생 입장으로 읽습니다. 교시마다 목표 달성·초보자 지원·하네스 관점·정확성 네 항목이 모두 2점인지 봅니다. 빨간 점선 상자와 강사 안내의 "강의 준비" 절은 강사가 할 일입니다. 고칠 곳은 "교시 / 위치 / 무엇을 어떻게"로 보냅니다(형식: examples/03-instructor-review.md).', link: PREVIEW, groups: [
+    { title: 'Day 1', items: [
+      { id: 's7-d1-1', t: 'D1-01 하네스 엔지니어링 이해', link: PREVIEW + '/course/day1/01/' },
+      { id: 's7-d1-2', t: 'D1-02 업무 지침서 작성', link: PREVIEW + '/course/day1/02/' },
+      { id: 's7-d1-3', t: 'D1-03 ChatGPT Project로 비서 만들기', link: PREVIEW + '/course/day1/03/' },
+      { id: 's7-d1-4', t: 'D1-04 근거 자료 연결과 출처 답변', link: PREVIEW + '/course/day1/04/' },
+      { id: 's7-d1-5', t: 'D1-05 평가세트 설계', link: PREVIEW + '/course/day1/05/' },
+      { id: 's7-d1-6', t: 'D1-06 일괄 평가 실행(OQ-03 결과 반영 뒤 다시 확인)', link: PREVIEW + '/course/day1/06/' },
+      { id: 's7-d1-7', t: 'D1-07 실패 분석과 재평가', link: PREVIEW + '/course/day1/07/' },
+    ]},
+    { title: 'Day 2', items: [
+      { id: 's7-d2-1', t: 'D2-01 구글 폼으로 입력 구조화', link: PREVIEW + '/course/day2/01/' },
+      { id: 's7-d2-2', t: 'D2-02 여러 건 분류·요약', link: PREVIEW + '/course/day2/02/' },
+      { id: 's7-d2-3', t: 'D2-03 초안 생성과 사람 검토', link: PREVIEW + '/course/day2/03/' },
+      { id: 's7-d2-4', t: 'D2-04 안전장치 점검과 기록', link: PREVIEW + '/course/day2/04/' },
+      { id: 's7-d2-5', t: 'D2-05 내 업무 하네스 설계(프로젝트형 기준 예시)', link: PREVIEW + '/course/day2/05/' },
+      { id: 's7-d2-6', t: 'D2-06 내 업무 하네스 제작', link: PREVIEW + '/course/day2/06/' },
+      { id: 's7-d2-7', t: 'D2-07 개선·상호평가·적용 로드맵', link: PREVIEW + '/course/day2/07/' },
+    ]},
+    { title: '키트 6개 — 규정·FAQ·기대 답변이 서로 맞고 가상 표기가 있는지', items: [
+      { id: 's7-k1', t: '`day2-civil-intake` 민원 접수·분류·초안 검토' },
+      { id: 's7-k2', t: '`rule-qa` 규정 Q&A' },
+      { id: 's7-k3', t: '`civil-draft` 대형 생활폐기물 민원' },
+      { id: 's7-k4', t: '`field-inspection` 현장 점검' },
+      { id: 's7-k5', t: '`demand-survey` 수요조사' },
+      { id: 's7-k6', t: '`meeting-minutes` 회의록' },
+    ]},
+    { title: '안내 페이지 6개', items: [
+      { id: 's7-p1', t: '/before 사전 준비', link: PREVIEW + '/before/' },
+      { id: 's7-p2', t: '/templates 템플릿', link: PREVIEW + '/templates/' },
+      { id: 's7-p3', t: '/project 예시 5종', link: PREVIEW + '/project/' },
+      { id: 's7-p4', t: '/resources 용어·출처·제품 정보', link: PREVIEW + '/resources/' },
+      { id: 's7-p5', t: '/practice 실습 목록', link: PREVIEW + '/practice/' },
+      { id: 's7-p6', t: '/optional/codex 선택 심화', link: PREVIEW + '/optional/codex/' },
+      { id: 's7-send', t: '고칠 곳 목록 보내기(없으면 "없음")', send: true },
+    ]},
+  ]},
+  { id: 's8', title: 'AI 반영 확인', when: '30분', items: [
+    { id: 's8-1', t: 'AI가 반영한 수정(카드 tested_at, D1-06, 링크 등록, 재검토 수정)을 Preview에서 다시 보기', link: PREVIEW },
+    { id: 's8-2', t: '`npm run verify` 통과', cmd: 'npm run verify' },
+  ]},
+  { id: 's9', title: '승인', when: '편집이 모두 끝난 뒤 한 번에', intro: '먼저 git status --short로 파일 전체가 바뀐 것처럼 보이는지 확인합니다. 그렇다면 멈추고 알려 주세요.', groups: [
+    { title: 'Day 2 교시 7개', self: true, items: ['d2-forms','d2-batch-classify','d2-drafts','d2-guardrails','d2-project-design','d2-project-build','d2-wrapup'].map((x) => ({ id: 's9-l-' + x, t: '`' + x + '`', cmd: 'npm run review:approve ' + x, self: true })) },
+    { title: '카드 14장', self: true, items: ['card-guideline-critique','card-source-rule-snippet','card-eval-question-critique','card-batch-grading','card-failure-cause','card-help-long-output','card-classify-attachment','card-help-broken-table','card-draft-replies','card-risk-finder','card-work-analysis','card-design-to-guideline','card-improvement-finder','card-help-odd-result'].map((x) => ({ id: 's9-c-' + x, t: '`' + x + '`', cmd: 'npm run review:approve ' + x, self: true })) },
+    { title: '키트 6개', self: true, items: ['day2-civil-intake','rule-qa','civil-draft','field-inspection','demand-survey','meeting-minutes'].map((x) => ({ id: 's9-k-' + x, t: '`' + x + '`', cmd: 'npm run review:approve ' + x, self: true })) },
+    { title: '수정으로 해시가 바뀐 항목(해당할 때만)', items: [
+      { id: 's9-x1', t: '`d1-eval-run`(OQ-03 반영 시)', cmd: 'npm run review:approve d1-eval-run', self: true },
+      { id: 's9-x2', t: '그 밖에 재검토로 고친 교시', self: true },
+    ]},
+    { title: '확인', items: [
+      { id: 's9-v1', t: 'V-REV 오류 0 확인(남은 ID가 보이면 그 항목 승인)', cmd: 'python scripts/validate_course.py --production' },
+      { id: 's9-v2', t: '`npm run verify` 통과', cmd: 'npm run verify' },
+      { id: 's9-v3', t: '커밋과 push', cmd: 'git commit -am "chore: approve reviewed course material"; git push' },
+    ]},
+  ]},
+  { id: 's10', title: '확인 사항 닫기', when: '5분', items: [
+    { id: 's10-1', t: '"OQ-23 끝"이라고 보내기(기록은 AI)', send: true },
+    { id: 's10-2', t: 'OQ-03·06·24(와 확인한 OQ-02·04·05)가 docs/OPEN_QUESTIONS.md에서 닫혔는지 확인' },
+  ]},
+  { id: 's11', title: '병합 (Production 공개)', when: '10단계 뒤에만', warn: 'main에 병합하면 harness-class.vercel.app에 바로 공개됩니다(CD-22).', items: [
+    { id: 's11-1', t: 'PR #6(Day 1) Ready → CI 통과 → 병합', link: 'https://github.com/kitae104/Harness_Class/pull/6' },
+    { id: 's11-2', t: 'PR #7의 base를 main으로 바꾸기 → Update branch → CI 통과 → 병합', link: 'https://github.com/kitae104/Harness_Class/pull/7' },
+    { id: 's11-3', t: 'Production 사이트에서 Day 1~2 훑어보기', link: 'https://harness-class.vercel.app/' },
+  ]},
+  { id: 's12', title: '개설 직전 정리', when: '30분', items: [
+    { id: 's12-1', t: '강의 준비 표시 모두 지우기', cmd: 'npm run prep:strip' },
+    { id: 's12-2', t: '남은 표시 0건 확인', cmd: 'npm run prep:list -- --check' },
+    { id: 's12-3', t: 'prep/README.md "제거 절차"대로 prep/ 폴더, PrepNote.astro, prep_notes.mjs와 테스트, package.json prep:* 두 줄, CSS 블록 지우기' },
+    { id: 's12-4', t: '바뀐 교시·키트 다시 승인(9단계와 같은 방법)', self: true },
+    { id: 's12-5', t: '`--production`과 verify 통과', cmd: 'python scripts/validate_course.py --production; npm run verify' },
+    { id: 's12-6', t: '커밋 → PR → 병합' },
+    { id: 's12-7', t: '(선택) 제안서 개정본(CD-08) 작성을 AI에게 요청', send: true },
+  ]},
+];
+
+// ── 저장 ─────────────────────────────────────────
+// 두 방식: (1) npm run prep:checklist로 연 경우 서버가 prep/checklist-progress.json에 저장한다.
+//          (2) HTML을 직접 연 경우(file://) 이 브라우저의 로컬 스토리지에 저장한다. 내보내기·가져오기로 파일에 옮긴다.
+// 어느 방식이든 로컬 스토리지에도 사본을 둔다(서버가 꺼져도 잃지 않게).
+const KEY = 'harness-course-prep-v1';
+const EMPTY = () => ({ checked: {}, notes: {}, doneAt: {}, hideDone: false });
+const normalize = (d) => Object.assign(EMPTY(), d && typeof d === 'object' ? d : {});
+let mode = 'local';
+let state = EMPTY();
+
+function readLocal() {
+  try { const raw = window.localStorage.getItem(KEY); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+}
+function writeLocal() {
+  try { window.localStorage.setItem(KEY, JSON.stringify(state)); return true; } catch (e) { return false; }
+}
+const hasData = (d) => d && (Object.keys(d.checked || {}).length || Object.values(d.notes || {}).some((n) => n && n.trim()));
+
+async function init() {
+  const local = readLocal();
+  if (location.protocol.startsWith('http')) {
+    try {
+      const r = await fetch('/api/progress', { cache: 'no-store' });
+      if (r.ok) {
+        mode = 'file';
+        const fromFile = await r.json();
+        // 파일이 비어 있고 브라우저에 기록이 있으면 그 기록을 파일로 옮긴다
+        state = normalize(hasData(fromFile) ? fromFile : local);
+        if (!hasData(fromFile) && hasData(local)) await saveNow();
+      }
+    } catch (e) { mode = 'local'; }
+  }
+  if (mode === 'local') state = normalize(local);
+  showMode(state.savedAt ? '마지막 저장 ' + stamp(state.savedAt) : '');
+  render();
+}
+
+function stamp(iso) {
+  const d = new Date(iso);
+  return isNaN(d) ? '' : d.toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+
+function showMode(saved, error) {
+  const tag = document.getElementById('modeTag');
+  tag.className = 'mode ' + mode;
+  tag.textContent = mode === 'file' ? '파일' : '이 브라우저';
+  document.getElementById('modeText').innerHTML = mode === 'file'
+    ? '<b>prep/checklist-progress.json</b>'
+    : '<b>로컬 스토리지</b> — 파일로 남기려면 <code>npm run prep:checklist</code>로 열거나 "파일로 내보내기"를 씁니다';
+  const s = document.getElementById('savedAt');
+  s.className = error ? 'saved err' : 'saved';
+  s.textContent = error || saved || '';
+}
+
+let saveTimer;
+async function saveNow() {
+  const localOk = writeLocal();
+  if (mode !== 'file') {
+    showMode(localOk ? '저장됨 ' + stamp(new Date().toISOString()) : '', localOk ? '' : '이 브라우저에 저장할 수 없습니다. "파일로 내보내기"로 기록을 남기세요.');
+    return;
+  }
+  try {
+    const r = await fetch('/api/progress', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(state) });
+    if (!r.ok) throw new Error(String(r.status));
+    const { savedAt } = await r.json();
+    state.savedAt = savedAt;
+    writeLocal();
+    showMode('파일에 저장됨 ' + stamp(savedAt));
+  } catch (e) {
+    showMode('', '파일에 저장하지 못했습니다(서버가 꺼졌나요?). 브라우저에는 저장했습니다.');
+  }
+}
+function save() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveNow, 300);
+}
+
+// ── 그리기 ───────────────────────────────────────
+const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const fmt = (s) => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
+const itemsOf = (st) => st.items || st.groups.flatMap((g) => g.items);
+const allItems = STAGES.flatMap(itemsOf);
+
+function itemHtml(it) {
+  const chips = (it.send ? '<span class="chip send">결과 보내기</span>' : '') + (it.self ? '<span class="chip self">직접 실행</span>' : '');
+  const link = it.link ? ` <a href="${esc(it.link)}" target="_blank" rel="noopener">열기</a>` : '';
+  const cmd = it.cmd ? `<div class="cmd"><code>${esc(it.cmd)}</code><button class="copy" type="button" data-copy="${esc(it.cmd)}">복사</button></div>` : '';
+  return `<li class="item" data-id="${it.id}">
+    <label class="row"><input type="checkbox" id="cb-${it.id}" data-id="${it.id}"><span class="text">${fmt(it.t)}${chips}${link}</span></label>${cmd}</li>`;
+}
+
+function render() {
+  const nav = document.getElementById('nav');
+  const main = document.getElementById('stages');
+  nav.innerHTML = STAGES.map((st, i) => `<a href="#${st.id}" data-stage="${st.id}"><span class="no">${String(i).padStart(2, '0')}</span><span class="label">${esc(st.title)}</span><span class="frac"></span></a>`).join('');
+  main.innerHTML = STAGES.map((st, i) => {
+    const body = st.items
+      ? `<ul class="items">${st.items.map(itemHtml).join('')}</ul>`
+      : st.groups.map((g) => `<p class="group-title">${esc(g.title)}</p><ul class="items">${g.items.map(itemHtml).join('')}</ul>`).join('');
+    const intro = st.intro ? `<p class="intro">${fmt(st.intro)}${st.link ? ` <a href="${esc(st.link)}" target="_blank" rel="noopener">Preview 열기</a>` : ''}</p>` : '';
+    const warn = st.warn ? `<p class="warn">${fmt(st.warn)}</p>` : '';
+    return `<section class="stage" id="${st.id}" data-stage="${st.id}">
+      <div class="stage-head">
+        <span class="stage-no">${String(i).padStart(2, '0')}</span>
+        <div><h2>${esc(st.title)}</h2><p class="when">${esc(st.when)}</p></div>
+        <div class="seal" aria-hidden="true"><b>완료</b><i data-date></i></div>
+      </div>
+      ${warn}${intro}${body}
+      <details class="note"><summary>메모</summary><textarea id="note-${st.id}" data-note="${st.id}" placeholder="이 단계에서 적어 둘 것(결과, 링크, 막힌 점)"></textarea></details>
+    </section>`;
+  }).join('');
+  for (const cb of main.querySelectorAll('input[type=checkbox][data-id]')) cb.checked = !!state.checked[cb.dataset.id];
+  for (const ta of main.querySelectorAll('textarea[data-note]')) {
+    ta.value = state.notes[ta.dataset.note] || '';
+    if (ta.value) ta.closest('details').open = true;
+  }
+  document.getElementById('hideDone').checked = !!state.hideDone;
+  update();
+}
+
+function stageProgress(st) {
+  const its = itemsOf(st);
+  const done = its.filter((it) => state.checked[it.id]).length;
+  return { done, total: its.length };
+}
+
+function update() {
+  const total = allItems.length;
+  const done = allItems.filter((it) => state.checked[it.id]).length;
+  document.getElementById('count').innerHTML = `${done} <small>/ ${total}</small>`;
+  document.getElementById('bar').style.width = `${total ? (done / total) * 100 : 0}%`;
+  let stagesDone = 0;
+  const today = new Date().toISOString().slice(0, 10);
+  for (const st of STAGES) {
+    const { done: d, total: t } = stageProgress(st);
+    const complete = d === t;
+    if (complete) {
+      stagesDone += 1;
+      if (!state.doneAt[st.id]) state.doneAt[st.id] = today;
+    } else if (state.doneAt[st.id]) {
+      delete state.doneAt[st.id];
+    }
+    const sec = document.querySelector(`section.stage[data-stage="${st.id}"]`);
+    sec.classList.toggle('complete', complete);
+    sec.querySelector('[data-date]').textContent = complete ? (state.doneAt[st.id] || '').slice(5).replace('-', '.') : '';
+    const a = document.querySelector(`nav a[data-stage="${st.id}"]`);
+    a.classList.toggle('complete', complete);
+    a.querySelector('.frac').textContent = complete ? '완료' : `${d}/${t}`;
+  }
+  for (const li of document.querySelectorAll('li.item')) li.classList.toggle('checked', !!state.checked[li.dataset.id]);
+  document.getElementById('stagesDone').textContent = `${STAGES.length}단계 중 ${stagesDone}단계 완료`;
+  const next = allItems.find((it) => !state.checked[it.id]);
+  const nt = document.getElementById('nextText');
+  const ng = document.getElementById('nextGo');
+  if (next) {
+    const st = STAGES.find((s) => itemsOf(s).includes(next));
+    nt.innerHTML = `<b>${esc(st.title)}</b> · ${fmt(next.t)}`;
+    ng.hidden = false;
+    ng.dataset.target = next.id;
+  } else {
+    nt.textContent = '모든 준비를 마쳤습니다. 개설을 준비하세요.';
+    ng.hidden = true;
+  }
+  document.body.classList.toggle('hide-done', !!state.hideDone);
+}
+
+// ── 동작 ─────────────────────────────────────────
+let flashTimer;
+function flash(msg) {
+  const el = document.getElementById('toolStatus');
+  el.textContent = msg;
+  clearTimeout(flashTimer);
+  flashTimer = setTimeout(() => { el.textContent = ''; }, 3500);
+}
+
+async function copyText(text, okMsg) {
+  try {
+    await navigator.clipboard.writeText(text);
+    flash(okMsg);
+  } catch (e) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+    ta.remove();
+    flash(ok ? okMsg : '복사하지 못했습니다. 텍스트를 직접 선택해 복사하세요.');
+  }
+}
+
+function progressText() {
+  const done = allItems.filter((it) => state.checked[it.id]).length;
+  const lines = [`## 강의 준비 진행 상황 (${new Date().toISOString().slice(0, 10)})`, `전체 ${done}/${allItems.length}`, ''];
+  STAGES.forEach((st, i) => {
+    const { done: d, total: t } = stageProgress(st);
+    const head = `### ${i}. ${st.title} — ${d === t ? '완료' + (state.doneAt[st.id] ? ' ' + state.doneAt[st.id] : '') : d + '/' + t}`;
+    lines.push(head);
+    if (d !== t) {
+      for (const it of itemsOf(st)) if (!state.checked[it.id]) lines.push(`- [ ] ${it.t.replace(/`/g, '')}`);
+    }
+    const note = (state.notes[st.id] || '').trim();
+    if (note) lines.push('메모: ' + note.replace(/\n/g, '\n  '));
+    lines.push('');
+  });
+  return lines.join('\n');
+}
+
+document.addEventListener('change', (e) => {
+  const t = e.target;
+  if (t.matches('input[type=checkbox][data-id]')) {
+    if (t.checked) state.checked[t.dataset.id] = true; else delete state.checked[t.dataset.id];
+    update();
+    save();
+  } else if (t.id === 'hideDone') {
+    state.hideDone = t.checked;
+    update();
+    save();
+  }
+});
+let noteTimer;
+document.addEventListener('input', (e) => {
+  const t = e.target;
+  if (t.matches('textarea[data-note]')) {
+    state.notes[t.dataset.note] = t.value;
+    clearTimeout(noteTimer);
+    noteTimer = setTimeout(save, 400);
+  }
+});
+document.addEventListener('click', (e) => {
+  const t = e.target;
+  if (t.matches('button[data-copy]')) copyText(t.dataset.copy, '명령을 복사했습니다.');
+});
+document.getElementById('copyProgress').addEventListener('click', () => copyText(progressText(), '진행 상황을 복사했습니다. Claude 세션에 붙여 넣으세요.'));
+document.getElementById('nextGo').addEventListener('click', (e) => {
+  const id = e.currentTarget.dataset.target;
+  const cb = document.getElementById('cb-' + id);
+  if (cb) {
+    cb.closest('li').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+    cb.focus({ preventScroll: true });
+  }
+});
+document.getElementById('resetAsk').addEventListener('click', () => { document.getElementById('resetConfirm').hidden = false; });
+document.getElementById('resetNo').addEventListener('click', () => { document.getElementById('resetConfirm').hidden = true; });
+document.getElementById('resetYes').addEventListener('click', () => {
+  state = EMPTY();
+  saveNow();
+  document.getElementById('resetConfirm').hidden = true;
+  render();
+  flash('모든 체크와 메모를 지웠습니다.');
+});
+
+
+document.getElementById('exportJson').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(state, null, 2) + '\n'], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'checklist-progress.json';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+  flash('checklist-progress.json을 내려받았습니다. prep/ 폴더에 두면 서버 방식에서 이어서 씁니다.');
+});
+document.getElementById('importJson').addEventListener('click', () => document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change', async (e) => {
+  const file = e.target.files && e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  try {
+    const data = JSON.parse(await file.text());
+    if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('형식');
+    state = normalize(data);
+    render();
+    await saveNow();
+    flash('파일의 기록을 불러왔습니다.');
+  } catch (err) {
+    flash('불러오지 못했습니다. checklist-progress.json 파일인지 확인하세요.');
+  }
+});
+
+init();
+</script>
+</body>
+</html>

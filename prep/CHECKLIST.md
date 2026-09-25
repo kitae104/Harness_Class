@@ -2,6 +2,8 @@
 
 위에서부터 차례로 진행하면서 `- [ ]`를 `- [x]`로 바꿉니다. VS Code 미리보기나 GitHub에서는 체크 상자로 보입니다.
 
+**브라우저에서 체크하려면** `npm run prep:checklist`를 실행하고 http://127.0.0.1:4380 을 엽니다. 진행 기록은 `prep/checklist-progress.json`에 남습니다. 같은 항목을 담은 대화형 준비표입니다.
+
 - **📨 결과 보내기**가 붙은 항목은 결과를 Claude 세션에 붙여 주세요. 반영과 수정은 AI가 합니다. 보내는 형식은 `examples/` 폴더를 참고합니다.
 - AI는 승인(`review:approve`)을 할 수 없습니다. **승인은 반드시 직접** 합니다.
 - 명령은 저장소 폴더(`D:\Githubs\Harness_WS\Harness_Class`)의 PowerShell에서 실행합니다.
