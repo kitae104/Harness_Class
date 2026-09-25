@@ -1,0 +1,8 @@
+# 테스트용 course.yaml 발췌 — kits만 읽는다.
+kits:
+  - id: kit-sample
+    title: 샘플 키트
+    status: planned
+  - id: kit-nodownload
+    title: 다운로드 없는 키트
+    status: planned

@@ -1,0 +1,10 @@
+id: kit-escape
+title: 폴더 밖 경로 키트
+track: core
+sources: [fictional-sample]
+privacy_notes: 없음
+fictional_label: 교육용 가상 자료
+files:
+  - path: ../kit-sample/rules.md
+    role: context
+    download: true

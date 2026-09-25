@@ -75,11 +75,11 @@ completion:
 
 # 카드 status·reviewed_hash도 여기에만 둔다(ADR-011). 카드 파일에는 상태를 쓰지 않는다.
 cards:
-  - {id: card-guideline-critique, lesson: d1-guideline, title: 내 지침에서 애매한 곳 찾기, category: C, level: 1, where: new-chat, track: core, status: planned}
-  - {id: card-source-rule-snippet, lesson: d1-context, title: 출처 규칙 지침 문장, category: D, level: 2, where: instructions, track: core, status: planned}
-  - {id: card-eval-question-critique, lesson: d1-evalset, title: 내가 쓴 평가 문항 비판받기, category: E, level: 2, where: new-chat, track: core, status: planned}
+  - {id: card-guideline-critique, lesson: d1-guideline, title: 내 지침에서 애매한 곳 찾기, category: C, level: 1, where: new-chat, track: core, status: draft}
+  - {id: card-source-rule-snippet, lesson: d1-context, title: 출처 규칙 지침 문장, category: D, level: 2, where: instructions, track: core, status: reviewed, reviewed_hash: "sha256:c7e812fe0fa55a6d07868d8e1fc6956c22576344b25fcdae03252c5f082857b4"}
+  - {id: card-eval-question-critique, lesson: d1-evalset, title: 내가 쓴 평가 문항 비판받기, category: E, level: 2, where: new-chat, track: core, status: draft}
   - {id: card-batch-grading, lesson: d1-eval-run, title: 받은 답 채점(Project 밖), category: E, level: 1, where: temporary-chat, track: core, status: planned}
-  - {id: card-failure-cause, lesson: d1-improve, title: 오답 원인 분석, category: E, level: 2, where: project-chat, track: core, status: planned}
+  - {id: card-failure-cause, lesson: d1-improve, title: 오답 원인 분석, category: E, level: 2, where: project-chat, track: core, status: draft}
   - {id: card-classify-attachment, lesson: d2-batch-classify, title: 첨부한 접수 표 분류·요약, category: B, level: 2, where: project-chat, track: core, status: planned}
   - {id: card-draft-replies, lesson: d2-drafts, title: 건별 답변 초안과 보고 요약, category: B, level: 2, where: project-chat, track: core, status: planned}
   - {id: card-risk-finder, lesson: d2-guardrails, title: 내 지침의 위험 찾기, category: F, level: 2, where: new-chat, track: core, status: planned}
@@ -92,7 +92,8 @@ cards:
 
 # 실습 키트 — 자료는 content/kits/<id>/(kit.yaml 필드는 docs/PRACTICE_CASES.md 1절).
 # status·reviewed_hash도 여기에만 둔다(ADR-011). 해시는 키트 폴더 전체, 승인은 npm run review:approve <kit-id>.
-kits: []
+kits:
+  - {id: day1-civil, title: Day 1 전입신고 민원 답변 비서 키트, status: reviewed, reviewed_hash: "sha256:99502e06b42a0e56756e57c916e369060e3c1e9f87a5c22c8b24e5a7ac85c3f6"}
 
 lessons:
   # ───────────────────────── Day 1 — 지침·근거·검증 (전입신고 민원 답변 비서)
@@ -138,25 +139,28 @@ lessons:
     type: practice
     subject: S2
     track: core
-    status: planned
+    status: draft
     elements: [instructions]
     activities:
-      - {kind: demo, name: 민원 업무 흐름과 AI·사람 역할 구분 시연, minutes: 8}
+      - {kind: demo, name: 민원 업무 흐름과 AI·사람 역할 구분 시연, minutes: 7}
       - {kind: follow, name: v0 지침 함께 진단, minutes: 7}
-      - {kind: practice, name: 지침서 5항목으로 v1 개선, minutes: 15}
-      - {kind: check, name: AI에게 애매한 곳 비판받기, minutes: 5}
+      - {kind: practice, name: 지침서 5항목으로 v1 개선, minutes: 16}
+      - {kind: check, name: AI에게 애매한 곳 비판받기, minutes: 7}
     objectives:
-      - {id: d1-02-o1, text: 지침서 5항목(역할·범위·금지사항·출력 형식·모를 때 행동)으로 지침을 작성한다, outputs: [d1-02-p1]}
-      - {id: d1-02-o2, text: 업무에서 AI가 맡을 일과 사람이 맡을 일을 구분한다, outputs: [d1-02-p1]}
+      - {id: d1-02-o1, text: 지침서 5항목(역할·범위·금지사항·출력 형식·모를 때 행동)으로 지침을 작성한다, outputs: [d1-02-p1], checks: [d1-02-c1, d1-02-c3]}
+      - {id: d1-02-o2, text: 업무에서 AI가 맡을 일과 사람이 맡을 일을 구분한다, outputs: [d1-02-p1], checks: [d1-02-c2]}
     outputs:
       - {id: d1-02-p1, text: 지침서 v1(하네스 대장 지침 버전 탭), used_by: [d1-project]}
     checks:
-      - 지침서 5항목이 모두 채워져 있고 추상적 표현(친절하게 등)이 구체적으로 바뀌었다
+      - {id: d1-02-c1, text: 지침서 5항목이 모두 채워져 있고 추상적 표현(친절하게 등)이 구체적으로 바뀌었다}
+      - {id: d1-02-c2, text: 민원 업무 흐름의 단계마다 AI와 사람 중 누가 맡는지 표시했고 사람이 맡을 일이 지침의 금지사항이나 모를 때 행동에 적혀 있다}
+      - {id: d1-02-c3, text: 하네스 대장(또는 표 양식)의 지침 버전에 v0 원문과 v1 전문이 바꾼 이유와 함께 기록되어 있다}
     cards: [card-guideline-critique]
     stuck_points:
       - {id: sp-d1-02-a, text: 업무를 AI에게 어떻게 설명할지 모른다, supports: [3, 7]}
       - {id: sp-d1-02-b, text: 범위와 금지사항을 구분하지 못하고 추상적으로 쓴다, supports: [5, 9]}
       - {id: sp-d1-02-c, text: 쓴 지침이 충분한지 판단하지 못한다, supports: [1, 4, 6], card: card-guideline-critique}
+      - {id: sp-d1-02-d, text: AI가 제안한 문장을 모두 붙여 지침이 길어지고 자료에 없는 내용이 들어간다, supports: [5, 9]}
     skip_if_short: [AI 비판 단계]
 
   - id: d1-project
@@ -166,25 +170,28 @@ lessons:
     type: practice
     subject: S2
     track: core
-    status: planned
+    status: draft
     elements: [instructions]
     activities:
-      - {kind: demo, name: Project 개념과 만들기 시연, minutes: 10}
-      - {kind: follow, name: Project 생성과 지침 입력, minutes: 10}
-      - {kind: practice, name: 기준 질문 5개 재질문과 적용 전·후 비교, minutes: 10}
+      - {kind: demo, name: Project 개념과 만들기 시연, minutes: 7}
+      - {kind: follow, name: Project 생성과 지침 입력, minutes: 8}
+      - {kind: practice, name: 기준 질문 5개 재질문과 적용 전·후 비교, minutes: 16}
       - {kind: practice, name: 동료 공유(가능 시) 또는 빼보기 실험, minutes: 5}
     objectives:
-      - {id: d1-03-o1, text: 지침을 Project에 넣어 매번 같은 규칙으로 답하게 만든다, outputs: [d1-03-p1]}
-      - {id: d1-03-o2, text: 적용 전·후 답변을 비교해 지침의 효과를 설명한다, outputs: [d1-03-p2]}
+      - {id: d1-03-o1, text: 지침을 Project에 넣어 매번 같은 규칙으로 답하게 만든다, outputs: [d1-03-p1], checks: [d1-03-c1]}
+      - {id: d1-03-o2, text: 적용 전·후 답변을 비교해 지침의 효과를 설명한다, outputs: [d1-03-p2], checks: [d1-03-c2, d1-03-c3]}
     outputs:
       - {id: d1-03-p1, text: 민원 답변 비서 Project v1, used_by: [d1-context]}
       - {id: d1-03-p2, text: 적용 전·후 비교표, used_by: [d1-improve]}
     checks:
-      - 5문항 중 형식·범위가 개선된 문항을 비교표에 표시했다
+      - {id: d1-03-c1, text: Project 지침란에 지침서 v1 전문이 저장되어 있고 새 대화에서 질문만 넣어도 v1의 출력 형식대로 답한다}
+      - {id: d1-03-c2, text: 5문항 중 형식·범위가 개선된 문항을 비교표에 표시했다}
+      - {id: d1-03-c3, text: 지침으로 나아진 것과 아직 근거가 없는 것을 비교표 아래에 한 문장으로 적었다}
     cards: []
     stuck_points:
       - {id: sp-d1-03-a, text: 지침을 지침란이 아니라 채팅창에 붙여 넣는다, supports: [5, 7]}
       - {id: sp-d1-03-b, text: 전·후 답변의 차이를 찾지 못한다, supports: [4, 9]}
+      - {id: sp-d1-03-c, text: 형식이 맞으면 금지사항을 어긴 답도 개선으로 표시한다, supports: [5, 9]}
     skip_if_short: [동료 공유]
 
   - id: d1-context
@@ -194,28 +201,32 @@ lessons:
     type: practice
     subject: S3
     track: core
-    status: planned
+    status: reviewed
+    reviewed_hash: "sha256:20fad6063f5393ed08d334cef523800e3bf3536a7a2c52033c897d6084e6ed09"
     elements: [context, guardrails]
     activities:
       - {kind: explain, name: 근거·출처·기준일, minutes: 5}
       - {kind: demo, name: 출처 없는 답과 출처 있는 답 비교 시연, minutes: 7}
       - {kind: follow, name: 자료 업로드와 출처 규칙 추가(막히면 본문 붙여넣기), minutes: 8}
-      - {kind: practice, name: 자료 안·밖 질문 테스트, minutes: 10}
+      - {kind: practice, name: 자료 안·밖 질문 테스트, minutes: 12}
       - {kind: check, name: 자료 목록과 기준일 기록, minutes: 5}
     objectives:
-      - {id: d1-04-o1, text: 규정 자료를 Project에 연결하고 출처(조문)를 밝혀 답하게 만든다, outputs: [d1-04-p1]}
-      - {id: d1-04-o2, text: 자료에 없는 질문에 "확인 필요"로 답하게 만든다, outputs: [d1-04-p1]}
-      - {id: d1-04-o3, text: 근거 자료의 목록과 기준일을 기록한다, outputs: [d1-04-p2]}
+      - {id: d1-04-o1, text: 규정 자료를 Project에 연결하고 출처(조문)를 밝혀 답하게 만든다, outputs: [d1-04-p1], checks: [d1-04-c1]}
+      - {id: d1-04-o2, text: 자료에 없는 질문에 "확인 필요"로 답하게 만든다, outputs: [d1-04-p1], checks: [d1-04-c2]}
+      - {id: d1-04-o3, text: 근거 자료의 목록과 기준일을 기록한다, outputs: [d1-04-p2], checks: [d1-04-c3]}
     outputs:
       - {id: d1-04-p1, text: 민원 답변 비서 Project v2(근거 연결), used_by: [d1-eval-run]}
       - {id: d1-04-p2, text: 자료 목록(시행일·기준일), used_by: [d1-improve]}
     checks:
-      - 자료 안 질문 3개는 출처와 함께, 자료 밖 질문 2개는 "확인 필요"로 답한다
+      - {id: d1-04-c1, text: 자료 안 질문 3개가 조문 번호를 밝혀 답했고 그 조문이 내려받은 규정 파일에 실제로 있는지 확인했다}
+      - {id: d1-04-c2, text: 자료 밖 질문 2개에 지어낸 내용 없이 "확인 필요"로 답했다}
+      - {id: d1-04-c3, text: 하네스 대장(또는 표 양식)의 자료 목록에 올린 자료의 이름과 기준일이 기록되어 있다}
     cards: [card-source-rule-snippet]
     stuck_points:
       - {id: sp-d1-04-a, text: 파일만 올리고 지침에 출처 규칙을 넣지 않는다, supports: [2, 4], card: card-source-rule-snippet}
       - {id: sp-d1-04-b, text: 존재하지 않는 조문을 지어낸 답을 알아보지 못한다, supports: [5, 9]}
       - {id: sp-d1-04-c, text: 파일 업로드가 막힌다, supports: [8]}
+      - {id: sp-d1-04-d, text: 자료 목록의 기준일에 무엇을 적을지 모른다, supports: [3, 9]}
     skip_if_short: [파일 형식 비교]
 
   - id: d1-evalset
@@ -225,7 +236,7 @@ lessons:
     type: practice
     subject: S4
     track: core
-    status: planned
+    status: draft
     elements: [evals, guardrails]
     activities:
       - {kind: explain, name: 평가세트 먼저, minutes: 5}
@@ -233,16 +244,19 @@ lessons:
       - {kind: follow, name: 답변 2개 손채점, minutes: 10}
       - {kind: practice, name: 내 평가 문항 3개와 기대 답변 작성, minutes: 15}
     objectives:
-      - {id: d1-05-o1, text: 평가 문항·기대 답변·채점 기준의 역할을 설명한다, outputs: [d1-05-p1]}
-      - {id: d1-05-o2, text: 기대 답변(핵심 포인트 2개 + 근거 조문)이 있는 평가 문항을 작성한다, outputs: [d1-05-p1]}
+      - {id: d1-05-o1, text: 평가 문항·기대 답변·채점 기준의 역할을 설명한다, outputs: [d1-05-p1], checks: [d1-05-c1, d1-05-c3]}
+      - {id: d1-05-o2, text: 기대 답변(핵심 포인트 2개 + 근거 조문)이 있는 평가 문항을 작성한다, outputs: [d1-05-p1], checks: [d1-05-c2]}
     outputs:
       - {id: d1-05-p1, text: 평가세트 23문항(제공 20 + 직접 3), used_by: [d1-eval-run]}
     checks:
-      - 직접 쓴 3문항에 기대 답변과 근거 조문이 있다
+      - {id: d1-05-c1, text: 가상 답변 2개를 채점 기준(정확·출처·금지)으로 손채점해 점수와 0점인 이유를 적었다}
+      - {id: d1-05-c2, text: 직접 쓴 3문항에 기대 답변(핵심 포인트 2개)과 규정 파일에 실제로 있는 근거 조문이 있고 하네스 대장(또는 표 양식) 평가에 기록되어 있다}
+      - {id: d1-05-c3, text: Project 파일 목록에 규정과 FAQ만 있고 질문·기대 답변 파일은 없는 것을 확인했다}
     cards: [card-eval-question-critique]
     stuck_points:
       - {id: sp-d1-05-a, text: 좋은 평가 질문이 무엇인지 모른다, supports: [3, 4, 9]}
       - {id: sp-d1-05-b, text: 기대 답변을 쓰지 못하거나 정답 없는 질문을 만든다, supports: [2, 5], card: card-eval-question-critique}
+      - {id: sp-d1-05-c, text: 기대 답변 파일을 Project에 올리거나 질문과 함께 붙여야 한다고 생각한다, supports: [5, 9]}
     skip_if_short: [직접 작성 문항을 3개에서 1개로]
 
   - id: d1-eval-run
@@ -279,26 +293,30 @@ lessons:
     type: practice
     subject: S4
     track: core
-    status: planned
+    status: draft
     elements: [evals, instructions, context, observability]
     activities:
       - {kind: demo, name: 실패 원인 3분류 시연, minutes: 5}
       - {kind: practice, name: 내 실패 문항 원인 분류, minutes: 8}
-      - {kind: practice, name: 지침 또는 근거 수정, minutes: 10}
-      - {kind: check, name: 실패 문항과 무작위 5문항 재평가, minutes: 10}
+      - {kind: practice, name: 지침 또는 근거 수정, minutes: 8}
+      - {kind: check, name: 실패 문항과 무작위 5문항 재평가, minutes: 12}
       - {kind: reflect, name: 개정 기록과 Day 1 정리, minutes: 7}
     objectives:
-      - {id: d1-07-o1, text: 오답의 원인을 지침·근거·금지 위반으로 분류한다, outputs: [d1-07-p1]}
-      - {id: d1-07-o2, text: 수정 후 재평가로 점수 변화를 확인하고 개정 내용을 기록한다, outputs: [d1-07-p1, d1-07-p2]}
+      - {id: d1-07-o1, text: 오답의 원인을 지침·근거·금지 위반으로 분류한다, outputs: [d1-07-p1], checks: [d1-07-c1]}
+      - {id: d1-07-o2, text: 수정 후 재평가로 점수 변화를 확인하고 개정 내용을 기록한다, outputs: [d1-07-p1, d1-07-p2], checks: [d1-07-c2, d1-07-c3]}
     outputs:
       - {id: d1-07-p1, text: 점수 전·후 기록, used_by: [d2-guardrails]}
       - {id: d1-07-p2, text: 민원 답변 비서 Project v3와 개정 기록, used_by: [d2-batch-classify]}
     checks:
-      - 점수 전·후와 개정 이유가 하네스 대장에 있다
+      - {id: d1-07-c1, text: 틀린 문항마다 원인(근거·지침·금지 위반)을 판별 질문으로 골라 평가 표의 틀린 이유에 적었다}
+      - {id: d1-07-c2, text: 고치기 전 지침 전문이 지침 버전에 있고 바꾼 곳(지침 또는 근거)과 바꾼 이유가 개정 기록에 있다}
+      - {id: d1-07-c3, text: 실패 문항과 무작위 5문항을 D1-6과 같은 방법으로 다시 평가해 점수 전·후를 개정 기록에 적었다}
     cards: [card-failure-cause]
     stuck_points:
       - {id: sp-d1-07-a, text: 실패 원인을 판단하지 못한다, supports: [9, 6]}
       - {id: sp-d1-07-b, text: 지침을 고칠지 자료를 고칠지 모른다, supports: [2, 4, 5], card: card-failure-cause}
+      - {id: sp-d1-07-c, text: 근거 문제를 지침 문제로 짚어 지침에 정답 내용을 계속 덧붙인다, supports: [5, 9]}
+      - {id: sp-d1-07-d, text: 확인 필요로 답했는데 0점이라 짐작해야 점수를 받는다고 생각한다, supports: [4, 7]}
     skip_if_short: [무작위 5문항 재확인]
 
   # ───────────────────────── Day 2 — 도구·안전장치·기록 + 내 업무 Harness

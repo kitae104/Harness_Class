@@ -18,7 +18,7 @@
     {
       "step": 0,
       "name": "kit-download",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "src/lib/kits.ts",
         "src/lib/types.ts",
@@ -31,30 +31,39 @@
         "package.json",
         "package-lock.json",
         "docs/ARCHITECTURE.md"
-      ]
+      ],
+      "started_at": "2026-09-24T21:40:08+0900",
+      "summary": "src/lib/kits.ts(loadKit·listKits·downloadFiles·downloadableKits·kitReadme·buildKitZip·kitDownloadHref, 폴더 밖 경로·없는 파일은 빌드 예외, zip mtime 고정), 정적 엔드포인트 src/pages/downloads/[kit].zip.ts → /downloads/<id>.zip(download: true 파일이 있는 키트만, README.txt 맨 앞), 컴포넌트 <KitDownload id=\"<kit-id>\"/>(제목·교육용 가상 자료 표시·zip 링크·파일 목록, 없는 ID 빌드 오류, 스크립트 없음), types.ts CourseKit, 테스트 17개(tests/unit/kits.test.ts, 픽스처 tests/fixtures/kits/), ARCHITECTURE 2·6절 갱신; 키트 0개에서 npm run verify 통과, 임시 키트로 build:offline 상대 링크(downloads/<id>.zip) 확인 후 되돌림",
+      "completed_at": "2026-09-24T21:48:32+0900"
     },
     {
       "step": 1,
       "name": "kit-civil-context",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/kits/day1-civil/*",
         "content/sources.yaml",
         "content/course.yaml"
-      ]
+      ],
+      "started_at": "2026-09-24T21:48:32+0900",
+      "summary": "content/kits/day1-civil/: kit.yaml(PRACTICE_CASES 1절 스키마, sources=[fictional-day1-move-in-rule]), rule-move-in.md(누리시 전입신고 안내 규정, 교육용 가상 규정 제1~10조, 과태료 금액 없음, context·download), faq-move-in.md(교육용 FAQ 10항목·항목별 근거 조문, context·download), guideline-v0.md(일부러 단순한 v0 지침: 역할·범위·출력 형식 추상, 금지사항·모를 때 행동 비어 있음, guideline·download), instructor-notes.md(D1-1 질문 대응표, 결함·보강 FAQ 11항 전문, H-01 항목, other·download false); sources.yaml에 fictional-day1-move-in-rule(조문 10개) 추가; course.yaml kits에 day1-civil draft 추가; 의도된 결함: FAQ에서 '가족이 대신 신고할 때 준비물(위임장·대리인 신분증·신고할 사람 신분증)' 항목을 빠뜨림(규정 제6조 제3항이 FAQ로 위임); D1-1 체험·기준 질문 1~4는 제3·4·5·6·7조로 답 가능, 5(자동차 주소)는 자료에 없음; npm run verify --scope kit:day1-civil 오류 0",
+      "completed_at": "2026-09-24T21:53:09+0900"
     },
     {
       "step": 2,
       "name": "kit-civil-evalset",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/kits/day1-civil/*"
-      ]
+      ],
+      "started_at": "2026-09-24T21:53:10+0900",
+      "summary": "content/kits/day1-civil에 평가 파일 3개 추가(모두 role eval·download true): eval-questions.md(질문만 20문항, 1회차 1~10·2회차 11~20+직접 21~23 복사 상자, 기대 답변·유형 없음), eval-expected.md(첫머리 '채점 단계에서만' 경고, 문항별 유형·핵심 포인트 2개·근거 조문 제3~10조, 자료에 없음은 확인 필요·출처 면제), eval-scoresheet.csv(UTF-8 BOM, 8열, 20행+직접 3행); 구성 정상 12(1,2,3,4,6,9,11,12,13,16,18,20)/자료에 없음 4(5,10,14,19)/금지·개인정보 2(7 과태료 금액,15 주민등록번호)/유도·숨은 지시문 2(8,17), 1~5번=D1-1 기준 질문 1~5, 두 회차 모두 6/2/1/1; 결함 연결: FAQ 대리 신고 준비물 누락→12번, 전입·전출 범위 애매→13·18번(instructor-notes 6절에만 기록); kit.yaml files에 3개 추가; npm run verify --scope kit:day1-civil 오류 0",
+      "completed_at": "2026-09-24T21:58:39+0900"
     },
     {
       "step": 3,
       "name": "d1-04-exemplar",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/day1/04.mdx",
         "content/instructor/day1/04.md",
@@ -63,23 +72,30 @@
         "content/external-links.yaml",
         "content/glossary.yaml",
         "public/images/d1-context/*"
-      ]
+      ],
+      "started_at": "2026-09-24T21:58:40+0900",
+      "summary": "content/day1/04.mdx(실습형 기준 예시): 이번 시간에 할 일·필수 경로 5단계·지난 질문으로 시작하기(D1-1 체험 질문 재사용)·핵심 개념(접이식)·강사 시연(비교 체크리스트)·함께 따라하기(KitDownload, 지침 v1 백업, 규정·FAQ 업로드, 출처 규칙 지침란 추가)·AI 도움받기(PromptCard)·실습(자료 안 3=D1-1 기준 1·3·4, 자료 밖 2=자동차 주소·주말 신고, 조문 대조 체크리스트)·예상 결과/잘못된 결과 예시(지어낸 제12조·지어낸 사유서·단정, 알아보는 체크 3개)(접이식)·기록(ExternalLink tab=sources)·잘 안 될 때(chatgpt-projects fallback)·더 해보기 파일 형식 비교·Harness에서 무엇을 바꿨는가·다음 교시 연결; 교육용 가상 규정 안내 Callout은 함께 따라하기에서 KitDownload 바로 앞(4가지 뜻 + 실제 법령 제16조·제40조 Source는 별도 문장); content/prompts/card-source-rule-snippet.md(where instructions, default_level 2, replace [근거 자료 이름]·[담당 연락처], tested_at null); content/instructor/day1/04.md; course.yaml d1-context: status draft, checks {id,text} 3개(d1-04-c1~c3, c3 자료 목록 기록 추가)와 objectives 연결, practice 10→12분(합계 37), stuck_points sp-d1-04-d 추가; card-source-rule-snippet draft; external-links sheet-harness-ledger fallback_templates에 sources(자료 목록: 자료명/기준일/올린 곳/메모) 추가; glossary에 fictional-rule·as-of-date 추가; npm run verify --scope lesson:d1-context 오류 0(경고: V-PRM-003 tested_at 없음, 기존 V-TAG-002)",
+      "completed_at": "2026-09-24T22:05:30+0900"
     },
     {
       "step": 4,
       "name": "human-review-exemplar",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [],
       "review_targets": [
         "kit:day1-civil",
         "lesson:d1-context",
         "card:card-source-rule-snippet"
-      ]
+      ],
+      "started_at": "2026-09-24T22:05:30+0900",
+      "blocked_at": "2026-09-24T22:06:37+0900",
+      "summary": "D1-04 기준 예시·day1-civil 키트·card-source-rule-snippet 사람 승인 확인(reviewed_hash 일치)",
+      "completed_at": "2026-09-24T22:40:05+0900"
     },
     {
       "step": 5,
       "name": "d1-02-guideline",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/day1/02.mdx",
         "content/instructor/day1/02.md",
@@ -87,24 +103,30 @@
         "content/course.yaml",
         "content/external-links.yaml",
         "public/images/d1-guideline/*"
-      ]
+      ],
+      "started_at": "2026-09-24T22:40:06+0900",
+      "summary": "content/day1/02.mdx(실습형, D1-04 구조): 이번 시간에 할 일·필수 경로 5단계·지난 시간에서 이어가기·핵심 개념 5항목(접이식)·강사 시연(민원 업무 흐름 6단계 AI/사람 표시 표+강사 답 접이식+체크)·함께 따라하기(KitDownload, v0 '일부러 단순하게 만든 초안' 공개 Callout, v0 원문 지침 버전 백업, 진단 체크 3)·실습(5항목 v1 작성+자가 점검 체크 6)·예상 결과(v1 예시: 범위는 전입신고 절차·서류·기한만—전입·전출 결함은 D1-7로 유지, 금지사항에 '발송·예외 판단은 담당 직원', 모를 때 010-0000-1234)·잘못된 결과 예시(단어만 바꾼 v1, 항목별 이유+체크)·AI 도움받기(PromptCard, 지적 1~2개만 반영)·기록(ExternalLink tab=guideline-versions)·잘 안 될 때·더 해보기·Harness에서 무엇을 바꿨는가·다음 교시 연결; content/prompts/card-guideline-critique.md(where new-chat, default_level 1, 비판 전용·고쳐 쓰기 금지, replace [업무 이름]·[내가 쓴 지침 전문], tested_at null); content/instructor/day1/02.md; course.yaml d1-guideline: status draft, checks {id,text} 3개(d1-02-c1 5항목, c2 AI/사람 역할 표시, c3 지침 버전 기록)와 objectives 연결(o1→c1,c3 / o2→c2), activities 8/7/15/5→7/7/16/7(합계 37), stuck_points sp-d1-02-d(AI 제안 통째 반영) 추가; card-guideline-critique draft; external-links sheet-harness-ledger fallback_templates에 guideline-versions(지침 버전: 버전/날짜/지침 전문/바꾼 이유) 추가; 다음 교시로 넘기는 산출물: 지침서 v1(지침 버전 탭) → D1-3 Project 지침란; npm run verify --scope lesson:d1-guideline 오류 0(경고: V-PRM-003 tested_at 없음, 기존 V-TAG-002)",
+      "completed_at": "2026-09-24T22:45:57+0900"
     },
     {
       "step": 6,
       "name": "d1-03-project",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/day1/03.mdx",
         "content/instructor/day1/03.md",
         "content/course.yaml",
         "content/external-links.yaml",
         "public/images/d1-project/*"
-      ]
+      ],
+      "started_at": "2026-09-24T22:45:57+0900",
+      "summary": "content/day1/03.mdx(실습형, D1-04 구조): 이번 시간에 할 일·필수 경로 5단계·지난 시간에서 이어가기·핵심 개념(Project=지침·근거 그릇, 지침란/파일/채팅창, chatgpt-projects detail)(접이식)·강사 시연(지침란 vs 채팅창 붙여넣기 새 대화 비교+체크)·함께 따라하기(v1을 지침란에 저장, 저장 확인 체크, 주의 Callout '긴 프롬프트≠하네스')·잘못된 결과 예시(채팅창에 붙인 지침이 새 대화에서 사라짐)·실습(Project 새 대화에서 기준 질문 5개 재질문, ExternalLink tab=before-after, 붙여넣기 2회+예/아니오 판단, 비교 체크 4, 빈칸 한 문장)·예상 결과(1번 전·후 답, 근거 줄은 비어 있음)·잘못된 결과 예시(형식만 맞고 금액 단정·근거 없는 조문 → '아니오')·선택(빼보기 실험 후 지침 버전 v1으로 되돌림, chatgpt-project-duplicate fallback[OQ-02] / 동료 공유 chatgpt-project-sharing detail·fallback, 짝은 대화 시작 안 함)·잘 안 될 때(chatgpt-projects fallback)·Harness에서 무엇을 바꿨는가(지침이 환경에, 근거는 아직 없음)·다음 교시 연결; content/instructor/day1/03.md; course.yaml d1-project: status draft, checks {id,text} 3개(d1-03-c1 지침란 저장·새 대화 형식, c2 비교표 개선 표시, c3 한 문장 정리)와 objectives 연결(o1→c1 / o2→c2,c3), activities 10/10/10/5→7/8/16/5(합계 36), stuck_points sp-d1-03-c(형식만 보고 금지 위반도 개선 표시) 추가; external-links sheet-harness-ledger fallback_templates에 before-after(적용 전·후 비교: 번호/질문/전 답(붙여 넣기)/후 답(붙여 넣기)/형식·범위 개선(예/아니오)/메모) 추가; 넘기는 산출물: 민원 답변 비서 Project v1(지침란에 v1) → D1-4, 적용 전·후 비교표 → D1-7; npm run verify --scope lesson:d1-project 오류 0(경고: 기존 V-TAG-002)",
+      "completed_at": "2026-09-24T22:51:11+0900"
     },
     {
       "step": 7,
       "name": "d1-05-evalset",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/day1/05.mdx",
         "content/instructor/day1/05.md",
@@ -112,12 +134,15 @@
         "content/course.yaml",
         "content/external-links.yaml",
         "public/images/d1-evalset/*"
-      ]
+      ],
+      "started_at": "2026-09-24T22:51:12+0900",
+      "summary": "content/day1/05.mdx(실습형, D1-04 구조): 이번 시간에 할 일·필수 경로 5단계·지난 시간에서 이어가기·핵심 개념(평가세트 먼저, 문항·기대 답변·채점 기준, 제공 문항 4유형)(접이식)·강사 시연(CD-06 채점 기준 4가지, '참고(감점 사유 아님)'·'채점 참고'는 점수에 영향 없음, 7번 가상 답변 금액 짐작→금지 위반 0점)·함께 따라하기(KitDownload, 질문 파일=답변 단계·기대 답변 파일=채점 단계만 Callout(CD-17, 실행 절차는 D1-6), Project 파일 목록에 규정·FAQ만 있는지 체크, 가상 답변 2개 손채점: 6번 정확하나 근거 없음→0점, 10번 확인 필요·연락처 없음→1점)·실습(내 문항 3개 틀 복사: 번호·질문·유형·핵심 포인트 2·근거 조문, 평가 표 21~23번 질문 칸 + 기대 답변은 표 아래, 점검 체크 4)·예상 결과(정상·자료에 없음 예시)·잘못된 결과 예시(정답 없는 문항, 근거 조문 없는 기대 답변·자료에 없는 핵심 포인트)·AI 도움받기(PromptCard, Project 밖 새 채팅)·잘 안 될 때·더 해보기(짝 문항 채점)·Harness에서 무엇을 바꿨는가(검증·안전장치)·다음 교시 연결; content/prompts/card-eval-question-critique.md(where new-chat, default_level 2, 비판 전용·새 문항 금지·조문 정오는 '확인 필요', replace [업무 이름]·[내가 쓴 문항 3개와 기대 답변], tested_at null); content/instructor/day1/05.md(결함 연결 문항 번호 없음); course.yaml d1-evalset: status draft, checks {id,text} 3개(d1-05-c1 손채점, c2 내 3문항 기대 답변·실제 조문·평가 기록, c3 Project 파일 목록 규정·FAQ만)와 objectives 연결(o1→c1,c3 / o2→c2), activities 유지(합계 35), stuck_points sp-d1-05-c(기대 답변 파일을 Project·질문에 넣으려 함) 추가; card-eval-question-critique draft; external-links sheet-harness-ledger fallback_templates에 eval(평가: 번호/질문/답변 요약/정확/출처/금지/점수/틀린 이유) 추가 — D1-06·07이 같은 탭 사용; 넘기는 산출물: 평가세트 23문항(제공 20 + 내 21~23번, 기대 답변은 평가 표 아래) → D1-6; npm run verify --scope lesson:d1-evalset 오류 0(경고: V-PRM-003 tested_at 없음, 기존 V-TAG-002)",
+      "completed_at": "2026-09-24T22:56:57+0900"
     },
     {
       "step": 8,
       "name": "d1-07-improve",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/day1/07.mdx",
         "content/instructor/day1/07.md",
@@ -125,12 +150,15 @@
         "content/course.yaml",
         "content/external-links.yaml",
         "public/images/d1-improve/*"
-      ]
+      ],
+      "started_at": "2026-09-24T22:56:58+0900",
+      "summary": "content/day1/07.mdx(실습형, D1-04 구조): 이번 시간에 할 일·필수 경로 5단계·지난 시간에서 이어가기·핵심 개념(실패 원인 3분류·개선 루프·편람 개정 비유)(접이식)·강사 시연(판별 질문 근거→지침→금지 위반 순서, D1-5의 7번 가상 답변=금지 위반)·실습 원인 나누기(ExternalLink tab=eval '틀린 이유'에 원인 한 단어+이유, 0점 문항 3개부터)·AI 도움받기(PromptCard, Project 새 대화, 기대 답변 넣지 않음)·실습 고치기(수정 전 지침을 guideline-versions에 v2로, 원인별 한 곳만: 근거=키트 원본은 두고 FAQ 복사본 끝에 instructor-notes 3절 FAQ 11 문구를 글자 그대로 붙여 Project FAQ 교체+자료 목록 기준일 갱신(CopyButton), 지침=해당 항목 문장 하나·정답 내용 금지, 고치면 v3; 12번 '확인 필요'는 지침대로 한 올바른 행동이고 0점은 근거 문제라는 Callout)·실습 다시 평가하기(틀린 문항 전부+짝이 고른 무작위 5문항, 'D1-6과 같은 방법으로'만 쓰고 /course/day1/06/ 링크 — 답변·채점 절차 재서술 없음)·예상 결과(카드 분석표 12번→근거, 개정 기록 예)·잘못된 결과 예시(근거 문제를 지침으로 짚어 지침에 서류·기한 사실을 덧붙여 길어짐 — 긴 프롬프트≠하네스, 체크 3)·기록(ExternalLink tab=revisions)·잘 안 될 때·더 해보기(빼보기 실험)·Harness에서 무엇을 바꿨는가(Day 1 6요소 표: 지침·근거·검증·안전장치·기록, Day 2로 남긴 것: ③ 도구(Tools)와 안전장치·기록의 운영 규칙)·다음 교시 연결(D2-1 폼, Project v3 이어 씀); content/prompts/card-failure-cause.md(where project-chat, default_level 2, 판별 질문 3개 순서 답·원인 하나·정답/새 지침 금지, replace [문항 번호와 질문]·[비서가 한 답]·[평가 표의 틀린 이유], tested_at null); content/instructor/day1/07.md(결함 문항 번호는 키트 강사용 설명 참조); course.yaml d1-improve: status draft, checks {id,text} 3개(d1-07-c1 원인 기록, c2 지침 버전·개정 기록, c3 재평가 점수 전·후)와 objectives 연결(o1→c1 / o2→c2,c3), activities 수정 10→8·재평가 10→12(합계 40), stuck_points sp-d1-07-c(지침에 정답 덧붙임)·sp-d1-07-d(확인 필요 0점 오해) 추가; card-failure-cause draft; external-links sheet-harness-ledger fallback_templates에 revisions(개정 기록: 날짜/바꾼 곳(지침·근거)/바꾼 내용/이유(원인·문항 번호)/점수 전/점수 후) 추가; 넘기는 산출물: 점수 전·후(개정 기록) → D2-4, 민원 답변 비서 Project v3와 개정 기록 → D2-2; npm run verify --scope lesson:d1-improve 오류 0(경고: V-PRM-003 tested_at 없음, 기존 V-TAG-002)",
+      "completed_at": "2026-09-24T23:04:45+0900"
     },
     {
       "step": 9,
       "name": "day1-flow-check",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/day1/02.mdx",
         "content/day1/03.mdx",
@@ -140,12 +168,15 @@
         "content/instructor/day1/03.md",
         "content/instructor/day1/05.md",
         "content/instructor/day1/07.md"
-      ]
+      ],
+      "started_at": "2026-09-24T23:04:46+0900",
+      "summary": "고친 연결: D1-02 Harness 절(안전장치는 D1-4부터 더할 밑바탕으로, 기록은 D1-1 기준 질문 기록에 이어짐) · D1-05 KitDownload 앞 'D1-4에서 내려받은'→'앞 교시에서 내려받은'(첫 다운로드는 D1-2), Harness 절에 D1-2 금지사항·D1-4 확인 필요 규칙 누적 명시, 다음 교시 연결에 채점은 'Project 밖에서'(CD-17) · D1-07 '점수표'→'평가 표'(탭 이름 통일), 기록 절에 D1-3 적용 전·후 비교표 재사용 문장 추가(used_by d1-03-p2→d1-improve), Day 1 요소 표 ⑥ 기록에 기준 질문 기록·적용 전·후 비교표 추가·'D1-1부터', 다음 교시 연결을 Project v3→D2-2·점수 전·후→D2-4로 구체화(used_by 일치) · 강사 안내 03 'D1-4와 D1-6이 v1 전제'→'D1-4는 v1 위에 출처 규칙을 더함', 07 Day 1 마무리에 비교표·개정 기록 나란히 보기, 넘길 것 D2-2·D2-4로 구체화; reviewed 쪽 어긋남: course.yaml d1-harness-intro elements가 []인데 D1-01 본문은 '기록은 첫 시간부터 시작'이라 하고 D1-07 표도 D1-1부터 기록으로 셈(course.yaml 수정 권한 없음, step 10 판단) · D1-04 함께 따라하기 2단계가 지침 백업 버전 이름을 정하지 않아 D1-07이 D1-4 뒤 지침을 v2로 적게 함(흐름은 맞음); 6요소 누적: D1-01 기록 시작(기준 답) → D1-02·03 ① 지침(Project 지침란) → D1-04 ② 근거+⑤ 안전장치 → D1-05 ④ 검증+⑤ → D1-06 ④+⑥(planned) → D1-07 ④①②⑥ 개선 루프, ③ 도구는 Day 2로 명시; 점검 결과 이상 없음: 탭 이름(baseline·guideline-versions·before-after·sources·eval·revisions) 일관, 용어·문체 일관, '긴 프롬프트=하네스' 문장 없음, D1-07은 재평가 절차를 쓰지 않고 /course/day1/06/ 링크; npm run verify 오류 0(경고: 기존 V-TAG-002·V-PRM-003·planned V-LSN-005)",
+      "completed_at": "2026-09-24T23:08:37+0900"
     },
     {
       "step": 10,
       "name": "human-review-lessons",
-      "status": "pending",
+      "status": "blocked",
       "allowed_paths": [],
       "review_targets": [
         "lesson:d1-guideline",
@@ -155,7 +186,10 @@
         "card:card-guideline-critique",
         "card:card-eval-question-critique",
         "card:card-failure-cause"
-      ]
+      ],
+      "started_at": "2026-09-24T23:08:38+0900",
+      "blocked_reason": "사람 검토 필요: 미승인(draft) 7건 — lesson d1-guideline·d1-project·d1-evalset·d1-improve, card card-guideline-critique·card-eval-question-critique·card-failure-cause (V-REV-001). ① 확인: npm run build && npm run preview → /course/day1/02/, 03/, 05/, 07/. ② 검토 초점: Day 1 누적 흐름(step 9 summary의 reviewed 쪽 어긋남 2건 판단 포함: course.yaml d1-harness-intro elements가 []인데 D1-01·D1-07은 기록을 D1-1부터로 셈 / D1-04 지침 백업 버전 이름 미지정), 초보자 기준, 실습형 필수 섹션, CD-17(D1-05 질문·기대 답변 용도 구분), D1-07이 평가 절차를 다시 쓰지 않는지, 카드 3장을 교육용 Plus 계정에서 실제 테스트하고 tested_at·tested_by 기록(현재 V-PRM-003 경고), QUALITY_CHECKLIST 루브릭 모두 2점. ③ 수정이 필요하면 해당 파일을 고친 뒤 다시 검토. ④ 승인: npm run review:approve <id>를 대상마다 실행(d1-guideline, d1-project, d1-evalset, d1-improve, card-guideline-critique, card-eval-question-critique, card-failure-cause). ⑤ 이 step의 status를 pending으로 되돌리고 blocked_reason을 지운 뒤 python scripts/execute.py 2-day1-content 재실행.",
+      "blocked_at": "2026-09-24T23:09:55+0900"
     },
     {
       "step": 11,
@@ -193,5 +227,6 @@
         "kit:day1-civil"
       ]
     }
-  ]
+  ],
+  "created_at": "2026-09-24T21:40:08+0900"
 }

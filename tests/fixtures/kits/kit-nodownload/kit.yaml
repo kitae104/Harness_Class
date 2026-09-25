@@ -1,0 +1,9 @@
+id: kit-nodownload
+title: 다운로드 없는 키트
+track: core
+sources: [fictional-sample]
+privacy_notes: 없음
+fictional_label: 교육용 가상 자료
+files:
+  - path: notes.md
+    role: other

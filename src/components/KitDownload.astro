@@ -1,0 +1,63 @@
+---
+// 실습 키트 내려받기: 제목, 가상 자료 표시, zip 링크, 파일 목록. 값은 kit.yaml에서만 읽는다.
+// 없는 키트 ID는 빌드를 멈춘다. 스크립트 없이 동작한다(오프라인 번들, ARCHITECTURE 7절).
+import { downloadFiles, kitDownloadHref, listKits } from '../lib/kits';
+
+interface Props {
+  /** course.yaml kits[].id */
+  id: string;
+}
+
+const { id } = Astro.props;
+const kit = listKits().find((item) => item.id === id);
+if (!kit) throw new Error(`KitDownload: course.yaml kits에 없는 id "${id}"`);
+const files = downloadFiles(kit);
+---
+
+<section class="kit-download" aria-label={`실습 키트: ${kit.title}`}>
+  <p class="kit-download-title">실습 키트 · {kit.title}</p>
+  <p class="kit-download-label"><strong>교육용 가상 자료</strong> — {kit.fictional_label}</p>
+  {
+    files.length > 0 ? (
+      <>
+        <p>
+          <a class="kit-download-link" href={kitDownloadHref(kit.id)} download={`${kit.id}.zip`}>
+            키트 내려받기(zip)
+          </a>
+        </p>
+        <ul class="kit-download-files">
+          {files.map((file) => (
+            <li>
+              <code>{file.path}</code>
+              {file.description && <span> — {file.description}</span>}
+            </li>
+          ))}
+        </ul>
+      </>
+    ) : (
+      <p>내려받을 파일이 없습니다.</p>
+    )
+  }
+</section>
+
+<style>
+  .kit-download {
+    border-left: 4px solid var(--color-accent);
+    background: var(--color-surface);
+    padding: 0.75rem 1rem;
+    margin: 1.5rem 0;
+  }
+  .kit-download-title {
+    font-weight: 700;
+    margin: 0 0 0.25rem;
+  }
+  .kit-download-label {
+    margin: 0 0 0.5rem;
+  }
+  .kit-download-link {
+    font-weight: 700;
+  }
+  .kit-download-files {
+    margin: 0.25rem 0 0;
+  }
+</style>
