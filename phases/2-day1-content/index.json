@@ -194,7 +194,7 @@
     {
       "step": 11,
       "name": "d1-06-eval-run",
-      "status": "pending",
+      "status": "completed",
       "allowed_paths": [
         "content/day1/06.mdx",
         "content/instructor/day1/06.md",
@@ -203,7 +203,10 @@
         "content/course.yaml",
         "content/external-links.yaml",
         "public/images/d1-eval-run/*"
-      ]
+      ],
+      "started_at": "2026-09-25T09:30:47+0900",
+      "summary": "content/day1/06.mdx(실습형, D1-04 구조): 이번 시간에 할 일·필수 경로 5단계·지난 시간에서 이어가기·핵심 개념(답변과 채점 분리, chatgpt-project-memory detail)(접이식)·강사 시연(답변/채점/기록 세 곳 표+체크)·함께 따라하기 평가 전 준비(평가할 때마다, D1-7 재평가 포함: Project 파일 목록 규정·FAQ만 체크, Project 안 연습 대화 정리, 기대 답변·채점 결과를 Project에 넣지 않기)·실습 답변 받기(Project 새 대화 두 번: 1~10, 11~20+21~23 질문만, 끊기면 PromptCard card-help-long-output)·AI 도움받기(PromptCard card-batch-grading, Project 밖 비개인화 임시 채팅)·실습 채점과 기록(회차별 새 임시 채팅, ExternalLink tab=eval로 8열 옮기기, 합계 직접 계산=D1-7 점수 전, 채점 결과 Project 대화에 붙이지 않기 Callout)·실습 사람 3문항 확인(1점 2+0점 1, 받은 답 원문으로, 틀린 이유 칸에 '표본 확인: 같음·다름', 다르면 사람 점수)·예상 결과(6·7·9·10번 채점 표, 9번 출처 없음 0점)·잘못된 결과 예시(Project 대화 안 관대한 자기채점: 7번 금액 짐작 1점, 9번 조문 없음 출처 O, 체크 3)·잘 안 될 때·더 해보기(같은 채점 한 번 더)·Harness에서 무엇을 바꿨는가(검증·기록·안전장치)·다음 교시 연결(같은 방법으로 재평가); OQ-03 보수 절차(CD-22): 영향이 있다고 가정, 평가 전 연습 대화 정리(chatgpt-project-memory fallback)·정답 내용 Project 금지, 본문은 chatgpt-project-memory-eval-impact '확인 중' 배지와 '정리한다고 영향이 없어진다는 뜻은 아님', MDX 주석·강사 안내·채점 카드 주석에 [TBD: OQ-03]; 카드 2장: content/prompts/card-batch-grading.md(채점 전용, where temporary-chat, default_level 1, CD-06 규칙·조 번호 기준 출처·참고 줄 감점 금지·너그럽게 해석 금지, 8열 표+합계, do_not_trust 관대한 채점, replace [업무 이름]·[질문과 기대 답변]·[받은 답]), content/prompts/card-help-long-output.md(공통 A, where project-chat, default_level 1, 끊긴 곳부터 같은 형식으로 이어 쓰기·요약 금지, 두 번 끊기면 다섯 개씩 나눠 새 대화, replace [끊긴 곳]), 둘 다 tested_at null; content/instructor/day1/06.md; course.yaml d1-eval-run: status draft, checks {id,text} 3개(d1-06-c1 23문항 점수·틀린 이유, c2 평가 전 준비·답변/채점 분리, c3 표본 3문항 비교)와 objectives 연결(o1→c1,c2 / o2→c3), activities 유지(합계 35), stuck_points sp-d1-06-c(기대 답변·채점 결과를 Project 대화에 붙임) 추가; card-batch-grading·card-help-long-output draft; external-links 변경 없음; D1-07과 어긋남 없음(D1-07은 재평가를 D1-6 방법으로 가리키고, 평가 전 준비를 '평가할 때마다'로 적음); npm run verify --scope lesson:d1-eval-run 오류 0(경고: V-PRM-003 tested_at 없음, 기존 V-TAG-002)",
+      "completed_at": "2026-09-25T09:39:57+0900"
     },
     {
       "step": 12,
