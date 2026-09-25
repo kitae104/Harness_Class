@@ -31,4 +31,4 @@
 기관이나 강의 운영 측의 수료 설문이 있으면 그 링크를 쓰고, 없으면 구글 폼으로 만듭니다(만족도, 가장 도움이 된 교시, 내 업무 적용 계획 한 줄 등, 이메일 수집 끔). 링크를 `external-links.yaml`에 새 항목으로 등록하면 D2-7 본문의 준비 표시를 `<ExternalLink>`로 바꿉니다.
 
 ## 확인
-WSL에서 `npm run verify`를 돌립니다. active인 링크는 URL·확인일이 필수입니다(V-REG-004).
+`npm run verify`를 돌립니다. active인 링크는 URL·확인일이 필수입니다(V-REG-004).

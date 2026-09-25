@@ -28,6 +28,8 @@ npm run test:e2e     # Playwright(Chromium) 브라우저 테스트, 최초 1회 
 ```
 Windows는 `python`, macOS·Linux는 `python3`를 쓴다.
 
+**Windows Smart App Control**: 서명 없는 네이티브 모듈(`.node`)을 막을 수 있다. 실제로 Astro 컴파일러(`@astrojs/compiler-binding-win32-x64-msvc`)가 때때로 막혔다(2026-09-25). 그래서 `npm install`·`npm ci` 뒤 `postinstall`(`scripts/ensure_astro_wasi.mjs`)이 Windows에서 같은 버전의 WebAssembly 대체 패키지(`@astrojs/compiler-binding-wasm32-wasi`)를 넣고, Astro는 네이티브가 막힐 때 자동으로 그것을 쓴다. WSL 없이 Windows에서 모든 명령을 실행한다. 대체 경로를 직접 시험하려면 `NAPI_RS_FORCE_WASI=1`로 `npm run verify`를 돌린다. Linux(CI·Vercel)에서는 아무것도 하지 않는다.
+
 ## 3. GitHub 저장소 연결 (`1b-repo-connect` phase, 사용자 작업, ADR-013)
 1. 원작자 허락을 받는다(CD-15).
 2. 사용자 계정에 Public 저장소를 만든다.
